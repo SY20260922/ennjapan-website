@@ -165,11 +165,7 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.alive = true;
-    this.onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      this.scrollP = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-      if (this.railRef.current) this.railRef.current.style.height = (this.scrollP * 100) + "%";
-    };
+    this.onScroll = () => { this.readScroll(); };
     this.onMouse = (e) => {
       this.mx = (e.clientX / window.innerWidth - 0.5) * 2;
       this.my = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -181,15 +177,32 @@ class Component extends DCLogic {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener("scroll", this.onScroll, { passive: true });
+    document.addEventListener("scroll", this.onScroll, { passive: true, capture: true });
     window.addEventListener("mousemove", this.onMouse, { passive: true });
     window.addEventListener("resize", this.onResize);
     this.onScroll();
     this.waitForThree(0);
   }
 
+  scrollerEl() {
+    var de = document.scrollingElement || document.documentElement;
+    if (de && de.scrollHeight > de.clientHeight + 5) return de;
+    if (document.body && document.body.scrollHeight > document.body.clientHeight + 5) return document.body;
+    return de;
+  }
+
+  readScroll() {
+    var sc = this.scrollerEl();
+    var max = sc.scrollHeight - sc.clientHeight;
+    var y = sc.scrollTop || window.scrollY || window.pageYOffset || 0;
+    this.scrollP = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    if (this.railRef.current) this.railRef.current.style.height = (this.scrollP * 100) + "%";
+  }
+
   componentWillUnmount() {
     this.alive = false;
     window.removeEventListener("scroll", this.onScroll);
+    document.removeEventListener("scroll", this.onScroll, { capture: true });
     window.removeEventListener("mousemove", this.onMouse);
     window.removeEventListener("resize", this.onResize);
     if (this.raf) cancelAnimationFrame(this.raf);
@@ -635,6 +648,7 @@ class Component extends DCLogic {
   loop() {
     if (!this.alive) return;
     this.raf = requestAnimationFrame(() => this.loop());
+    this.readScroll();
     if (!this.renderer || !this.camera) return;
     this.time += 0.016;
 

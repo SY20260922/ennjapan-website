@@ -21,7 +21,7 @@
   function scroller() {
     var de = document.scrollingElement || document.documentElement;
     if (de && de.scrollHeight > de.clientHeight + 5) return de;
-    if (document.body.scrollHeight > document.body.clientHeight + 5) return document.body;
+    if (document.body && document.body.scrollHeight > document.body.clientHeight + 5) return document.body;
     return de;
   }
 
@@ -45,22 +45,36 @@
     return true;
   }
 
-  // in-page navigation by visible label
+  function openMenu() {
+    var m = document.querySelector('[data-enn-menu]');
+    if (m) m.style.display = 'flex';
+  }
+  function closeMenu() {
+    var m = document.querySelector('[data-enn-menu]');
+    if (m) m.style.display = 'none';
+  }
+
+  // ---- navigation + menu + logo ----
   document.addEventListener('click', function (e) {
+    var burger = e.target.closest && e.target.closest('[data-enn-burger]');
+    if (burger) { e.preventDefault(); openMenu(); return; }
+    var closeBtn = e.target.closest && e.target.closest('[data-enn-close]');
+    if (closeBtn) { e.preventDefault(); closeMenu(); return; }
+    if (e.target.closest && e.target.closest('[data-enn-top]')) { e.preventDefault(); scrollToY(0); closeMenu(); return; }
     if (e.target.closest && e.target.closest('[data-enn-form]')) return;
+
     var el = e.target;
     for (var d = 0; d < 5 && el && el !== document.body; d++, el = el.parentElement) {
-      if (el.tagName === 'A' && el.getAttribute('href') && el.getAttribute('href').indexOf('.html') > -1) return;
+      if (el.tagName === 'A' && el.getAttribute('href') && el.getAttribute('href').indexOf('.html') > -1) { closeMenu(); return; }
       var txt = (el.textContent || '').trim();
       if (txt.length > 0 && txt.length < 28) {
-        if (/ENN\s*Japan/i.test(txt) && el.closest('header')) { e.preventDefault(); scrollToY(0); return; }
         var id = targetId(txt);
-        if (id && go(id)) { e.preventDefault(); return; }
+        if (id && go(id)) { e.preventDefault(); closeMenu(); return; }
       }
     }
   }, false);
 
-  // contact form: chip selection + mailto submit
+  // ---- contact form: chip selection + mailto submit ----
   var L = {
     ja: { subj: '[ENN Japan] お問い合わせ', name: 'お名前', email: 'メールアドレス', company: '会社名・ご所属', region: '地域', type: '種類' },
     en: { subj: '[ENN Japan] Inquiry', name: 'Name', email: 'Email', company: 'Company / Affiliation', region: 'Region', type: 'Type' },
@@ -111,13 +125,44 @@
     window.location.href = 'mailto:shota@ennjapan.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   }, false);
 
-  // honor #hash arrival (e.g. from the 3D intro's "Contact" link)
+  // ---- mobile-only: floating "back to top" button ----
+  function initBackToTop() {
+    if (window.innerWidth > 1024) return;
+    if (document.getElementById('enn-totop')) return;
+    var b = document.createElement('button');
+    b.id = 'enn-totop';
+    b.setAttribute('aria-label', 'Top');
+    b.innerHTML = '\u2191';
+    b.style.cssText = [
+      'position: fixed', 'right: 16px', 'bottom: 18px', 'z-index: 40',
+      'width: 46px', 'height: 46px', 'border-radius: 50%', 'border: 1px solid rgba(255,255,255,0.25)',
+      'background: #1C2A45', 'color: #FFFFFF', 'font-size: 19px', 'line-height: 46px', 'text-align: center',
+      'cursor: pointer', 'padding: 0', 'box-shadow: 0 6px 20px rgba(20,28,40,0.28)',
+      'opacity: 0', 'pointer-events: none', 'transition: opacity .25s ease'
+    ].join('; ') + ';';
+    b.addEventListener('click', function () { scrollToY(0); });
+    document.body.appendChild(b);
+
+    var update = function () {
+      var sc = scroller();
+      var on = sc.scrollTop > 600;
+      b.style.opacity = on ? '1' : '0';
+      b.style.pointerEvents = on ? 'auto' : 'none';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    document.addEventListener('scroll', update, { passive: true, capture: true });
+    update();
+  }
+
+  // ---- honor #hash arrival (e.g. from the 3D intro's "Contact" link) ----
   function jumpHash() {
     if (location.hash && location.hash.length > 1) {
       var id = location.hash.slice(1);
       setTimeout(function () { go(id); }, 550);
     }
   }
-  if (document.readyState === 'complete') jumpHash();
-  else window.addEventListener('load', jumpHash);
+
+  function init() { initBackToTop(); jumpHash(); }
+  if (document.readyState === 'complete') init();
+  else window.addEventListener('load', init);
 })();
