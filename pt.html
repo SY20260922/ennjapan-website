@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Noto+Serif+JP:wght@300;400;500;600&amp;family=Noto+Sans+JP:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #FFFFFF; }
+    @keyframes ennRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    ::selection { background: #1C2A45; color: #FFFFFF; }
+    input, textarea { outline: none; }
+    @media (max-width: 860px) {
+      header { flex-wrap: wrap !important; gap: 14px !important; padding: 18px 22px !important; }
+      header nav { display: none !important; }
+      div[style*="margin: 0 auto"] { padding-left: 22px !important; padding-right: 22px !important; }
+      [style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 30px !important; }
+      [style*="gap: 96px"], [style*="gap: 80px"], [style*="gap: 72px"] { gap: 30px !important; }
+      [style*="font-size: 190px"], [style*="font-size: 170px"] { font-size: 104px !important; }
+      div[style*="padding: 56px 48px"] { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 34px !important; line-height: 1.14 !important; }
+      h2 { font-size: 26px !important; }
+      [style*="font-size: 44px"], [style*="font-size: 42px"], [style*="font-size: 40px"], [style*="font-size: 38px"] { font-size: 28px !important; line-height: 1.25 !important; }
+      [style*="font-size: 30px"] { font-size: 24px !important; }
+    }
+  </style>
+</helmet>
+
+<div style="min-height: 100vh; background: #FFFFFF; color: #1F2839; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans JP', Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+    <rect width="400" height="400" fill="#FCFAF6"></rect>
+    <circle cx="150" cy="172" r="18" fill="#2B4C9B"></circle>
+    <rect x="168" y="170.5" width="64" height="3" fill="#1F2839"></rect>
+    <circle cx="250" cy="172" r="18" fill="#C13A2E"></circle>
+    <text x="200" y="250" text-anchor="middle" fill="#1F2839" font-family="Georgia, serif" font-size="30" letter-spacing="2">ENN Japan</text>
+    <text x="200" y="282" text-anchor="middle" fill="#8B8273" font-family="Georgia, serif" font-size="12" letter-spacing="4">PT</text>
+  </svg>
+</template>
+
+  <!-- ============ HEADER ============ -->
+  <header style="max-width: 1320px; margin: 0 auto; padding: 26px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+    <div style="display: flex; align-items: center; gap: 14px; cursor: pointer;">
+      <div style="display: flex; align-items: center;">
+        <span style="width: 13px; height: 13px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        <span style="width: 24px; height: 1.5px; background: #1F2839; display: block;"></span>
+        <span style="width: 13px; height: 13px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+      </div>
+      <div>
+        <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; line-height: 1;">ENN Japan</div>
+        <div style="font-size: 9px; letter-spacing: 0.3em; color: #8B8273; margin-top: 4px;">PARCERIA JAP&Atilde;O&ndash;EUROPA</div>
+      </div>
+    </div>
+    <nav style="display: flex; align-items: center; gap: 34px;">
+      <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">Sobre n&oacute;s</span>
+      <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">Parceria</span>
+      <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">Servi&ccedil;os</span>
+      <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">Projetos</span>
+      <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">Jornal</span>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 22px;">
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; letter-spacing: 0.1em;">
+        <a href="en.html" style="cursor: pointer; font-weight: 300; color: #8B8273; text-decoration: none;">EN</a>
+        <span style="color: #DFD7C8;">|</span>
+        <a href="index.html" style="cursor: pointer; font-weight: 300; color: #8B8273; text-decoration: none;">JP</a>
+        <span style="color: #DFD7C8;">|</span>
+        <a href="pt.html" style="cursor: pointer; font-weight: 600; color: #1F2839; text-decoration: none;">PT</a>
+      </div>
+      <span style="background: #1C2A45; color: #FFFFFF; font-size: 11px; letter-spacing: 0.22em; padding: 13px 26px; cursor: pointer;" style-hover="background: #2B4C9B;">CONTACTO</span>
+    </div>
+  </header>
+
+  <!-- ================================================================ HOME -->
+  <main data-screen-label="Home">
+
+    <!-- HERO -->
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 80px; align-items: center;">
+      <div style="animation: ennRise 0.9s ease both;">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 36px;">
+          <span style="width: 56px; height: 1px; background: #8B8273; display: block;"></span>
+          <span style="font-size: 11px; letter-spacing: 0.3em; color: #6B6354;">T&Oacute;QUIO &middot; LISBOA &middot; LONDRES</span>
+        </div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(44px, 4.8vw, 72px); line-height: 1.1; margin: 0; letter-spacing: -0.015em;">Uma ponte ponderada<br><span style="font-style: italic;">entre o Jap&atilde;o</span><br>e a Europa.</h1>
+        <p style="font-size: 16.5px; line-height: 1.85; color: #4A4538; max-width: 520px; margin: 34px 0 0;">A ENN Japan constr&oacute;i parcerias entre o Jap&atilde;o e a Europa atrav&eacute;s do com&eacute;rcio, do fornecimento de ingredientes alimentares, da entrada em mercados e da estrat&eacute;gia de vendas.</p>
+        <div style="display: flex; align-items: center; gap: 18px; margin-top: 44px;">
+          <span style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.2em; padding: 18px 32px; cursor: pointer;" style-hover="background: #2B4C9B;">FALAR SOBRE UMA PARCERIA &rarr;</span>
+          <span style="border: 1px solid #1F2839; font-size: 12px; letter-spacing: 0.2em; padding: 17px 30px; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">VER SERVI&Ccedil;OS</span>
+        </div>
+      </div>
+      <div style="animation: ennRise 0.9s ease 0.15s both;">
+        <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 14px;">
+          <img src="assets/bridge-art-clean.jpg" alt="Bridge between two suns — ink drawing" style="width: 100%; display: block;">
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+          <div style="border: 1px solid #DFD7C8; border-top: none; background: #FCFAF6; font-size: 10px; letter-spacing: 0.2em; color: #8B8273; padding: 10px 18px;">BRIDGE / 架け橋 / PONTE</div>
+        </div>
+      </div>
+    </section>
+    <section style="max-width: 1320px; margin: 0 auto; padding: 0 48px 72px;">
+      <div style="border-top: 1px solid #DFD7C8; display: flex; gap: 96px; padding-top: 28px;">
+        <div><div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px;">3</div><div style="font-size: 10.5px; letter-spacing: 0.24em; color: #8B8273; margin-top: 4px;">REGI&Otilde;ES</div></div>
+        <div><div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px;">6</div><div style="font-size: 10.5px; letter-spacing: 0.24em; color: #8B8273; margin-top: 4px;">&Aacute;REAS</div></div>
+        <div><div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px;">47</div><div style="font-size: 10.5px; letter-spacing: 0.24em; color: #8B8273; margin-top: 4px;">PREFEITURAS</div></div>
+      </div>
+    </section>
+
+    <!-- The name -->
+    <section style="background: #1C2A45; color: #EFEBE4;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 88px 48px; display: grid; grid-template-columns: 300px 1fr; gap: 72px; align-items: center;">
+        <div style="font-family: 'Noto Serif JP', serif; font-size: 190px; line-height: 1; text-align: center; color: #EFEBE4;">縁</div>
+        <div>
+          <div style="font-size: 11px; letter-spacing: 0.3em; color: #C9A86A; margin-bottom: 22px;">SOBRE O NOSSO NOME &mdash; ENN 縁</div>
+          <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.3; margin: 0; max-width: 640px;">Ligar pessoas e culturas atrav&eacute;s do mar &mdash; essa inten&ccedil;&atilde;o vive numa &uacute;nica palavra japonesa: <span style="font-style: italic;">en</span>.</h2>
+          <p style="font-size: 15px; line-height: 1.9; color: rgba(239,235,228,0.75); max-width: 600px; margin: 26px 0 0;">No Jap&atilde;o existe uma cultura que valoriza o <em>en</em>: a cren&ccedil;a de que um encontro nunca &eacute; mero acaso, mas algo que nasce da liga&ccedil;&atilde;o entre pessoas. O nosso neg&oacute;cio assenta nessa mesma cren&ccedil;a.</p>
+          <p style="font-size: 15px; line-height: 1.9; color: rgba(239,235,228,0.75); max-width: 600px; margin: 18px 0 0;">Cada neg&oacute;cio come&ccedil;a com um &uacute;nico <em>en</em>. Constru&iacute;mos a rela&ccedil;&atilde;o antes da transa&ccedil;&atilde;o e levamos ao mundo apenas aquilo pelo qual empenhamos o nosso pr&oacute;prio nome. &Eacute; a&iacute; que come&ccedil;a a ENN Japan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Three doors -->
+    <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px 80px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 40px;">O NOSSO TRABALHO</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px;">
+        <div style="border-top: 1px solid #1F2839; padding-top: 22px; cursor: pointer;" style-hover="border-top: 1px solid #C13A2E;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">Com&eacute;rcio e fornecimento</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">貿易</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">Levamos o verdadeiro valor dos produtos japoneses ao mundo &mdash; honrando cada regi&atilde;o e produtor enquanto unimos o Jap&atilde;o e a Europa.</p>
+          <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">SABER MAIS &rarr;</div>
+        </div>
+        <div style="border-top: 1px solid #1F2839; padding-top: 22px; cursor: pointer;" style-hover="border-top: 1px solid #C13A2E;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">Entrada em mercados</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">進出</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">Apoiamos empresas japonesas na expans&atilde;o internacional &mdash; do Jap&atilde;o para a Europa e da Europa para o Jap&atilde;o &mdash; com redes locais e experi&ecirc;ncia pr&aacute;tica para uma entrada sustent&aacute;vel.</p>
+          <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">SABER MAIS &rarr;</div>
+        </div>
+        <div style="border-top: 1px solid #1F2839; padding-top: 22px; cursor: pointer;" style-hover="border-top: 1px solid #C13A2E;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">Estrat&eacute;gia de vendas</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">戦略</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">Parcerias que come&ccedil;am pela confian&ccedil;a. Fazemos mais do que apresentar pessoas e empresas &mdash; compreendemos o valor de cada lado e assumimos a responsabilidade pela liga&ccedil;&atilde;o certa.</p>
+          <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">SABER MAIS &rarr;</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Two cities -->
+    <section style="border-top: 1px solid #DFD7C8; border-bottom: 1px solid #DFD7C8; background: #FCFAF6;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 64px 48px; display: grid; grid-template-columns: 1fr 80px 1fr; align-items: center;">
+        <div>
+          <div style="font-size: 11px; letter-spacing: 0.3em; color: #8B8273;">TOKYO &middot; 東京 — 03:45</div>
+          <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px; margin-top: 14px;">ENN Japan Inc.</div>
+          <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; max-width: 380px; margin: 12px 0 0;">Tratamos de tudo, desde a constru&ccedil;&atilde;o de rela&ccedil;&otilde;es com as regi&otilde;es produtoras at&eacute; ao fornecimento, levando ao mundo as hist&oacute;rias dos produtores e artes&atilde;os.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+          <span style="width: 1px; height: 48px; background: #1F2839; display: block;"></span>
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 11px; letter-spacing: 0.3em; color: #8B8273;">LISBON &middot; リスボン — 19:45</div>
+          <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px; margin-top: 14px;">1716 Industries Lda.</div>
+          <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; max-width: 380px; margin: 12px 0 0 auto;">Como parceira estrat&eacute;gica europeia da ENN Japan, a 1716 Industries lidera as opera&ccedil;&otilde;es e a constru&ccedil;&atilde;o de rede nos mercados da UE e do Reino Unido.</p>
+        </div>
+      </div>
+      <div style="max-width: 1320px; margin: 0 auto; padding: 0 48px 40px; text-align: center;">
+        <span style="font-size: 11.5px; letter-spacing: 0.22em; color: #6B6354; cursor: pointer; border-bottom: 1px solid #DFD7C8; padding-bottom: 4px;" style-hover="color: #1F2839;">A ESTRUTURA DA PARCERIA &rarr;</span>
+      </div>
+    </section>
+
+    <!-- Society 47 -->
+    <section style="max-width: 1320px; margin: 0 auto; padding: 96px 48px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 80px; align-items: center;">
+      <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 14px;">
+        <img src="assets/society47-key.jpg" alt="Society 47 — Kyoto No.26 Matcha Ritual Set" style="width: 100%; display: block;">
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 26px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+          <span style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; font-weight: 500;">PR&Oacute;XIMO PROJETO — SOCIETY 47 &middot; JAPAN</span>
+        </div>
+        <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 44px; line-height: 1.2; margin: 0;">Uma viagem por 47 prefeituras<br><span style="font-style: italic;">come&ccedil;a em Quioto.</span></h2>
+        <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 500px; margin: 26px 0 0;">A Society 47 &eacute; um projeto-piloto Jap&atilde;o&ndash;Reino Unido criado para levar ao mundo as paisagens e as culturas do Jap&atilde;o.</p>
+        <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 500px; margin: 16px 0 0;">O seu primeiro cap&iacute;tulo, &laquo;Kyoto No.26&raquo;, &eacute; uma cole&ccedil;&atilde;o inicial constru&iacute;da em torno de Quioto, o cora&ccedil;&atilde;o da cultura do matcha.</p>
+        <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 500px; margin: 16px 0 0;">A come&ccedil;ar com um lan&ccedil;amento no Kickstarter no Reino Unido, parte numa viagem pelas hist&oacute;rias das 47 prefeituras.</p>
+        <div style="margin-top: 36px;">
+          <span style="border: 1px solid #1F2839; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">VER O PROJETO</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journal preview -->
+    <section style="max-width: 1320px; margin: 0 auto; padding: 0 48px 96px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #1F2839; padding-bottom: 14px;">
+        <span style="font-size: 11px; letter-spacing: 0.3em; color: #6B6354;">Jornal</span>
+        <span style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; cursor: pointer;" style-hover="color: #1F2839;">TODOS OS ARTIGOS &rarr;</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 140px 130px 1fr; gap: 24px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid #ECE5D8; cursor: pointer;" style-hover="background: #FCFAF6;">
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">Junho 2026</span>
+        <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">Proveni&ecirc;ncia</span>
+        <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 21px;">Proporcionar uma experi&ecirc;ncia de luxo verdadeiramente aut&ecirc;ntica.</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 140px 130px 1fr; gap: 24px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid #ECE5D8; cursor: pointer;" style-hover="background: #FCFAF6;">
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">Maio 2026</span>
+        <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">Cultura</span>
+        <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 21px;">A filosofia que a minha terra natal, Quioto, me ensinou.</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================ ABOUT -->
+  <main data-screen-label="About" style="animation: ennRise 0.7s ease both;">
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">01 — SOBRE N&Oacute;S</div>
+      <div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">O <em>en</em> do Jap&atilde;o.<br><span style="font-style: italic; color: #C9A86A;">Ligado ao mundo.</span></h1>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 600px; margin: 32px 0 0;">Somos uma pequena parceria que une o Jap&atilde;o e a Europa.</p>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 600px; margin: 14px 0 0;">Crescemos atrav&eacute;s de apresenta&ccedil;&otilde;es, assentamos na confian&ccedil;a e mantemo-nos perto da origem.</p>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 600px; margin: 14px 0 0;">A nossa miss&atilde;o &eacute; entregar n&atilde;o apenas produtos, mas a cultura e a inten&ccedil;&atilde;o que existem por detr&aacute;s deles.</p>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 72px; align-items: center;">
+        <div style="font-family: 'Noto Serif JP', serif; font-size: 170px; line-height: 1; color: #C13A2E; text-align: center;">縁</div>
+        <div>
+          <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.35; margin: 0; max-width: 620px;"><em>En</em> &mdash; destino, liga&ccedil;&atilde;o.<br>O fio invis&iacute;vel que une as pessoas destinadas a encontrar-se.</h2>
+          <p style="font-size: 14.5px; line-height: 1.95; color: #4A4538; max-width: 640px; margin: 24px 0 0;">Nenhuma outra l&iacute;ngua tem uma palavra que o traduza por completo. Trabalhamos com agricultores e mestres de ch&aacute; japoneses, e chamamos a esse v&iacute;nculo <em>en</em>: n&atilde;o uma rede de contactos, mas uma base de rela&ccedil;&otilde;es constru&iacute;da sobre confian&ccedil;a acumulada.</p>
+          <p style="font-size: 14.5px; line-height: 1.95; color: #4A4538; max-width: 640px; margin: 16px 0 0;">Escolhemos este nome como um padr&atilde;o a respeitar. Cada trabalho que aceitamos tem de criar um novo <em>en</em> &mdash; entre o produtor e a prateleira, entre o cliente e o produto, entre duas culturas distantes.</p>
+          <p style="font-size: 14.5px; line-height: 1.95; color: #4A4538; max-width: 640px; margin: 16px 0 0;"><strong>Encurtar essa dist&acirc;ncia &eacute; o nosso trabalho.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 44px;">PRINC&Iacute;PIOS</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px 80px;">
+        <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">Liga&ccedil;&atilde;o</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">縁</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">O bom trabalho come&ccedil;a com boas rela&ccedil;&otilde;es. Ligamo-nos atrav&eacute;s de apresenta&ccedil;&otilde;es e crescemos atrav&eacute;s da confian&ccedil;a.</p>
+        </div>
+        <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">Proveni&ecirc;ncia</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">産地</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">Importa-nos onde, por quem e como algo foi feito. A hist&oacute;ria por detr&aacute;s de um produto faz parte do seu valor.</p>
+        </div>
+        <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">Tempo certo</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">時機</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">Tudo tem o seu momento certo. Sabemos quando avan&ccedil;ar e quando esperar, construindo rela&ccedil;&otilde;es duradouras.</p>
+        </div>
+        <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">Modera&ccedil;&atilde;o</h3>
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">節度</span>
+          </div>
+          <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">Nunca prometemos o que n&atilde;o podemos cumprir. Valorizamos um historial de resultados acima de palavras grandiosas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid #DFD7C8;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
+        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 44px;">FUNDADORES</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;">
+          <div>
+            <div style="aspect-ratio: 4 / 5; background-image: url(&quot;./assets/founder-yaguchi.jpg&quot;); background-size: cover; background-position: center 28%; background-repeat: no-repeat; border: 1px solid #DFD7C8;"></div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; margin-top: 18px;">Shota Yaguchi — T&oacute;quio</div>
+            <div style="font-size: 12.5px; color: #8B8273; margin-top: 6px; line-height: 1.7;">CEO, ENN Japan Inc. — fornecimento, produtores e rela&ccedil;&otilde;es no Jap&atilde;o.</div>
+          </div>
+          <div>
+            <div style="aspect-ratio: 4 / 5; background-image: url(&quot;./assets/founder-taz.jpg&quot;); background-size: cover; background-position: center 28%; background-repeat: no-repeat; border: 1px solid #DFD7C8;"></div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; margin-top: 18px;">Taz Kha&rsquo;lique — Lisboa</div>
+            <div style="font-size: 12.5px; color: #8B8273; margin-top: 6px; line-height: 1.7;">CEO, 1716 Industries Lda. — desenvolvimento de mercado europeu, governa&ccedil;&atilde;o, contratos e log&iacute;stica.</div>
+          </div>
+          <div>
+            <div style="aspect-ratio: 4 / 5; background-image: url(&quot;./assets/founder-sita.jpg&quot;); background-size: cover; background-position: center 28%; background-repeat: no-repeat; border: 1px solid #DFD7C8;"></div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; margin-top: 18px;">Sita Sojitra — Londres</div>
+            <div style="font-size: 12.5px; color: #8B8273; margin-top: 6px; line-height: 1.7;">Co-fundadora, 1716 Industries Lda. — respons&aacute;vel da LAB16, desenvolvimento dos mercados de Londres e It&aacute;lia.</div>
+          </div>
+        </div>
+      </div>
+      <div style="max-width: 1320px; margin: 0 auto; padding: 0 48px 64px;">
+        <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 17px; color: #6B6354; margin: 0;">T&oacute;quio, Lisboa e Londres. Tr&ecirc;s fundadores a unir o Jap&atilde;o e a Europa. Toda a comunica&ccedil;&atilde;o entre as regi&otilde;es &eacute; coordenada pela nossa lideran&ccedil;a regional.</p>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">HIST&Oacute;RICO</div>
+        <div>
+          <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">Primavera 2026</span>
+            <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">Defini&ccedil;&atilde;o do conceito de parceria com base em T&oacute;quio e Lisboa. Acordo sobre &acirc;mbito, estrutura operacional e estrat&eacute;gia de marca.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">Junho 2026</span>
+            <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">Constitui&ccedil;&atilde;o da ENN Japan Inc. no Jap&atilde;o.<br>Constitui&ccedil;&atilde;o da 1716 Industries Lda. em Portugal.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">2.&ordm; semestre 2026</span>
+            <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">Society 47 — desenvolvimento de &laquo;Kyoto No.26&raquo;, o primeiro lan&ccedil;amento da cole&ccedil;&atilde;o das 47 prefeituras, para a Europa.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">Outono 2026</span>
+            <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">Levar as regi&otilde;es e culturas do Jap&atilde;o ao mundo, uma a uma &mdash; o in&iacute;cio de uma longa viagem para contar quarenta e sete hist&oacute;rias.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #1C2A45; color: #EFEBE4;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
+        <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">A estrutura da parceria &mdash; duas empresas, uma plataforma.</div>
+        <span style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">PARCERIA &rarr;</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================ PARTNERSHIP -->
+  <main data-screen-label="Partnership" style="animation: ennRise 0.7s ease both;">
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">02 — PARCERIA</div>
+      <div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">Tr&ecirc;s cidades,<br><span style="font-style: italic;">uma base.</span></h1>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 620px; margin: 32px 0 0;">A ENN Japan Inc. (T&oacute;quio) e a 1716 Industries Lda. (Lisboa) mant&ecirc;m uma parceria estrat&eacute;gica desde 2026. Uma est&aacute; perto da origem; a outra &eacute; a base legal para alcan&ccedil;ar p&uacute;blicos e realizar com&eacute;rcio na Europa.</p>
+      </div>
+    </section>
+
+    <!-- structure diagram -->
+    <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
+      <div style="max-width: 980px; margin: 0 auto; padding: 92px 48px 100px;">
+        <div style="text-align: center; font-size: 11px; letter-spacing: 0.34em; color: #C13A2E; margin-bottom: 10px;">ESTRUTURA</div>
+        <div style="text-align: center; font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; color: #1F2839; margin-bottom: 66px;">Arquitetura do Grupo</div>
+
+        <div style="text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 34px;">PARCERIA ESTRAT&Eacute;GICA &middot; 戦略的パートナーシップ</div>
+        <div style="display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center;">
+          <div style="text-align: center; padding: 0 40px;">
+            <img src="assets/logo-enn-japan.png" alt="ENN Japan" style="height: 30px; width: auto; display: block; margin: 0 auto 18px;">
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; line-height: 1.6;">MARCA E PLATAFORMA &middot; ORIGINADOR NO JAP&Atilde;O</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Ginza, T&oacute;quio &middot; opera como ENN Japan</div>
+          </div>
+          <div style="background: #E2DACB; align-self: stretch; width: 1px;"></div>
+          <div style="text-align: center; padding: 0 40px;">
+            <img src="assets/logo-1716.png" alt="1716 Industries Lda" style="height: 32px; width: auto; display: block; margin: 0 auto 18px;">
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; line-height: 1.6;">DISTRIBUI&Ccedil;&Atilde;O EUROPEIA &middot; ENTIDADE LEGAL</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Lisboa &middot; opera como 1701 Industries</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin: 44px 0;"><div style="width: 1px; height: 60px; background: #E2DACB;"></div></div>
+
+        <div style="max-width: 540px; margin: 0 auto; border: 1px solid #DFD7C8; background: #FFFFFF; padding: 36px 40px 40px; text-align: center;">
+          <div style="font-size: 10px; letter-spacing: 0.28em; color: #C13A2E; margin-bottom: 28px;">ROTA DE MARCA &middot; SOB A 1701 INDUSTRIES</div>
+          <img src="assets/logo-society47.png" alt="Society 47 Japan" style="width: 300px; max-width: 78%; height: auto; display: block; margin: 0 auto;">
+          <div style="font-size: 10px; letter-spacing: 0.22em; color: #6B6354; margin-top: 26px;">REINO UNIDO / MERCADO UE</div>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin: 44px 0;"><div style="width: 1px; height: 60px; background: #E2DACB;"></div></div>
+
+        <div style="text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 34px;">BASE OPERACIONAL &middot; 運用基盤</div>
+        <div style="display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center;">
+          <div style="text-align: center; padding: 0 40px;">
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; color: #1F2839; line-height: 1.35;">Mestres de Ch&aacute; das 47 Prefeituras</div>
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; margin-top: 14px; line-height: 1.6;">FORNECIMENTO &middot; CERTIFICA&Ccedil;&Atilde;O &middot; RASTREABILIDADE &middot; OEM</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Uji &middot; Shizuoka &middot; Kagoshima &middot; Miyazaki</div>
+          </div>
+          <div style="background: #E2DACB; align-self: stretch; width: 1px;"></div>
+          <div style="text-align: center; padding: 0 40px;">
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; color: #1F2839; line-height: 1.35;">MAXET Co., Ltd.</div>
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; margin-top: 14px; line-height: 1.6;">FRETE A&Eacute;REO E MAR&Iacute;TIMO &middot; ALF&Acirc;NDEGA &middot; RASTREIO</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Yokohama, Kanagawa</div>
+          </div>
+        </div>
+
+        <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 16px; color: #6B6354; text-align: center; max-width: 720px; margin: 72px auto 0; line-height: 1.75;">A parceria &eacute; a estrutura. A rota de marca chega ao consumidor. A base operacional torna ambas poss&iacute;veis.</p>
+      </div>
+    </section>
+
+    <!-- entity profiles -->
+    <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px;">
+        <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 44px 48px;">
+          <img src="assets/enn-japan-logo.png" alt="ENN Japan" style="height: 50px; display: block; mix-blend-mode: multiply; width: 200px;">
+          <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273; margin: 26px 0 14px;">TOKYO &middot; 東京</div>
+          <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">A empresa japonesa. A ENN Japan Inc. gere as rela&ccedil;&otilde;es com produtores, o fornecimento e o transporte. Atrav&eacute;s de uma parceria com a MAXET Inc., assegura log&iacute;stica para todo o mundo.</p>
+          <div style="margin-top: 28px; border-top: 1px solid #ECE5D8;">
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">ENTIDADE</span><span style="color: #4A4538;">ENN Japan Inc.</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">JURISDI&Ccedil;&Atilde;O</span><span style="color: #4A4538;">Jap&atilde;o — Sede: 7.&ordm; andar, N&amp;E Bldg., 1-12-4 Ginza, Chuo-ku, T&oacute;quio</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">FUN&Ccedil;&Atilde;O</span><span style="color: #4A4538;">Proveni&ecirc;ncia, fornecimento, log&iacute;stica, marca</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">LEI APLIC&Aacute;VEL</span><span style="color: #4A4538;">Lei das Sociedades (Jap&atilde;o)</span>
+            </div>
+          </div>
+        </div>
+        <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 44px 48px;">
+          <img src="./1716-industries-lda-mqpmeu1p.png" alt="1716 Industries Lda" style="height: 40px; display: block; mix-blend-mode: multiply; object-fit: fill;">
+          <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273; margin: 30px 0 14px;">LISBON &middot; リスボン</div>
+          <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">A plataforma europeia. Como empresa portuguesa, a 1716 Industries Lda. trata da governa&ccedil;&atilde;o, do desenvolvimento de clientes, dos contratos, da banca e das opera&ccedil;&otilde;es de mercado em toda a UE e no Reino Unido.</p>
+          <div style="margin-top: 28px; border-top: 1px solid #ECE5D8;">
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">ENTIDADE</span><span style="color: #4A4538;">1716 Industries Lda.</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">JURISDI&Ccedil;&Atilde;O</span><span style="color: #4A4538;">Portugal — Lisboa</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">NOMES COMERCIAIS</span><span style="color: #4A4538;">1701 Industries &middot; LAB16</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
+              <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">FUN&Ccedil;&Atilde;O</span><span style="color: #4A4538;">Base legal na UE, contratos, opera&ccedil;&otilde;es de mercado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- what this enables -->
+    <section style="border-top: 1px solid #DFD7C8;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">O QUE ESTA ESTRUTURA PERMITE</div>
+        <div>
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">I</span>
+            <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><strong style="font-weight: 600;">Opera&ccedil;&otilde;es enraizadas na Europa e no Jap&atilde;o.</strong><br>A 1716 Industries lidera na Europa; a ENN Japan lidera no Jap&atilde;o. Cada uma decide e executa com base na sua pr&oacute;pria regi&atilde;o.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">II</span>
+            <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><strong style="font-weight: 600;">Rela&ccedil;&otilde;es com os produtores.</strong><br>N&atilde;o dependemos de informa&ccedil;&atilde;o em segunda m&atilde;o. Trabalhamos diretamente com produtores e regi&otilde;es, ouvindo-os ao longo do caminho.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">III</span>
+            <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><strong style="font-weight: 600;">Opera&ccedil;&otilde;es independentes por especialidade.</strong><br>As atividades de cultura, alimenta&ccedil;&atilde;o, sa&uacute;de e estilo de vida est&atilde;o claramente separadas das outras &aacute;reas, cada uma gerida com a estrutura mais adequada.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">IV</span>
+            <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><strong style="font-weight: 600;">Prote&ccedil;&atilde;o das marcas e da PI.</strong><br>Cada marca &eacute; devidamente gerida atrav&eacute;s de contratos e direitos de propriedade intelectual &mdash; uma base para proteger o valor a longo prazo.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+            <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">V</span>
+            <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><strong style="font-weight: 600;">Uma rede atrav&eacute;s das fronteiras.</strong><br>Tanto no Jap&atilde;o como na Europa temos acesso a bancos, empresas de log&iacute;stica e especialistas &mdash; apoio dispon&iacute;vel onde e quando &eacute; necess&aacute;rio.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #1C2A45; color: #EFEBE4;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
+        <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">A pensar em exportar matcha? Vamos conversar.</div>
+        <span style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">CONTACTE-NOS &rarr;</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================ SERVICES -->
+  <main data-screen-label="Services" style="animation: ennRise 0.7s ease both;">
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">03 — SERVI&Ccedil;OS</div>
+      <div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">Seis &aacute;reas,<br><span style="font-style: italic;">um m&eacute;todo.</span></h1>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 600px; margin: 32px 0 0;">Criamos valor pela profundidade, n&atilde;o pelo volume. Em cada &aacute;rea constru&iacute;mos rela&ccedil;&otilde;es duradouras com um pequeno n&uacute;mero de parceiros.</p>
+      </div>
+    </section>
+
+    <section style="background: #FCFAF6; border-top: 1px solid #DFD7C8; margin-top: 72px;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
+        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 44px;">COMO FUNCIONA UMA ENCOMENDA DE MATCHA (EXEMPLO)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0;">
+          <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
+            <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">一</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">Consulta</div>
+            <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">Contacte-nos primeiro. Falamos sobre volume, finalidade e mais.</p>
+          </div>
+          <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
+            <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">二</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">Or&ccedil;amento</div>
+            <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">Oferecemos pre&ccedil;os e transporte flex&iacute;veis consoante o volume.</p>
+          </div>
+          <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
+            <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">三</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">Transporte</div>
+            <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">Enviamos at&eacute; si com parceiros de log&iacute;stica de confian&ccedil;a.</p>
+          </div>
+          <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
+            <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">四</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">Entrega</div>
+            <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">Acompanhamos com vista a uma rela&ccedil;&atilde;o cont&iacute;nua.</p>
+          </div>
+        </div>
+        <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 17px; color: #6B6354; margin: 48px 0 0;">Recusamos mais do que aceitamos &mdash; n&atilde;o por escassez, mas porque o nosso nome acompanha cada apresenta&ccedil;&atilde;o.</p>
+      </div>
+    </section>
+
+    <section style="background: #1C2A45; color: #EFEBE4;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
+        <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">Para jardins de ch&aacute;, agricultores e quem procura um parceiro de exporta&ccedil;&atilde;o.</div>
+        <span style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">INICIAR CONVERSA &rarr;</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================ PROJECTS -->
+  <main data-screen-label="Projects" style="animation: ennRise 0.7s ease both;">
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">04 — PROJETOS</div>
+      <div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">Um projeto que re&uacute;ne<br>o encanto das 47 prefeituras.</h1>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 560px; margin: 32px 0 0;">Uma apresenta&ccedil;&atilde;o do projeto de matcha que preparamos desde 2025.</p>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid #1F2839; background: #FCFAF6;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+          <span style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; font-weight: 500;">PROJETO EM DESTAQUE</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 72px;">
+          <div>
+            <img src="assets/society47-featured.jpg" alt="Society 47 — Kyoto No.26 ritual set" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
+          </div>
+          <div>
+            <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 42px; line-height: 1.2; margin: 0;">Society 47 <span style="font-style: italic; color: #6B6354;">— Japan</span></h2>
+            <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 22px; line-height: 1.4; margin: 26px 0 0; color: #1F2839;">Uma viagem por 47 prefeituras come&ccedil;a em Quioto.</h3>
+            <p style="font-size: 14.5px; line-height: 1.9; color: #4A4538; margin: 16px 0 0;">A Society 47 &eacute; uma cole&ccedil;&atilde;o criada para levar ao mundo as paisagens e culturas do Jap&atilde;o. Como quem faz uma obra para cada prefeitura, cada produto re&uacute;ne o car&aacute;ter do seu solo, a inten&ccedil;&atilde;o dos seus produtores e t&eacute;cnicas transmitidas ao longo do tempo.</p>
+            <p style="font-size: 14.5px; line-height: 1.9; color: #4A4538; margin: 16px 0 0;">O seu primeiro cap&iacute;tulo, &laquo;Kyoto No.26&raquo;, &eacute; uma cole&ccedil;&atilde;o inicial sobre a cultura do matcha de Quioto: matcha, um batedor de bambu e tigelas de gr&eacute;s &mdash; um conjunto para tocar a est&eacute;tica da regi&atilde;o atrav&eacute;s de uma &uacute;nica tigela de ch&aacute;.</p>
+            <div style="margin-top: 36px; border-top: 1px solid #DFD7C8;">
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
+                <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">ORIGEM</span>
+                <span style="font-size: 13.5px; color: #1F2839;">Uji, Prefeitura de Quioto</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
+                <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">TEMA</span>
+                <span style="font-size: 13.5px; color: #1F2839;">Feito no Jap&atilde;o — uma experi&ecirc;ncia da cultura do matcha</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
+                <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">PRODU&Ccedil;&Atilde;O</span>
+                <span style="font-size: 13.5px; color: #1F2839;">100% feito no Jap&atilde;o, da quinta ao embalamento final</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
+                <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">ROTA</span>
+                <span style="font-size: 13.5px; color: #1F2839;">Reino Unido e Europa</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
+                <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">OPERADO POR</span>
+                <span style="font-size: 13.5px; color: #1F2839;">ENN Japan × 1716 Industries</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- provenance -->
+    <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center;">
+      <div>
+        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 24px;">PROVENI&Ecirc;NCIA</div>
+        <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 40px; line-height: 1.22; margin: 0;">A prova, entregue com o produto.</h2>
+        <p style="font-size: 14.5px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 26px 0 0;">N&atilde;o achamos que as palavras &laquo;Feito no Jap&atilde;o&raquo; bastem por si s&oacute;. Quem o fez, onde e como &mdash; s&oacute; entregando esse contexto se transmite o verdadeiro valor. Para a Society 47 estamos a construir um sistema que organiza os registos de origem, produtor e produ&ccedil;&atilde;o e os disponibiliza junto com o produto.</p>
+        <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 20px; line-height: 1.4; margin: 26px 0 0; color: #1F2839;">Rumo a uma nova gera&ccedil;&atilde;o de avalia&ccedil;&atilde;o da qualidade.</h3>
+        <p style="font-size: 14.5px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 12px 0 0;">A prazo, queremos construir a nossa pr&oacute;pria plataforma de avalia&ccedil;&atilde;o da qualidade, com an&aacute;lise f&iacute;sica e dados &mdash; um mercado em que a qualidade se descreve n&atilde;o apenas pela impress&atilde;o, mas por registos e verifica&ccedil;&atilde;o. &Eacute; um esfor&ccedil;o para proteger os produtores e construir a confian&ccedil;a dos consumidores.</p>
+      </div>
+      <div style="aspect-ratio: 4 / 3; background: url(&quot;assets/provenance.jpg&quot;) center / cover no-repeat; border: 1px solid #DFD7C8;">
+        
+      </div>
+    </section>
+
+    <!-- collection gallery -->
+    <section style="border-top: 1px solid #DFD7C8;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+          <span style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; font-weight: 500;">O UNIVERSO SOCIETY 47</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;">
+          <figure style="margin: 0;">
+            <img src="assets/society47-origin-map.jpg" alt="Society 47 — mapa de origem do matcha" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
+            <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">47 ORIGINS · ONE JAPAN — Mapa de origem do matcha</figcaption>
+          </figure>
+          <div style="display: grid; gap: 28px;">
+            <figure style="margin: 0;">
+              <img src="assets/society47-47prefectures.jpg" alt="Society 47 — as 47 prefeituras" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
+              <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">THE 47 PREFECTURES — Vis&atilde;o geral da cole&ccedil;&atilde;o</figcaption>
+            </figure>
+            <figure style="margin: 0;">
+              <img src="assets/society47-manhole.jpg" alt="Society 47 — design das tampas de cada prefeitura" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
+              <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">JAPAN 47 — Design das tampas de cada prefeitura</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div style="margin-top: 64px;">
+          <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400; margin-bottom: 28px;">Society 47 <span style="font-style: italic; color: #6B6354;">— London Pop-In, Soho</span></div>
+          <div style="display: grid; gap: 28px;">
+            <figure style="margin: 0;">
+              <img src="assets/society47-popin-soho.jpg" alt="Society 47 — London Pop-In at Soho" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
+              <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">KYOTO / UJI NO.26 — Pop-in em Soho</figcaption>
+            </figure>
+            <figure style="margin: 0;">
+              <img src="assets/society47-popin-represent.jpg" alt="Society 47 — Represent Soho c&aacute;psula limitada" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
+              <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">REPRESENT SOHO — C&aacute;psula de edi&ccedil;&atilde;o limitada</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #1C2A45; color: #EFEBE4;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
+        <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">Para jardins de ch&aacute;, agricultores e quem procura um parceiro de exporta&ccedil;&atilde;o.</div>
+        <span style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">INICIAR CONVERSA &rarr;</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================ JOURNAL -->
+  <main data-screen-label="Journal" style="animation: ennRise 0.7s ease both;">
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 56px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">05 — JORNAL</div>
+      <div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">Redefinir a marca japonesa</h1>
+        <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 540px; margin: 30px 0 0;">Ensaios ocasionais sobre com&eacute;rcio, cultura e neg&oacute;cios internacionais entre T&oacute;quio, Lisboa e Londres. Atualizado de tempos a tempos.</p>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid #1F2839; background: #FCFAF6;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 72px 48px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center;">
+        <div style="aspect-ratio: 5 / 4; background: url(&quot;assets/journal-essay.jpg&quot;) center / cover no-repeat; border: 1px solid #DFD7C8;">
+          
+        </div>
+        <div>
+          <div style="display: flex; gap: 20px; font-size: 11px; letter-spacing: 0.2em; color: #C13A2E; margin-bottom: 22px;">
+            <span>ENSAIO EM DESTAQUE</span><span style="color: #8B8273;">Junho 2026 &middot; Proveni&ecirc;ncia</span>
+          </div>
+          <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 42px; line-height: 1.2; margin: 0;">O que &eacute; o verdadeiro Jap&atilde;o?</h2>
+          <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 24px 0 0;">P&ocirc;r fim &agrave; aus&ecirc;ncia de propriet&aacute;rios japoneses entre as marcas alimentares de origem japonesa do mundo.</p>
+          <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 28px;">LER O ENSAIO &rarr;</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1320px; margin: 0 auto; padding: 64px 48px 80px;">
+      <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">Maio 2026</span>
+        <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">Cultura</span>
+        <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">A filosofia que a minha terra natal, Quioto, me ensinou</span>
+        <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">Os mestres de ch&aacute; medem as rela&ccedil;&otilde;es em anos, n&atilde;o em trimestres. O que a cidade mais lenta ensina sobre o mercado mais r&aacute;pido.</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">Abril 2026</span>
+        <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">Carta</span>
+        <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">Uma carta de Lisboa</span>
+        <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">O Jap&atilde;o, visto de Lisboa. N&atilde;o est&atilde;o t&atilde;o longe quanto pensamos &mdash; o Jap&atilde;o visto do outro lado do mar e a Europa vista do Jap&atilde;o.</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">Abril 2026</span>
+        <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">Filosofia de marca</span>
+        <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">A inten&ccedil;&atilde;o por detr&aacute;s da Society 47</span>
+        <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">Uma cultura diferente em cada uma das quarenta e sete prefeituras &mdash; sabores, paisagens e dialetos diferentes. Como levar essa individualidade ao mundo?</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">Mar&ccedil;o 2026</span>
+        <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">Matcha</span>
+        <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">O matcha bate-se, n&atilde;o se infunde</span>
+        <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">Quioto, a terra do nosso fundador. Porque come&ccedil;a o matcha em Quioto e porque a escolhemos para a nossa primeira cole&ccedil;&atilde;o &mdash; a cultura por detr&aacute;s do matcha, n&atilde;o o matcha em si.</span>
+      </div>
+      <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 16px; color: #8B8273; margin: 44px 0 0;">O Jornal &eacute; escrito pela parceria e publicado ocasionalmente em ingl&ecirc;s e japon&ecirc;s.</p>
+    </section>
+  </main>
+
+  <!-- ================================================================ CONTACT -->
+  <main data-screen-label="Contact" style="animation: ennRise 0.7s ease both;">
+    <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 88px; display: grid; grid-template-columns: 1fr 1.15fr; gap: 96px;">
+      <div>
+        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 28px;">06 — CONTACTO</div>
+        <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 56px); line-height: 1.16; margin: 0;">Iniciar uma<br><span style="font-style: italic;">conversa.</span></h1>
+        <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 440px; margin: 30px 0 0;"><strong>Cada mensagem &eacute; lida diretamente por um fundador. Respondemos normalmente no prazo de cinco dias &uacute;teis.</strong></p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 64px; border-top: 1px solid #DFD7C8; padding-top: 36px;">
+          <div>
+            <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273;">TOKYO &middot; 東京 — 03:45</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; margin-top: 12px;">ENN Japan Inc.</div>
+            <div style="font-size: 12.5px; line-height: 1.8; color: #6B6354; margin-top: 8px;">7.&ordm; andar, N&amp;E Bldg., 1-12-4 Ginza, Chuo-ku, T&oacute;quio<br>info@ennjapan.com</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273;">LISBON &middot; リスボン — 19:45</div>
+            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; margin-top: 12px;">1716 Industries Lda.</div>
+            <div style="font-size: 12.5px; line-height: 1.8; color: #6B6354; margin-top: 8px;">Lisboa — morada partilhada aquando da apresenta&ccedil;&atilde;o.<br>info@1716industries.eu</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 52px 56px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px;">
+          <div>
+            <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">NOME</div>
+            <input style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
+          </div>
+          <div>
+            <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">EMPRESA / ORGANIZA&Ccedil;&Atilde;O</div>
+            <input style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
+          </div>
+          <div>
+            <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">EMAIL</div>
+            <input style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
+          </div>
+          <div>
+            <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">REGI&Atilde;O</div>
+            <input placeholder="Jap&atilde;o / Europa / Outra" style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
+          </div>
+        </div>
+        <div style="margin-top: 36px;">
+          <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 14px;">TIPO DE CONTACTO</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #1F2839; background: #1F2839; color: #FFFFFF; cursor: pointer;">Geral</span>
+            <span style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">Parceria</span>
+            <span style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">Importar matcha (empresas japonesas na UE)</span>
+            <span style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">Imprensa</span>
+            <span style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">Outro</span>
+          </div>
+        </div>
+        <div style="margin-top: 36px;">
+          <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">MENSAGEM</div>
+          <textarea rows="5" style="width: 100%; box-sizing: border-box; border: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 14px; font-family: inherit; color: #1F2839; line-height: 1.7; resize: vertical;" style-focus="border: 1px solid #1F2839;"></textarea>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px;">
+          <span style="font-size: 11.5px; color: #8B8273; max-width: 320px; line-height: 1.6;">A sua mensagem &eacute; vista apenas pelos nossos fundadores e pela equipa designada. Nunca partilhamos a sua informa&ccedil;&atilde;o com terceiros.</span>
+          <span style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.22em; padding: 17px 36px; cursor: pointer;" style-hover="background: #2B4C9B;">ENVIAR &rarr;</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: #1F2839; color: #EFEBE4;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px 0;">
+      <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(32px, 3.6vw, 46px); line-height: 1.25; max-width: 760px;">O <em>en</em> do Jap&atilde;o.<br><span style="font-style: italic; color: #C9A86A;">Ligado ao mundo.</span></div>
+      <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 48px; margin-top: 72px; padding-top: 40px; border-top: 1px solid rgba(239,235,228,0.18);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+            <span style="width: 20px; height: 1px; background: #EFEBE4; display: block;"></span>
+            <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+            <span style="font-size: 12px; letter-spacing: 0.28em; margin-left: 6px;">ENN JAPAN</span>
+          </div>
+          <p style="font-size: 12px; line-height: 1.85; color: rgba(239,235,228,0.6); max-width: 320px; margin: 22px 0 0;">A ENN Japan &eacute; uma parceria estrat&eacute;gica entre a ENN Japan Inc. (T&oacute;quio) e a 1716 Industries Lda. (Lisboa). A Society 47 &eacute; a rota de marca da parceria para a Uni&atilde;o Europeia.</p>
+        </div>
+        <div>
+          <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">NAVEGAR</div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">Sobre n&oacute;s</span>
+            <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">Parceria</span>
+            <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">Servi&ccedil;os</span>
+            <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">Projetos</span>
+            <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">Jornal</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">TOKYO &middot; 東京</div>
+          <div style="font-size: 12.5px; line-height: 1.9; color: rgba(239,235,228,0.75);">ENN Japan Inc.<br>7.&ordm; andar, N&amp;E Bldg., 1-12-4 Ginza, Chuo-ku, T&oacute;quio<br>info@ennjapan.com</div>
+        </div>
+        <div>
+          <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">LISBON &middot; リスボン</div>
+          <div style="font-size: 12.5px; line-height: 1.9; color: rgba(239,235,228,0.75);">1716 Industries Lda.<br>Lisboa —<br>info@1716industries.eu</div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between; gap: 24px; padding: 28px 0 32px; margin-top: 56px; border-top: 1px solid rgba(239,235,228,0.18); font-size: 10.5px; letter-spacing: 0.14em; color: rgba(239,235,228,0.45);">
+        <span>© 2026 ENN JAPAN INC. &middot; 1716 INDUSTRIES LDA.</span>
+        <span>SOCIETY 47 — JAPAN &middot; Quarenta e sete ch&aacute;s, quarenta e sete hist&oacute;rias.</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

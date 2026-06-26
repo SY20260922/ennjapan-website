@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Noto+Serif+JP:wght@300;400;500&amp;family=Noto+Sans+JP:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    body { margin: 0; background: #FFFFFF; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #1C2A45; color: #FFFFFF; }
+    @keyframes ennFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes ennHint { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
+  </style>
+</helmet>
+
+<template id="__bundler_thumbnail" style="display: none">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+    <rect width="400" height="400" fill="#1C2A45"></rect>
+    <circle cx="140" cy="200" r="20" fill="#2B4C9B"></circle>
+    <rect x="160" y="198.5" width="80" height="3" fill="#EFEBE4"></rect>
+    <circle cx="260" cy="200" r="20" fill="#C13A2E"></circle>
+    <text x="200" y="270" text-anchor="middle" fill="#C9A86A" font-family="Georgia, serif" font-size="34" letter-spacing="8">ENN</text>
+  </svg>
+</template>
+<div style="background: #FFFFFF; color: #1F2839; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans JP', Arial, sans-serif; -webkit-font-smoothing: antialiased; font-size: 16px; position: static">
+
+  <!-- fixed 3D stage -->
+  <div ref="{{ stageRef }}" style="position: fixed; inset: 0; z-index: 0;"></div>
+
+  <!-- fixed chrome -->
+  <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; pointer-events: none;">
+    <div style="display: flex; align-items: center; gap: 13px;">
+      <div style="display: flex; align-items: center;">
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        <span style="width: 22px; height: 1.5px; background: #1F2839; display: block;"></span>
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+      </div>
+      <span style="font-size: 11px; letter-spacing: 0.3em; font-weight: 500;">ENN JAPAN</span>
+      <span style="font-size: 10px; letter-spacing: 0.22em; color: #8B8273; border-left: 1px solid #DFD7C8; padding-left: 13px;">CONCEPT — THE BRIDGE · 架け橋 - KAKEHASHI</span>
+    </div>
+    <div></div>
+  </div>
+
+  <!-- progress rail -->
+  <div style="position: fixed; right: 40px; top: 50%; transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <span style="font-size: 9px; letter-spacing: 0.26em; color: #8B8273; writing-mode: vertical-rl;">TOKYO 東京</span>
+    <div style="width: 1px; height: 110px; background: #DFD7C8; position: relative;">
+      <div ref="{{ railRef }}" style="position: absolute; top: 0; left: -1.5px; width: 4px; height: 0%; background: #C13A2E;"></div>
+    </div>
+    <span style="font-size: 9px; letter-spacing: 0.26em; color: #8B8273; writing-mode: vertical-rl;">LISBOA リスボン</span>
+  </div>
+
+  <!-- ================== HERO ================== -->
+  <section data-screen-label="3D Hero" style="position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; pointer-events: none; padding: 0 32px 110px;">
+    <div style="animation: ennFade 1.6s ease 4.0s both;">
+      <p style="font-size: 11px; letter-spacing: 0.34em; color: #6B6354; margin: 0 0 18px;">ENN 縁 — THE TIES THAT BIND · TOKYO — LISBOA — LONDON</p>
+      <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.25; margin: 0; letter-spacing: -0.01em;">A considered bridge, <span style="font-style: italic;">crossed slowly.</span></h1>
+      <p style="font-size: 12px; letter-spacing: 0.24em; color: #8B8273; margin: 18px 0 0;">JAPANESE ORIGIN · GLOBAL PERSPECTIVE</p>
+    </div>
+    <div style="position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 0.3em; color: #8B8273; opacity: 0; animation: ennFade 1.2s ease 5.2s forwards, ennHint 2.6s ease-in-out 6.4s infinite;">SCROLL TO CROSS · 渡る ↓</div>
+  </section>
+
+  <!-- ================== TOKYO ================== -->
+  <section data-screen-label="Tokyo" style="position: relative; z-index: 1; min-height: 110vh; display: flex; align-items: center; justify-content: flex-end; padding: 0 8vw; pointer-events: none;">
+    <div style="max-width: 430px; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 44px 48px; pointer-events: auto;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+        <span style="font-size: 10.5px; letter-spacing: 0.3em; color: #C13A2E;">DEPARTURE — TOKYO · 東京</span>
+      </div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Everything begins <span style="font-style: italic;">at origin.</span></h2>
+      <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">ENN Japan Inc. stands on the Japanese side of the bridge — with the producers, the craftsmen, the tea gardens. Origin is held in its own language, on its own terms.</p>
+    </div>
+  </section>
+
+  <!-- ================== THE CROSSING ================== -->
+  <section data-screen-label="Crossing" style="position: relative; z-index: 1; min-height: 120vh; display: flex; align-items: center; justify-content: center; padding: 0 8vw; pointer-events: none;">
+    <div style="max-width: 520px; text-align: center; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 48px 56px; pointer-events: auto;">
+      <div style="font-size: 10.5px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 20px;">MID-SPAN — THE CROSSING · 海と橋の上</div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.3; margin: 0;">What we carry <span style="font-style: italic;">across.</span></h2>
+      <div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; text-align: left;">
+        <sc-for list="{{ cargo }}" as="c" hint-placeholder-count="3">
+          <div style="display: flex; align-items: baseline; gap: 18px; padding: 13px 0; border-top: 1px solid #ECE5D8;">
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">{{ c.kanji }}</span>
+            <span style="font-size: 14px; font-weight: 500;">{{ c.name }}</span>
+            <span style="font-size: 12px; color: #6B6354; margin-left: auto; text-align: right;">{{ c.line }}</span>
+          </div>
+        </sc-for>
+      </div><p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 12.5px; line-height: 1.8; color: #8B8273; margin: 22px 0 0; border-top: 1px solid #ECE5D8; padding-top: 16px;">南蛮貿易 (1543)　　　　　　　　　　　　　　　　　　　　 　　　　　　　　　　　　　　　the first European sail to reach Japan was Portuguese. This route is older than it looks.</p>
+      
+    </div>
+  </section>
+
+  <!-- ================== LISBON ================== -->
+  <section data-screen-label="Lisbon" style="position: relative; z-index: 1; min-height: 110vh; display: flex; align-items: center; justify-content: flex-start; padding: 0 8vw; pointer-events: none;">
+    <div style="max-width: 430px; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 44px 48px; pointer-events: auto;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        <span style="font-size: 10.5px; letter-spacing: 0.3em; color: #2B4C9B;">ARRIVAL — LISBOA &amp; LONDON&nbsp; 欧州・リスボン・ロンドン</span>
+      </div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Europe answers <span style="font-style: italic;">from the Atlantic edge.</span></h2>
+      <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">1716 Industries Lda. holds the European ground — governance, contracts, banking and market operations across the EU and the United Kingdom, from Lisbon to London. One platform, accountable on arrival.</p>
+    </div>
+  </section>
+
+  <!-- ================== SOCIETY 47 ================== -->
+  <section data-screen-label="Society 47 3D" style="position: relative; z-index: 1; min-height: 120vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 8vw; pointer-events: none;">
+    <div style="font-size: 10.5px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 28px;">FIRST CARGO — SOCIETY 47 · JAPAN</div>
+    <div onMouseMove="{{ tiltMove }}" onMouseLeave="{{ tiltReset }}" style="perspective: 1100px; pointer-events: auto; cursor: default;">
+      <div ref="{{ tiltRef }}" style="width: min(620px, 84vw); transform-style: preserve-3d; transition: transform 0.18s ease-out; background: #FFFFFF; border: 1px solid #E5DED2; padding: 16px; box-shadow: 0 40px 80px rgba(31,40,57,0.16);">
+        <img src="assets/kit-tether-mqpgi9jt.jpg" alt="Society 47 — Kyoto No.26 Matcha Ritual Set" style="width: 100%; display: block; opacity: 1; animation: fade in">
+        <div style="display: flex; justify-content: space-between; padding: 14px 6px 4px; font-size: 10px; letter-spacing: 0.2em; color: #8B8273;">
+          <span>KYOTO No.26 — MATCHA RITUAL SET</span>
+          <span>47/1 · FIRST OF FORTY-SEVEN</span>
+        </div>
+      </div>
+    </div>
+    <p style="max-width: 460px; text-align: center; font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 36px 0 0; pointer-events: auto; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 10px 18px;">The first thing carried across this bridge: ceremonial matcha from Uji, Kyoto, made by prominent tea masters, shipped to Europe first.</p>
+  </section>
+
+  <!-- ================== INVITATION ================== -->
+  <section data-screen-label="Invitation" style="position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 32px; pointer-events: none;">
+    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 36px;">
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+      <span style="width: 64px; height: 1px; background: #1F2839; display: block;"></span>
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+    </div>
+    <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.4vw, 58px); line-height: 1.2; margin: 0;">The bridge is open.<br><span style="font-style: italic;">Begin a conversation.</span></h2>
+    <div style="display: flex; gap: 16px; margin-top: 44px; pointer-events: auto;">
+      <a href="index.html" style="background: #1C2A45; color: #FFFFFF; font-size: 11.5px; letter-spacing: 0.22em; padding: 17px 32px; text-decoration: none;" style-hover="background: #2B4C9B;">CONTACT →</a>
+      <a href="index.html" style="border: 1px solid #1F2839; color: #1F2839; font-size: 11.5px; letter-spacing: 0.22em; padding: 16px 30px; text-decoration: none; background: rgba(255,255,255,0.7);" style-hover="background: #1F2839; color: #FFFFFF;">THE FULL SITE</a>
+    </div>
+    <div style="font-size: 10px; letter-spacing: 0.24em; color: #8B8273; margin-top: 72px;">ENN JAPAN INC. · 1716 INDUSTRIES LDA. — TOKYO · LISBOA · LONDON · 縁</div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.stageRef = React.createRef();
+    this.tiltRef = React.createRef();
+    this.railRef = React.createRef();
+    this.scrollP = 0;
+    this.mx = 0; this.my = 0;
+    this.time = 0;
+  }
+
+  componentDidMount() {
+    this.alive = true;
+    this.onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      this.scrollP = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      if (this.railRef.current) this.railRef.current.style.height = (this.scrollP * 100) + "%";
+    };
+    this.onMouse = (e) => {
+      this.mx = (e.clientX / window.innerWidth - 0.5) * 2;
+      this.my = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    this.onResize = () => {
+      if (!this.renderer || !this.camera) return;
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+    window.addEventListener("mousemove", this.onMouse, { passive: true });
+    window.addEventListener("resize", this.onResize);
+    this.onScroll();
+    this.waitForThree(0);
+  }
+
+  componentWillUnmount() {
+    this.alive = false;
+    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("mousemove", this.onMouse);
+    window.removeEventListener("resize", this.onResize);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.renderer) {
+      try { this.renderer.dispose(); } catch (e) {}
+      if (this.renderer.domElement && this.renderer.domElement.parentNode) {
+        this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
+      }
+    }
+  }
+
+  waitForThree(tries) {
+    if (!this.alive) return;
+    if (window.THREE && this.stageRef.current) { this.buildScene(); return; }
+    if (tries > 100) return;
+    setTimeout(() => this.waitForThree(tries + 1), 100);
+  }
+
+  // scatter points along a 3D segment with jitter — the "ink line" primitive
+  seg(arr, ax, ay, az, bx, by, bz, n, jitter) {
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      arr.push(
+        ax + (bx - ax) * t + (Math.random() - 0.5) * jitter,
+        ay + (by - ay) * t + (Math.random() - 0.5) * jitter,
+        az + (bz - az) * t + (Math.random() - 0.5) * jitter
+      );
+    }
+  }
+
+  glowTexture(r, g, b) {
+    const c = document.createElement("canvas");
+    c.width = 256; c.height = 256;
+    const ctx = c.getContext("2d");
+    const grad = ctx.createRadialGradient(128, 128, 6, 128, 128, 128);
+    grad.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",0.95)");
+    grad.addColorStop(0.55, "rgba(" + r + "," + g + "," + b + ",0.55)");
+    grad.addColorStop(1, "rgba(" + r + "," + g + "," + b + ",0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  }
+
+  buildScene() {
+    const T = window.THREE;
+    const stage = this.stageRef.current;
+    if (!stage) return;
+
+    const renderer = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xFFFFFF, 1);
+    stage.appendChild(renderer.domElement);
+    this.renderer = renderer;
+
+    const scene = new T.Scene();
+    scene.fog = new T.FogExp2(0xFFFFFF, 0.0075);
+    this.scene = scene;
+
+    const camera = new T.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 600);
+    this.camera = camera;
+
+    // ---------- the ink bridge ----------
+    const pts = [];
+    const span = 55, deckY = 9, archH = 24;
+    const archY = (t) => archH * Math.sin(Math.PI * t);
+    for (const z of [-2.4, 2.4]) {
+      // arch curve
+      let prev = null;
+      for (let i = 0; i <= 60; i++) {
+        const t = i / 60;
+        const x = -span + 2 * span * t, y = archY(t);
+        if (prev) this.seg(pts, prev[0], prev[1], z, x, y, z, 7, 0.16);
+        prev = [x, y];
+      }
+      // deck
+      this.seg(pts, -span, deckY, z, span, deckY, z, 460, 0.14);
+      // hangers + diagonals where arch is above/below deck
+      for (let i = 0; i <= 26; i++) {
+        const t = i / 26;
+        const x = -span + 2 * span * t, ay = archY(t);
+        this.seg(pts, x, deckY, z, x, ay, z, Math.max(3, Math.round(Math.abs(ay - deckY) * 2.4)), 0.13);
+        if (i < 26) {
+          const t2 = (i + 1) / 26;
+          const x2 = -span + 2 * span * t2, ay2 = archY(t2);
+          this.seg(pts, x, ay, z, x2, deckY, z, 10, 0.15);
+        }
+      }
+    }
+    // cross-bracing between the two arch ribs
+    for (let i = 0; i <= 26; i++) {
+      const t = i / 26;
+      const x = -span + 2 * span * t, y = archY(t);
+      this.seg(pts, x, y, -2.4, x, y, 2.4, 6, 0.12);
+      this.seg(pts, x, deckY, -2.4, x, deckY, 2.4, 6, 0.12);
+    }
+    const bridgeGeo = new T.BufferGeometry();
+    bridgeGeo.setAttribute("position", new T.Float32BufferAttribute(pts, 3));
+    const bridgeMat = new T.PointsMaterial({ color: 0x1F2839, size: 0.27, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+    scene.add(new T.Points(bridgeGeo, bridgeMat));
+    this.bridgeMat = bridgeMat;
+
+    // ---------- ACT I: the solid bridge (dissolves into ink) ----------
+    this.buildSolidBridge(T, scene, archY, span, deckY);
+
+    // ---------- Edo elements: seigaiha sea, a Nanban ship, chidori birds ----------
+    this.buildSeigaiha(T, scene);
+    this.buildShip(T, scene);
+    this.buildBirds(T, scene);
+
+    // faint water reflection of the bridge
+    const mirror = new T.Points(bridgeGeo, new T.PointsMaterial({ color: 0x1F2839, size: 0.3, transparent: true, opacity: 0.04, sizeAttenuation: true, depthWrite: false }));
+    mirror.scale.y = -1;
+    mirror.position.y = -1.2;
+    scene.add(mirror);
+
+    // ---------- E N N — particle typography along the arch ----------
+    this.buildEnnLetters(T, scene, archY, span);
+
+    // ---------- the 47-prefecture procession, crossing Tokyo → Lisboa ----------
+    this.buildPrefectures(T, scene);
+
+    // ---------- ink-wash shores ----------
+    const shore = [];
+    const shoreCols = [];
+    for (let i = 0; i < 2300; i++) {
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const x = side * (42 + Math.pow(Math.random(), 1.6) * 42);
+      const y = Math.pow(Math.random(), 2.6) * 7 - 1.5;
+      const zz = (Math.random() - 0.5) * 30;
+      shore.push(x, y, zz);
+      const shade = 0.12 + Math.random() * 0.45;
+      shoreCols.push(shade, shade, shade + 0.02);
+    }
+    const shoreGeo = new T.BufferGeometry();
+    shoreGeo.setAttribute("position", new T.Float32BufferAttribute(shore, 3));
+    shoreGeo.setAttribute("color", new T.Float32BufferAttribute(shoreCols, 3));
+    const shoreMat = new T.PointsMaterial({ vertexColors: true, size: 0.45, transparent: true, opacity: 0.32, sizeAttenuation: true, depthWrite: false });
+    scene.add(new T.Points(shoreGeo, shoreMat));
+
+    // ---------- two suns ----------
+    const mkSun = (tex, x, y, size) => {
+      const m = new T.Mesh(new T.PlaneGeometry(size, size), new T.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
+      m.position.set(x, y, -34);
+      scene.add(m);
+      return m;
+    };
+    this.sunRed = mkSun(this.glowTexture(193, 58, 46), 34, 16, 30);
+    this.sunBlue = mkSun(this.glowTexture(110, 140, 200), -34, 13, 26);
+    this.sunBlue.material.opacity = 0.55;
+
+    // ---------- drifting motes ----------
+    const motes = [];
+    for (let i = 0; i < 130; i++) {
+      motes.push((Math.random() - 0.5) * 160, Math.random() * 36 - 2, (Math.random() - 0.5) * 70);
+    }
+    this.moteGeo = new T.BufferGeometry();
+    this.moteGeo.setAttribute("position", new T.Float32BufferAttribute(motes, 3));
+    const moteMat = new T.PointsMaterial({ color: 0x8B8273, size: 0.3, transparent: true, opacity: 0.22, depthWrite: false });
+    scene.add(new T.Points(this.moteGeo, moteMat));
+
+    // camera keyframes: wide → red side (Tokyo) → mid-deck → blue side (Lisboa) → product → wide
+    this.keys = [
+      { p: 0.00, pos: [0, 17, 108], look: [0, 19, 0] },
+      { p: 0.18, pos: [32, 13, 54], look: [40, 16, -6] },
+      { p: 0.42, pos: [12, 11.5, 9], look: [-30, 14, -4] },
+      { p: 0.62, pos: [-30, 10, 46], look: [-40, 13, -8] },
+      { p: 0.82, pos: [-6, 19, 62], look: [0, 11, 0] },
+      { p: 1.00, pos: [0, 18, 118], look: [0, 16, 0] }
+    ];
+
+    this.loop();
+  }
+
+  // sample a glyph into normalized 2D points via an offscreen canvas
+  glyphPoints(ch) {
+    const c = document.createElement("canvas");
+    c.width = 320; c.height = 360;
+    const ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, 320, 360);
+    ctx.font = "200 290px 'Helvetica Neue', Helvetica, Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#000";
+    ctx.fillText(ch, 160, 190);
+    const data = ctx.getImageData(0, 0, 320, 360).data;
+    const out = [];
+    for (let y = 0; y < 360; y += 2) {
+      for (let x = 0; x < 320; x += 2) {
+        if (data[(y * 320 + x) * 4 + 3] > 120) {
+          out.push((x - 160) / 290, -(y - 190) / 290); // normalized, glyph height ≈ 1
+        }
+      }
+    }
+    return out;
+  }
+
+  buildEnnLetters(T, scene, archY, span) {
+    const letters = ["E", "N", "N"];
+    const params = [0.32, 0.5, 0.68]; // position along the arch
+    const size = 11.5;                 // letter height in world units
+    const lift = 6.0;                  // height above the arch crown
+    const targets = [];
+    const colors = [];
+    for (let li = 0; li < letters.length; li++) {
+      const t = params[li];
+      const cx = -span + 2 * span * t;
+      const cy = archY(t) + lift + size * 0.5;
+      // arch tangent → letters lean with the curve
+      const eps = 0.01;
+      const dy = archY(t + eps) - archY(t - eps);
+      const dx = 2 * span * (2 * eps);
+      const ang = Math.atan2(dy, dx) * 0.85;
+      const cosA = Math.cos(ang), sinA = Math.sin(ang);
+      const g = this.glyphPoints(letters[li]);
+      for (let i = 0; i < g.length; i += 2) {
+        const lx = g[i] * size, ly = g[i + 1] * size;
+        targets.push(
+          cx + lx * cosA - ly * sinA + (Math.random() - 0.5) * 0.1,
+          cy + lx * sinA + ly * cosA + (Math.random() - 0.5) * 0.1,
+          (Math.random() - 0.5) * 1.3
+        );
+        // ink navy, with occasional vermilion flecks
+        if (Math.random() < 0.055) colors.push(0.757, 0.227, 0.18);
+        else colors.push(0.12, 0.157, 0.224);
+      }
+    }
+    const n = targets.length / 3;
+    const starts = new Float32Array(targets.length);
+    for (let i = 0; i < n; i++) {
+      // particles begin scattered through the whole sky and converge
+      starts[i * 3] = targets[i * 3] + (Math.random() - 0.5) * 90;
+      starts[i * 3 + 1] = targets[i * 3 + 1] + (Math.random() - 0.5) * 60 + 10;
+      starts[i * 3 + 2] = targets[i * 3 + 2] + (Math.random() - 0.5) * 70;
+    }
+    this.letterTargets = new Float32Array(targets);
+    this.letterStarts = starts;
+    this.letterPhase = new Float32Array(n);
+    for (let i = 0; i < n; i++) this.letterPhase[i] = Math.random() * Math.PI * 2;
+
+    this.letterGeo = new T.BufferGeometry();
+    this.letterGeo.setAttribute("position", new T.Float32BufferAttribute(starts.slice(), 3));
+    this.letterGeo.setAttribute("color", new T.Float32BufferAttribute(colors, 3));
+    const mat = new T.PointsMaterial({ vertexColors: true, size: 0.46, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+    this.letterMat = mat;
+    scene.add(new T.Points(this.letterGeo, mat));
+  }
+
+  buildSolidBridge(T, scene, archY, span, deckY) {
+    const mat = new T.MeshStandardMaterial({ color: 0x26334E, metalness: 0.45, roughness: 0.38, transparent: true, opacity: 1 });
+    this.solidMat = mat;
+    const group = new T.Group();
+    for (const z of [-2.4, 2.4]) {
+      const pts3 = [];
+      for (let i = 0; i <= 60; i++) { const t = i / 60; pts3.push(new T.Vector3(-span + 2 * span * t, archY(t), z)); }
+      group.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts3), 100, 0.52, 10, false), mat));
+      group.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3([new T.Vector3(-span, deckY, z), new T.Vector3(span, deckY, z)]), 2, 0.34, 8, false), mat));
+      for (let i = 1; i < 26; i++) {
+        const t = i / 26, x = -span + 2 * span * t, ay = archY(t);
+        const hgt = Math.abs(ay - deckY);
+        if (hgt > 0.8) {
+          const cyl = new T.Mesh(new T.CylinderGeometry(0.15, 0.15, hgt, 6), mat);
+          cyl.position.set(x, (ay + deckY) / 2, z);
+          group.add(cyl);
+        }
+      }
+    }
+    const slab = new T.Mesh(new T.BoxGeometry(2 * span, 0.5, 5.6), mat);
+    slab.position.set(0, deckY - 0.32, 0);
+    group.add(slab);
+    scene.add(group);
+    this.solidGroup = group;
+    scene.add(new T.AmbientLight(0xFFFFFF, 0.55));
+    const warm = new T.DirectionalLight(0xFFE8D0, 1.0); warm.position.set(60, 50, 40); scene.add(warm);
+    const cool = new T.DirectionalLight(0xCBD6EF, 0.45); cool.position.set(-50, 28, -40); scene.add(cool);
+  }
+
+  // seigaiha 青海波 — the Edo wave pattern, laid flat on the water
+  buildSeigaiha(T, scene) {
+    const pts = [];
+    const rowStep = 3.4, colStep = 6.8;
+    let row = 0;
+    for (let z = -24; z <= 24; z += rowStep, row++) {
+      const off = row % 2 === 0 ? 0 : colStep / 2;
+      for (let cx = -64 + off; cx <= 64; cx += colStep) {
+        for (const r of [1.5, 2.5, 3.5]) {
+          for (let i = 0; i <= 13; i++) {
+            const th = (i / 13) * Math.PI;
+            pts.push(cx + r * Math.cos(th), 0.04, z - r * Math.sin(th) * 0.9);
+          }
+        }
+      }
+    }
+    const geo = new T.BufferGeometry();
+    geo.setAttribute("position", new T.Float32BufferAttribute(pts, 3));
+    this.seigaihaMat = new T.PointsMaterial({ color: 0x7E8AA6, size: 0.13, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+    scene.add(new T.Points(geo, this.seigaihaMat));
+  }
+
+  // a Nanban-era sail, sketched in ink points, crossing Japan → Europe
+  buildShip(T, scene) {
+    const ink = [], red = [];
+    const J = 0.05;
+    // hull
+    this.seg(ink, -4.6, 0.7, 0, -2.4, 0.1, 0, 26, J);
+    this.seg(ink, -2.4, 0.1, 0, 2.4, 0.1, 0, 48, J);
+    this.seg(ink, 2.4, 0.1, 0, 4.3, 1.0, 0, 24, J);
+    this.seg(ink, -4.6, 0.7, 0, -5.3, 1.9, 0, 16, J);   // bow stem
+    this.seg(ink, -5.3, 1.9, 0, 0, 1.35, 0, 40, J);     // gunwale fore
+    this.seg(ink, 0, 1.35, 0, 4.3, 1.8, 0, 36, J);      // gunwale aft
+    // raised stern castle
+    this.seg(ink, 2.7, 1.8, 0, 2.7, 2.7, 0, 10, J);
+    this.seg(ink, 2.7, 2.7, 0, 4.3, 2.8, 0, 14, J);
+    this.seg(ink, 4.3, 2.8, 0, 4.3, 1.8, 0, 10, J);
+    // mast
+    this.seg(ink, 0, 1.35, 0, 0, 6.2, 0, 40, J);
+    // junk sail with battens
+    this.seg(ink, -2.3, 2.3, 0, 2.3, 2.3, 0, 36, J);
+    this.seg(ink, 2.3, 2.3, 0, 2.3, 5.5, 0, 26, J);
+    this.seg(ink, 2.3, 5.5, 0, -2.3, 5.5, 0, 36, J);
+    this.seg(ink, -2.3, 5.5, 0, -2.3, 2.3, 0, 26, J);
+    this.seg(ink, -2.3, 3.1, 0, 2.3, 3.1, 0, 30, J);
+    this.seg(ink, -2.3, 3.9, 0, 2.3, 3.9, 0, 30, J);
+    this.seg(ink, -2.3, 4.7, 0, 2.3, 4.7, 0, 30, J);
+    // red pennant at the masthead
+    this.seg(red, 0, 6.2, 0, 0.95, 5.9, 0, 12, 0.04);
+    this.seg(red, 0.95, 5.9, 0, 0, 5.62, 0, 12, 0.04);
+    const group = new T.Group();
+    const mkPts = (arr, color, op) => {
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(arr, 3));
+      const m = new T.PointsMaterial({ color: color, size: 0.17, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+      m.userData = { base: op };
+      group.add(new T.Points(g, m));
+      return m;
+    };
+    this.shipMatInk = mkPts(ink, 0x1F2839, 0.55);
+    this.shipMatRed = mkPts(red, 0xC13A2E, 0.9);
+    group.position.set(62, 0.15, 13);
+    scene.add(group);
+    this.shipGroup = group;
+  }
+
+  // chidori 千鳥 — a few line-drawn plovers
+  buildBirds(T, scene) {
+    const c = document.createElement("canvas");
+    c.width = 96; c.height = 48;
+    const ctx = c.getContext("2d");
+    ctx.strokeStyle = "rgba(31,40,57,0.9)";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(30, 34, 16, Math.PI, Math.PI * 1.78);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(62, 34, 16, Math.PI * 1.22, Math.PI * 2);
+    ctx.stroke();
+    const tex = new T.CanvasTexture(c);
+    this.birds = [];
+    for (let i = 0; i < 6; i++) {
+      const sp = new T.Sprite(new T.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false }));
+      const s = 1.5 + Math.random() * 0.9;
+      sp.scale.set(s, s * 0.5, 1);
+      this.birds.push({
+        sprite: sp,
+        x: -70 + Math.random() * 140,
+        y: 15 + Math.random() * 7,
+        z: -4 + Math.random() * 12,
+        speed: 0.9 + Math.random() * 0.7,
+        f: 0.6 + Math.random() * 0.5,
+        ph: Math.random() * Math.PI * 2,
+        base: 0.2 + Math.random() * 0.15
+      });
+      sp.position.set(this.birds[i].x, this.birds[i].y, this.birds[i].z);
+      scene.add(sp);
+    }
+  }
+
+  buildPrefectures(T, scene) {
+    const prefs = [
+      ["北海道", "HOKKAIDO"], ["青森", "AOMORI"], ["岩手", "IWATE"], ["宮城", "MIYAGI"], ["秋田", "AKITA"],
+      ["山形", "YAMAGATA"], ["福島", "FUKUSHIMA"], ["茨城", "IBARAKI"], ["栃木", "TOCHIGI"], ["群馬", "GUNMA"],
+      ["埼玉", "SAITAMA"], ["千葉", "CHIBA"], ["東京", "TOKYO"], ["神奈川", "KANAGAWA"], ["新潟", "NIIGATA"],
+      ["富山", "TOYAMA"], ["石川", "ISHIKAWA"], ["福井", "FUKUI"], ["山梨", "YAMANASHI"], ["長野", "NAGANO"],
+      ["岐阜", "GIFU"], ["静岡", "SHIZUOKA"], ["愛知", "AICHI"], ["三重", "MIE"], ["滋賀", "SHIGA"],
+      ["京都", "KYOTO"], ["大阪", "OSAKA"], ["兵庫", "HYOGO"], ["奈良", "NARA"], ["和歌山", "WAKAYAMA"],
+      ["鳥取", "TOTTORI"], ["島根", "SHIMANE"], ["岡山", "OKAYAMA"], ["広島", "HIROSHIMA"], ["山口", "YAMAGUCHI"],
+      ["徳島", "TOKUSHIMA"], ["香川", "KAGAWA"], ["愛媛", "EHIME"], ["高知", "KOCHI"], ["福岡", "FUKUOKA"],
+      ["佐賀", "SAGA"], ["長崎", "NAGASAKI"], ["熊本", "KUMAMOTO"], ["大分", "OITA"], ["宮崎", "MIYAZAKI"],
+      ["鹿児島", "KAGOSHIMA"], ["沖縄", "OKINAWA"]
+    ];
+    this.prefSprites = [];
+    this.prefLoop = 188; // total loop length — generous spacing, no bunching
+    const spacing = this.prefLoop / prefs.length;
+    for (let i = 0; i < prefs.length; i++) {
+      const special = prefs[i][1] === "KYOTO";
+      const c = document.createElement("canvas");
+      c.width = 480; c.height = 48;
+      const ctx = c.getContext("2d");
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = special ? "#C13A2E" : "#A89F8D";
+      // refined editorial label: serif numeral + kanji, letterspaced roman
+      ctx.font = "300 25px 'Noto Serif JP', 'Source Serif 4', Georgia, serif";
+      const numKanji = String(i + 1).padStart(2, "0") + "　" + prefs[i][0];
+      ctx.fillText(numKanji, 4, 25);
+      const wNum = ctx.measureText(numKanji).width;
+      ctx.font = "300 17px 'Source Serif 4', Georgia, serif";
+      const roman = "  " + prefs[i][1].split("").join("\u200A\u200A") + (special ? "  · No.26" : "");
+      ctx.fillText(roman, 4 + wNum, 27);
+      const tex = new T.CanvasTexture(c);
+      const mat = new T.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false });
+      const sp = new T.Sprite(mat);
+      sp.scale.set(11, 1.1, 1);
+      sp.center.set(0.5, 0.5);
+      this.prefSprites.push({
+        sprite: sp,
+        special: special,
+        baseY: 11.3,
+        phase: (i / prefs.length) * Math.PI * 2,
+        x: -this.prefLoop / 2 + i * spacing
+      });
+      sp.position.set(this.prefSprites[i].x, 11.3, 0.6);
+      scene.add(sp);
+    }
+  }
+
+  cameraPose(p) {
+    const k = this.keys;
+    let a = k[0], b = k[k.length - 1];
+    for (let i = 0; i < k.length - 1; i++) {
+      if (p >= k[i].p && p <= k[i + 1].p) { a = k[i]; b = k[i + 1]; break; }
+    }
+    const range = Math.max(0.0001, b.p - a.p);
+    let t = (p - a.p) / range;
+    t = t * t * (3 - 2 * t); // smoothstep
+    const lerp = (u, v) => u + (v - u) * t;
+    return {
+      pos: [lerp(a.pos[0], b.pos[0]), lerp(a.pos[1], b.pos[1]), lerp(a.pos[2], b.pos[2])],
+      look: [lerp(a.look[0], b.look[0]), lerp(a.look[1], b.look[1]), lerp(a.look[2], b.look[2])]
+    };
+  }
+
+  loop() {
+    if (!this.alive) return;
+    this.raf = requestAnimationFrame(() => this.loop());
+    if (!this.renderer || !this.camera) return;
+    this.time += 0.016;
+
+    // self-heal canvas size: recover from 0×0 init or container resizes
+    const stage = this.stageRef.current;
+    const w = (stage && stage.clientWidth) || window.innerWidth;
+    const h = (stage && stage.clientHeight) || window.innerHeight;
+    const cur = this.renderer.getSize(new THREE.Vector2());
+    if (w > 0 && h > 0 && (Math.abs(cur.x - w) > 1 || Math.abs(cur.y - h) > 1)) {
+      this.renderer.setSize(w, h);
+      this.camera.aspect = w / h;
+      this.camera.updateProjectionMatrix();
+    }
+
+    // ---------- opening timeline ----------
+    const clamp01 = (v) => Math.min(1, Math.max(0, v));
+    const ss = (v) => { v = clamp01(v); return v * v * (3 - 2 * v); };
+    // user scrolls mid-intro → fast-forward the dissolve
+    if (!this.introDone && this.scrollP > 0.015) {
+      this.introDone = true;
+      if (this.time < 4.4) this.time = 4.4;
+    }
+    const dissolve = ss((this.time - 2.1) / 1.9);        // Act II: solid → ink
+    if (this.solidMat) {
+      this.solidMat.opacity = 1 - dissolve;
+      if (this.solidGroup) this.solidGroup.visible = dissolve < 0.998;
+    }
+    if (this.bridgeMat) this.bridgeMat.opacity = 0.55 * dissolve;
+    if (this.letterMat) this.letterMat.opacity = 0.8 * clamp01((this.time - 3.4) / 1.4);
+    // Act III: the Edo sea wakes — seigaiha, the Nanban ship, chidori
+    if (this.seigaihaMat) this.seigaihaMat.opacity = 0.16 * dissolve;
+    if (this.shipGroup) {
+      const shipF = ss((this.time - 3.8) / 2.2);
+      const u = (this.time * 0.006 + 0.22) % 1;
+      this.shipGroup.position.x = 64 - 128 * u;            // Japan (+x) → EU (−x)
+      this.shipGroup.position.y = 0.15 + Math.sin(this.time * 0.5) * 0.14;
+      this.shipGroup.rotation.z = Math.sin(this.time * 0.42) * 0.025;
+      const edge = Math.min(1, Math.max(0, (58 - Math.abs(this.shipGroup.position.x)) / 10));
+      this.shipMatInk.opacity = this.shipMatInk.userData.base * shipF * edge;
+      this.shipMatRed.opacity = this.shipMatRed.userData.base * shipF * edge;
+    }
+    if (this.birds) {
+      const birdF = ss((this.time - 4.4) / 1.8);
+      for (const b of this.birds) {
+        b.x -= b.speed * 0.016;
+        if (b.x < -72) b.x += 144;
+        b.sprite.position.set(b.x, b.y + Math.sin(this.time * b.f + b.ph) * 0.5, b.z);
+        const edge = Math.min(1, Math.max(0, (66 - Math.abs(b.x)) / 12));
+        b.sprite.material.opacity = b.base * birdF * edge;
+      }
+    }
+
+    const pose = this.cameraPose(this.scrollP);
+    // intro camera: close-up on the deck, pulling back to the wide hero
+    if (!this.introDone && this.time < 5.4) {
+      const dolly = Math.min(1, this.time / 2.4);
+      const cp = [33 - dolly * 7, 10.8, 13 - dolly * 2.5];
+      const cl = [-30, 13.5, -3];
+      const k2 = ss((this.time - 2.0) / 3.2);
+      pose.pos = [cp[0] + (pose.pos[0] - cp[0]) * k2, cp[1] + (pose.pos[1] - cp[1]) * k2, cp[2] + (pose.pos[2] - cp[2]) * k2];
+      pose.look = [cl[0] + (pose.look[0] - cl[0]) * k2, cl[1] + (pose.look[1] - cl[1]) * k2, cl[2] + (pose.look[2] - cl[2]) * k2];
+      if (this.time >= 5.4) this.introDone = true;
+    }
+    // gentle idle drift + mouse parallax (eased in after the close-up)
+    const driftAmt = ss((this.time - 2.2) / 2.4);
+    const driftX = (Math.sin(this.time * 0.18) * 1.4 + this.mx * 3.2) * driftAmt;
+    const driftY = (Math.cos(this.time * 0.14) * 0.8 - this.my * 2.0) * driftAmt;
+    this.camera.position.set(pose.pos[0] + driftX, Math.max(2.5, pose.pos[1] + driftY), pose.pos[2]);
+    this.camera.lookAt(pose.look[0], pose.look[1], pose.look[2]);
+
+    if (this.sunRed) {
+      this.sunRed.position.y = 16 + Math.sin(this.time * 0.25) * 0.7;
+      this.sunBlue.position.y = 13 + Math.cos(this.time * 0.2) * 0.6;
+      this.sunRed.quaternion.copy(this.camera.quaternion);
+      this.sunBlue.quaternion.copy(this.camera.quaternion);
+    }
+    // assemble E·N·N from scattered ink, then let it breathe
+    if (this.letterGeo) {
+      const pos = this.letterGeo.attributes.position.array;
+      const tg = this.letterTargets, st = this.letterStarts, ph = this.letterPhase;
+      let introK = Math.min(1, Math.max(0, (this.time - 3.6) / 2.6));
+      introK = 1 - Math.pow(1 - introK, 3); // ease-out cubic
+      // scroll-driven dissolve → reassemble: whole over the hero, ink while crossing, whole again at arrival
+      const ss = (v) => v * v * (3 - 2 * v);
+      const sp = this.scrollP;
+      let presence;
+      if (sp < 0.05) presence = 1;
+      else if (sp < 0.24) presence = 1 - ss((sp - 0.05) / 0.19);
+      else if (sp < 0.76) presence = 0;
+      else if (sp < 0.94) presence = ss((sp - 0.76) / 0.18);
+      else presence = 1;
+      const k = introK * presence;
+      for (let i = 0; i < ph.length; i++) {
+        const j = i * 3;
+        const wob = k >= 1 ? 1 : k;
+        const bx = st[j] + (tg[j] - st[j]) * k;
+        const by = st[j + 1] + (tg[j + 1] - st[j + 1]) * k;
+        const bz = st[j + 2] + (tg[j + 2] - st[j + 2]) * k;
+        pos[j] = bx + Math.sin(this.time * 0.7 + ph[i]) * 0.06 * wob;
+        pos[j + 1] = by + Math.cos(this.time * 0.55 + ph[i]) * 0.07 * wob;
+        pos[j + 2] = bz + Math.sin(this.time * 0.5 + ph[i] * 1.7) * 0.05 * wob;
+      }
+      this.letterGeo.attributes.position.needsUpdate = true;
+    }
+    // prefecture procession drifting Tokyo (+x) → Lisboa (−x) along the deck
+    if (this.prefSprites) {
+      const half = this.prefLoop / 2;
+      for (let i = 0; i < this.prefSprites.length; i++) {
+        const s = this.prefSprites[i];
+        s.x -= 1.15 * 0.016; // uniform pace — the procession keeps its spacing
+        if (s.x < -half) s.x += this.prefLoop;
+        s.sprite.position.x = s.x;
+        s.sprite.position.y = s.baseY + Math.sin(this.time * 0.4 + s.phase) * 0.1;
+        const edge = Math.min(1, Math.max(0, (56 - Math.abs(s.x)) / 14));
+        const introF = Math.min(1, Math.max(0, (this.time - 4.4) / 1.8));
+        s.sprite.material.opacity = (s.special ? 0.85 : 0.3) * edge * introF;
+      }
+    }
+    if (this.moteGeo) {
+      const arr = this.moteGeo.attributes.position.array;
+      for (let i = 0; i < arr.length; i += 3) {
+        arr[i] += Math.sin(this.time * 0.4 + i) * 0.004;
+        arr[i + 1] += 0.006 + Math.cos(this.time * 0.3 + i) * 0.003;
+        if (arr[i + 1] > 36) arr[i + 1] = -2;
+      }
+      this.moteGeo.attributes.position.needsUpdate = true;
+    }
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  renderVals() {
+    return {
+      stageRef: this.stageRef,
+      tiltRef: this.tiltRef,
+      railRef: this.railRef,
+      cargo: [
+        { kanji: "貿易", name: "Trade & Sourcing", line: "origin to shelf, with care" },
+        { kanji: "進出", name: "Market Entry", line: "properly, not quickly" },
+        { kanji: "紹介", name: "Introductions", line: "vouched for, by name" }
+      ],
+      tiltMove: (e) => {
+        const el = this.tiltRef.current;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = "rotateY(" + (px * 14) + "deg) rotateX(" + (-py * 12) + "deg) translateZ(10px)";
+      },
+      tiltReset: () => {
+        const el = this.tiltRef.current;
+        if (el) el.style.transform = "rotateY(0deg) rotateX(0deg)";
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
