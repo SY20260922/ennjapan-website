@@ -7,992 +7,789 @@
 </head>
 <body>
 <x-dc>
-
 <helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Noto+Serif+JP:wght@300;400;500;600&amp;family=Noto+Sans+JP:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Noto+Serif+JP:wght@300;400;500&amp;family=Noto+Sans+JP:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     body { margin: 0; background: #FFFFFF; }
-    @keyframes ennRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    html { scroll-behavior: smooth; }
     ::selection { background: #1C2A45; color: #FFFFFF; }
-    input, textarea { outline: none; }
-    img, canvas, video { max-width: 100%; }
-    p { overflow-wrap: break-word; }
-    [style*="grid-template-columns"] > * { min-width: 0; }
-    @media (max-width: 1024px) {
+    @keyframes ennFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes ennHint { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
+    img { max-width: 100%; }
+    @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
-      header { flex-wrap: wrap !important; gap: 14px !important; padding: 18px 22px !important; }
-      header nav { display: none !important; }
-      [style*="margin: 0 auto"][style*="48px"] { padding-left: 22px !important; padding-right: 22px !important; }
-      [style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 30px !important; }
-      [style*="gap: 96px"], [style*="gap: 80px"], [style*="gap: 72px"] { gap: 30px !important; }
-      [style*="font-size: 190px"], [style*="font-size: 170px"] { font-size: 96px !important; }
-      [style*="padding: 56px 48px"] { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
-      [style*="white-space: nowrap"] { white-space: normal !important; }
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 34px !important; line-height: 1.14 !important; }
-      h2 { font-size: 26px !important; }
-      [style*="font-size: 44px"], [style*="font-size: 42px"], [style*="font-size: 40px"], [style*="font-size: 38px"] { font-size: 28px !important; line-height: 1.25 !important; }
-      [style*="font-size: 30px"] { font-size: 24px !important; }
-      [style*="font-size: 190px"], [style*="font-size: 170px"] { font-size: 76px !important; }
+      [style*="padding: 24px 40px"] { padding: 15px 18px !important; }
+      [style*="border-left: 1px solid #DFD7C8"] { display: none !important; }
+      [style*="right: 40px"][style*="top: 50%"] { display: none !important; }
+      [style*="blur(16px)"] { padding: 28px 22px !important; max-width: 90vw !important; }
+      [style*="padding: 0 8vw"] { padding-left: 22px !important; padding-right: 22px !important; }
+      h2 { font-size: 25px !important; line-height: 1.28 !important; }
     }
   </style>
 </helmet>
 
-<div style="min-height: 100vh; background: #FFFFFF; color: #1F2839; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans JP', Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-<template id="__bundler_thumbnail">
+<template id="__bundler_thumbnail" style="display: none">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
-    <rect width="400" height="400" fill="#FCFAF6"></rect>
-    <circle cx="150" cy="172" r="18" fill="#2B4C9B"></circle>
-    <rect x="168" y="170.5" width="64" height="3" fill="#1F2839"></rect>
-    <circle cx="250" cy="172" r="18" fill="#C13A2E"></circle>
-    <text x="200" y="250" text-anchor="middle" fill="#1F2839" font-family="Georgia, serif" font-size="30" letter-spacing="2">ENN Japan</text>
-    <text x="200" y="282" text-anchor="middle" fill="#8B8273" font-family="Georgia, serif" font-size="12" letter-spacing="4">JP</text>
+    <rect width="400" height="400" fill="#1C2A45"></rect>
+    <circle cx="140" cy="200" r="20" fill="#2B4C9B"></circle>
+    <rect x="160" y="198.5" width="80" height="3" fill="#EFEBE4"></rect>
+    <circle cx="260" cy="200" r="20" fill="#C13A2E"></circle>
+    <text x="200" y="270" text-anchor="middle" fill="#C9A86A" font-family="Georgia, serif" font-size="34" letter-spacing="8">ENN</text>
   </svg>
 </template>
+<div style="background: #FFFFFF; color: #1F2839; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans JP', Arial, sans-serif; -webkit-font-smoothing: antialiased; font-size: 16px; position: static">
 
-<!-- ================================================================ SECRET PAGE -->
+  <!-- fixed 3D stage -->
+  <div ref="{{ stageRef }}" style="position: fixed; inset: 0; z-index: 0;"></div>
 
-
-<!-- ================================================================ PUBLIC SITE -->
-
-
-  <!-- ============ HEADER ============ -->
-  <header style="max-width: 1320px; margin: 0 auto; padding: 26px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
-    <div onClick="" style="display: flex; align-items: center; gap: 14px; cursor: pointer;">
+  <!-- fixed chrome -->
+  <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; pointer-events: none;">
+    <div style="display: flex; align-items: center; gap: 13px;">
       <div style="display: flex; align-items: center;">
-        <span style="width: 13px; height: 13px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
-        <span style="width: 24px; height: 1.5px; background: #1F2839; display: block;"></span>
-        <span style="width: 13px; height: 13px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        <span style="width: 22px; height: 1.5px; background: #1F2839; display: block;"></span>
+        <span style="width: 12px; height: 12px; border-radius: 50%; background: #C13A2E; display: block;"></span>
       </div>
-      <div>
-        <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; line-height: 1;">ENN Japan</div>
-        <div style="font-size: 9px; letter-spacing: 0.3em; color: #8B8273; margin-top: 4px;">日欧パートナーシップ</div>
+      <span style="font-size: 11px; letter-spacing: 0.3em; font-weight: 500;">ENN JAPAN</span>
+      <span style="font-size: 10px; letter-spacing: 0.22em; color: #8B8273; border-left: 1px solid #DFD7C8; padding-left: 13px;">CONCEPT — THE BRIDGE · 架け橋 - KAKEHASHI</span>
+    </div>
+    <a href="home.html" style="pointer-events: auto; font-size: 10px; letter-spacing: 0.24em; color: #1F2839; text-decoration: none; border: 1px solid #C9C0B0; padding: 10px 16px; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);" style-hover="background: #1F2839; color: #FFFFFF;">メインサイトへ ENTER SITE →</a>
+  </div>
+
+  <!-- progress rail -->
+  <div style="position: fixed; right: 40px; top: 50%; transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+    <span style="font-size: 9px; letter-spacing: 0.26em; color: #8B8273; writing-mode: vertical-rl;">TOKYO 東京</span>
+    <div style="width: 1px; height: 110px; background: #DFD7C8; position: relative;">
+      <div ref="{{ railRef }}" style="position: absolute; top: 0; left: -1.5px; width: 4px; height: 0%; background: #C13A2E;"></div>
+    </div>
+    <span style="font-size: 9px; letter-spacing: 0.26em; color: #8B8273; writing-mode: vertical-rl;">LISBOA リスボン</span>
+  </div>
+
+  <!-- ================== HERO ================== -->
+  <section data-screen-label="3D Hero" style="position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; pointer-events: none; padding: 0 32px 110px;">
+    <div style="animation: ennFade 1.6s ease 4.0s both;">
+      <p style="font-size: 11px; letter-spacing: 0.34em; color: #6B6354; margin: 0 0 18px;">ENN 縁 — THE TIES THAT BIND · TOKYO — LISBOA — LONDON</p>
+      <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.25; margin: 0; letter-spacing: -0.01em;">A considered bridge, <span style="font-style: italic;">crossed slowly.</span></h1>
+      <p style="font-size: 12px; letter-spacing: 0.24em; color: #8B8273; margin: 18px 0 0;">JAPANESE ORIGIN · GLOBAL PERSPECTIVE</p>
+    </div>
+    <div style="position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 0.3em; color: #8B8273; opacity: 0; animation: ennFade 1.2s ease 5.2s forwards, ennHint 2.6s ease-in-out 6.4s infinite;">SCROLL TO CROSS · 渡る ↓</div>
+  </section>
+
+  <!-- ================== TOKYO ================== -->
+  <section data-screen-label="Tokyo" style="position: relative; z-index: 1; min-height: 110vh; display: flex; align-items: center; justify-content: flex-end; padding: 0 8vw; pointer-events: none;">
+    <div style="max-width: 430px; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 44px 48px; pointer-events: auto;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+        <span style="font-size: 10.5px; letter-spacing: 0.3em; color: #C13A2E;">DEPARTURE — TOKYO · 東京</span>
+      </div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Everything begins <span style="font-style: italic;">at origin.</span></h2>
+      <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">ENN Japan Inc. stands on the Japanese side of the bridge — with the producers, the craftsmen, the tea gardens. Origin is held in its own language, on its own terms.</p>
+    </div>
+  </section>
+
+  <!-- ================== THE CROSSING ================== -->
+  <section data-screen-label="Crossing" style="position: relative; z-index: 1; min-height: 120vh; display: flex; align-items: center; justify-content: center; padding: 0 8vw; pointer-events: none;">
+    <div style="max-width: 520px; text-align: center; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 48px 56px; pointer-events: auto;">
+      <div style="font-size: 10.5px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 20px;">MID-SPAN — THE CROSSING · 海と橋の上</div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.3; margin: 0;">What we carry <span style="font-style: italic;">across.</span></h2>
+      <div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; text-align: left;">
+        <sc-for list="{{ cargo }}" as="c" hint-placeholder-count="3">
+          <div style="display: flex; align-items: baseline; gap: 18px; padding: 13px 0; border-top: 1px solid #ECE5D8;">
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">{{ c.kanji }}</span>
+            <span style="font-size: 14px; font-weight: 500;">{{ c.name }}</span>
+            <span style="font-size: 12px; color: #6B6354; margin-left: auto; text-align: right;">{{ c.line }}</span>
+          </div>
+        </sc-for>
+      </div><p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 12.5px; line-height: 1.8; color: #8B8273; margin: 22px 0 0; border-top: 1px solid #ECE5D8; padding-top: 16px;">南蛮貿易 (1543)　　　　　　　　　　　　　　　　　　　　 　　　　　　　　　　　　　　　the first European sail to reach Japan was Portuguese. This route is older than it looks.</p>
+      
+    </div>
+  </section>
+
+  <!-- ================== LISBON ================== -->
+  <section data-screen-label="Lisbon" style="position: relative; z-index: 1; min-height: 110vh; display: flex; align-items: center; justify-content: flex-start; padding: 0 8vw; pointer-events: none;">
+    <div style="max-width: 430px; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 44px 48px; pointer-events: auto;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        <span style="font-size: 10.5px; letter-spacing: 0.3em; color: #2B4C9B;">ARRIVAL — LISBOA &amp; LONDON&nbsp; 欧州・リスボン・ロンドン</span>
+      </div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Europe answers <span style="font-style: italic;">from the Atlantic edge.</span></h2>
+      <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">1716 Industries Lda. holds the European ground — governance, contracts, banking and market operations across the EU and the United Kingdom, from Lisbon to London. One platform, accountable on arrival.</p>
+    </div>
+  </section>
+
+  <!-- ================== SOCIETY 47 ================== -->
+  <section data-screen-label="Society 47 3D" style="position: relative; z-index: 1; min-height: 120vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 8vw; pointer-events: none;">
+    <div style="font-size: 10.5px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 28px;">FIRST CARGO — SOCIETY 47 · JAPAN</div>
+    <div onMouseMove="{{ tiltMove }}" onMouseLeave="{{ tiltReset }}" style="perspective: 1100px; pointer-events: auto; cursor: default;">
+      <div ref="{{ tiltRef }}" style="width: min(620px, 84vw); transform-style: preserve-3d; transition: transform 0.18s ease-out; background: #FFFFFF; border: 1px solid #E5DED2; padding: 16px; box-shadow: 0 40px 80px rgba(31,40,57,0.16);">
+        <img src="assets/kit-tether-mqpgi9jt.jpg" alt="Society 47 — Kyoto No.26 Matcha Ritual Set" style="width: 100%; display: block; opacity: 1; animation: fade in">
+        <div style="display: flex; justify-content: space-between; padding: 14px 6px 4px; font-size: 10px; letter-spacing: 0.2em; color: #8B8273;">
+          <span>KYOTO No.26 — MATCHA RITUAL SET</span>
+          <span>47/1 · FIRST OF FORTY-SEVEN</span>
+        </div>
       </div>
     </div>
-    <nav style="display: flex; align-items: center; gap: 34px;">
-      
-        <span onClick="" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">私たちについて</span>
-      
+    <p style="max-width: 460px; text-align: center; font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 36px 0 0; pointer-events: auto; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 10px 18px;">The first thing carried across this bridge: ceremonial matcha from Uji, Kyoto, made by prominent tea masters, shipped to Europe first.</p>
+  </section>
 
-        <span onClick="" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">パートナーシップ</span>
-      
-
-        <span onClick="" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">サービス</span>
-      
-
-        <span onClick="" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">プロジェクト</span>
-      
-
-        <span onClick="" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">ジャーナル</span>
-      
-    </nav>
-    <div style="display: flex; align-items: center; gap: 22px;">
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; letter-spacing: 0.1em;">
-        <a href="en.html" style="cursor: pointer; font-weight: 300; color: #8B8273; text-decoration: none;">EN</a>
-        <span style="color: #DFD7C8;">|</span>
-        <a href="index.html" style="cursor: pointer; font-weight: 600; color: #1F2839; text-decoration: none;">JP</a>
-        <span style="color: #DFD7C8;">|</span>
-        <a href="pt.html" style="cursor: pointer; font-weight: 300; color: #8B8273; text-decoration: none;">PT</a>
-      </div>
-      <span onClick="" style="background: #1C2A45; color: #FFFFFF; font-size: 11px; letter-spacing: 0.22em; padding: 13px 26px; cursor: pointer;" style-hover="background: #2B4C9B;">お問い合わせ</span>
+  <!-- ================== INVITATION ================== -->
+  <section data-screen-label="Invitation" style="position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 32px; pointer-events: none;">
+    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 36px;">
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+      <span style="width: 64px; height: 1px; background: #1F2839; display: block;"></span>
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
     </div>
-  </header>
-
-  <!-- ================================================================ HOME -->
-  
-    <main data-screen-label="Home">
-
-      <!-- HERO V1 — The Bridge -->
-      
-        <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 80px; align-items: center;">
-          <div style="animation: ennRise 0.9s ease both;">
-            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 36px;">
-              <span style="width: 56px; height: 1px; background: #8B8273; display: block;"></span>
-              <span style="font-size: 11px; letter-spacing: 0.3em; color: #6B6354;">東京 · リスボン・ロンドン</span>
-            </div>
-            <h1 style="font-family: &#39;Source Serif 4&#39;, &#39;Noto Serif JP&#39;, Georgia, serif; font-weight: 400; font-size: 68px; line-height: 1.1; margin: 0; letter-spacing: -0.015em">日本と欧州を結ぶ、<br><span style="font-style: italic;">食文化の架け橋。</span><br></h1>
-            <p style="font-size: 16.5px; line-height: 1.85; color: #4A4538; max-width: 520px; margin: 34px 0 0; width: 555px; height: 62px">ENN Japanは、貿易・食品原料調達・国際市場進出・販売戦略提案を通じて、日本と欧州を結ぶパートナーシップを築いています。</p>
-            <div style="display: flex; align-items: center; gap: 18px; margin-top: 44px;">
-              <span onClick="" style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.2em; padding: 18px 32px; cursor: pointer;" style-hover="background: #2B4C9B;">パートナーシップのご相談 →</span>
-              <span onClick="" style="border: 1px solid #1F2839; font-size: 12px; letter-spacing: 0.2em; padding: 17px 30px; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">サービス一覧</span>
-            </div>
-          </div>
-          <div style="animation: ennRise 0.9s ease 0.15s both;">
-            <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 14px;">
-              <img src="assets/bridge-art-clean.jpg" alt="Bridge between two suns — ink drawing" style="width: 100%; display: block;">
-            </div>
-            <div style="display: flex; justify-content: flex-end;">
-              <div style="border: 1px solid #DFD7C8; border-top: none; background: #FCFAF6; font-size: 10px; letter-spacing: 0.2em; color: #8B8273; padding: 10px 18px;">BRIDGE / 架け橋 / PONTE</div>
-            </div>
-          </div>
-        </section>
-        <section style="max-width: 1320px; margin: 0 auto; padding: 0 48px 72px;">
-          <div style="border-top: 1px solid #DFD7C8; display: flex; gap: 96px; padding-top: 28px;">
-            <div><div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px;">3</div><div style="font-size: 10.5px; letter-spacing: 0.24em; color: #8B8273; margin-top: 4px;">地域</div></div>
-            <div><div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px;">6</div><div style="font-size: 10.5px; letter-spacing: 0.24em; color: #8B8273; margin-top: 4px;">領域</div></div>
-            <div><div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px;">47</div><div style="font-size: 10.5px; letter-spacing: 0.24em; color: #8B8273; margin-top: 4px;">都道府県</div></div>
-          </div>
-        </section>
-      
-
-      <!-- HERO V2 — The Crossing -->
-      
-
-      <!-- HERO V3 — The Ledger -->
-      
-
-      <!-- H2 — The name -->
-      <section style="background: #1C2A45; color: #EFEBE4;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 88px 48px; display: grid; grid-template-columns: 300px 1fr; gap: 72px; align-items: center;">
-          <div style="font-family: 'Noto Serif JP', serif; font-size: 190px; line-height: 1; text-align: center; color: #EFEBE4;">縁</div>
-          <div>
-            <div style="font-size: 11px; letter-spacing: 0.3em; color: #C9A86A; margin-bottom: 22px;">社名について — ENN 縁</div>
-            <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.3; margin: 0; max-width: 640px; white-space: pre-line; width: 646px; height: 153px">海を越えて人と文化を繋ぐ。
-「縁」という日本の美しい言葉に、その想いを込めました。</h2>
-            <p style="font-size: 15px; line-height: 1.9; color: rgba(239,235,228,0.75); max-width: 600px; margin: 26px 0 0; white-space: pre-line;">日本には、「縁（ENN）」を大切にする文化があります。
-出会いは単なる偶然ではなく、　　　　　　　　　　　　　　　　　　　　　　　　　　人と人とのつながりによってうまれるものだと考えられてきました。　　　　　　　　　私たちの商いもまた、その考え方を大切にしています。<br></p><div><br></div><div>すべての商いは、一つの縁から始まる。</div><div><br></div><div>&nbsp;取引の前に関係を築き、自らの名を懸けて薦められるものだけを世界へ届ける。
-<br><br>&nbsp;それが、ENN Japanの原点です。</div><p></p>
-          </div>
-        </div>
-      </section>
-
-      <!-- H3 — Three doors -->
-      <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px 80px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 40px;">私たちの仕事</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px;">
-          
-            <div onClick="" style="border-top: 1px solid #1F2839; padding-top: 22px; cursor: pointer;" style-hover="border-top: 1px solid #C13A2E;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">貿易と原料調達</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">貿易</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0; white-space: pre-line;">日本の農作物の価値を、そのまま世界へ。
-産地や作り手の想いを大切にしながら、　　　　　　　　　　　　日本と欧州をつなぎます。</p>
-              <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">詳しく見る →</div>
-            </div>
-          
-
-            <div onClick="" style="border-top: 1px solid #1F2839; padding-top: 22px; cursor: pointer;" style-hover="border-top: 1px solid #C13A2E;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">市場進出</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">進出</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0; white-space: pre-line;">海外進出を目指す日本企業をサポート。
-日本から欧州へ、欧州から日本へ。現地ネットワークと
-実務経験を活かし、持続可能な市場進出を支援します。</p>
-              <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">詳しく見る →</div>
-            </div>
-          
-
-            <div onClick="" style="border-top: 1px solid #1F2839; padding-top: 22px; cursor: pointer;" style-hover="border-top: 1px solid #C13A2E;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">販売戦略提案</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">戦略</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0; white-space: pre-line;">信頼から始まるパートナーシップ。
-私たちは、人と企業をただ繋ぐだけではなく互いの価値を
-理解した上で、責任を持って最適な出会いを創出します。</p>
-              <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">詳しく見る →</div>
-            </div>
-          
-        </div>
-      </section>
-
-      <!-- H4 — Two cities -->
-      <section style="border-top: 1px solid #DFD7C8; border-bottom: 1px solid #DFD7C8; background: #FCFAF6;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 64px 48px; display: grid; grid-template-columns: 1fr 80px 1fr; align-items: center;">
-          <div>
-            <div style="font-size: 11px; letter-spacing: 0.3em; color: #8B8273;">TOKYO · 東京 — 03:45</div>
-            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px; margin-top: 14px;">ENN Japan Inc.</div>
-            <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; max-width: 380px; margin: 12px 0 0;">産地との関係構築・原料調達・供給までを一貫して担います。<br data-start="595" data-end="598">
-生産者や職人の物語を、世界へ届けます。</p>
-          </div>
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-            <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
-            <span style="width: 1px; height: 48px; background: #1F2839; display: block;"></span>
-            <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 11px; letter-spacing: 0.3em; color: #8B8273;">LISBON · リスボン — 19:45</div>
-            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px; margin-top: 14px;">1716 Industries Lda.</div>
-            <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; max-width: 380px; margin: 12px 0 0 auto;">ENN Japanの欧州戦略パートナーとして、EU・英国市場での事業運営とネットワーク構築を推進しています。</p>
-          </div>
-        </div>
-        <div style="max-width: 1320px; margin: 0 auto; padding: 0 48px 40px; text-align: center;">
-          <span onClick="" style="font-size: 11.5px; letter-spacing: 0.22em; color: #6B6354; cursor: pointer; border-bottom: 1px solid #DFD7C8; padding-bottom: 4px;" style-hover="color: #1F2839;">パートナーシップの構造 →</span>
-        </div>
-      </section>
-
-      <!-- H5 — Society 47 -->
-      <section style="max-width: 1320px; margin: 0 auto; padding: 96px 48px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 80px; align-items: center;">
-        <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 14px;">
-          <img src="assets/society47-key.jpg" alt="Society 47 — Kyoto No.26 Matcha Ritual Set" style="width: 100%; display: block;">
-        </div>
-        <div>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 26px;">
-            <span style="width: 10px; height: 10px; border-radius: 50%; background: #C13A2E; display: block;"></span>
-            <span style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; font-weight: 500;">Upcoming Project — SOCIETY 47 · JAPAN</span>
-          </div>
-          <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 44px; line-height: 1.2; margin: 0;">47都道府県を巡る旅は、<div><span style="font-style: italic;">京都から始まる。</span></div></h2>
-          <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 500px; margin: 26px 0 0;"></p><p data-start="216" data-end="261">Society 47は、日本各地の風土と文化を　　　　　　　　　　　　　　　　　　　　　世界へ届けるために生まれた日英共同パイロットプロジェクトです。</p>
-<p data-start="263" data-end="313">第一章となる「京都 No.26」は　　　　　　　　　　　　　　　　　　　　　　　　　抹茶文化の中心地である京都をテーマにしたスターターコレクション。</p><p></p>
-<p data-start="315" data-end="364">英国でのKickstarterローンチを皮切りに、　　　　　　　　　　　　　　　　　　　　47都道府県それぞれの物語を巡る旅が始まります。</p><p></p>
-          <div style="margin-top: 36px;">
-            <span onClick="" style="border: 1px solid #1F2839; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">プロジェクトを見る</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- H6 — Journal preview -->
-      <section style="max-width: 1320px; margin: 0 auto; padding: 0 48px 96px;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #1F2839; padding-bottom: 14px;">
-          <span style="font-size: 11px; letter-spacing: 0.3em; color: #6B6354;">Journal</span>
-          <span onClick="" style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; cursor: pointer;" style-hover="color: #1F2839;">すべての記事 →</span>
-        </div>
-        
-          <div onClick="" style="display: grid; grid-template-columns: 140px 130px 1fr; gap: 24px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid #ECE5D8; cursor: pointer;" style-hover="background: #FCFAF6;">
-            <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">2026年6月</span>
-            <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">出所</span>
-            <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 21px;">本物のラグジュアリー体験を提供する。</span>
-          </div>
-        
-
-          <div onClick="" style="display: grid; grid-template-columns: 140px 130px 1fr; gap: 24px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid #ECE5D8; cursor: pointer;" style-hover="background: #FCFAF6;">
-            <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">2026年5月</span>
-            <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">文化</span>
-            <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 21px;">故郷・京都が教えてくれた哲学</span>
-          </div>
-        
-      </section>
-    </main>
-  
-
-  <!-- ================================================================ ABOUT -->
-  
-    <main data-screen-label="About" style="animation: ennRise 0.7s ease both;">
-      <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E">01 — 私たちについて</div>
-        <div>
-          <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;"><span style="color: rgb(239, 235, 228); font-size: 46px; background-color: rgb(31, 40, 57);">日本の縁を。</span><br style="color: rgb(239, 235, 228); font-size: 46px; background-color: rgb(31, 40, 57);"><span style="font-size: 46px; background-color: rgb(31, 40, 57); font-style: italic; color: rgb(201, 168, 106);">世界と繋ぐ。</span></h1>
-          <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 600px; margin: 32px 0 0;"></p><p data-start="702" data-end="729">私たちは、日本と欧州を結ぶ小さなパートナーシップです。</p>
-<p data-start="734" data-end="766">紹介によってつながり、信頼によって育ち、産地の近くに立ち続ける。</p>
-<p data-start="771" data-end="808">商品だけでなく、その背景にある文化や想いまで届けることを使命としています。</p><p></p>
-        </div>
-      </section>
-
-      <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 72px; align-items: center;">
-          <div style="font-family: 'Noto Serif JP', serif; font-size: 170px; line-height: 1; color: #C13A2E; text-align: center;">縁</div>
-          <div>
-            <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.35; margin: 0; max-width: 620px; background-color: #c13b2e; color: #ffffff">縁──運命、繋がり。<br>出会うべき人と人を結ぶ見えない糸。</h2>
-            <p style="font-size: 14.5px; line-height: 1.95; color: #4A4538; max-width: 640px; margin: 24px 0 0;"></p><p data-start="614" data-end="642">この言葉に、完全に対応する外国語はありません。日本の農家と茶匠と仕事をする。</p><p data-start="675" data-end="720">私たちは、それを「縁」と呼びます。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　縁とは、人脈ではなく信頼の積み重ねによって生まれる関係性の基盤です。</p>
-<p data-start="786" data-end="810">私たちはこの名を、守るべき基準として選びました。お受けするすべての仕事は、　　　　　　　　　　　　　　　　　　　　　　　新しい縁を生むものでなければなりません。</p>
-<p data-start="853" data-end="897">生産者と店頭の間に。<br data-start="863" data-end="866">
-お客様と商品の間に。<br data-start="878" data-end="881">
-遠く離れた二つの文化の間に。</p>
-<p data-start="902" data-end="927"><strong data-start="902" data-end="927">その距離を縮めることが、私たちの仕事です。</strong></p><p></p>
-            <p style="font-size: 14.5px; line-height: 1.95; color: #4A4538; max-width: 640px; margin: 16px 0 0;"><br></p>
-          </div>
-        </div>
-      </section>
-
-      <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 44px;">原則</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px 80px;">
-          
-            <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">縁</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">縁</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">良い仕事は、良い関係から始まる。　　　　　　　　　　　　　　　　　　　　私たちは紹介によってつながり、信頼によって成長します。</p>
-            </div>
-          
-
-            <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">産地</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">産地</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">私たちは、どこで、誰が、どのように作ったのかを大切にします。　　　　　　商品の背景にある物語もまた、価値の一部だと考えています。</p>
-            </div>
-          
-
-            <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">時機</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">時機</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">すべてには適した時があります。　　　　　　　　　　　　　　　　　　　　　急ぐべき時と待つべき時を見極め、長く続く関係を築きます。</p>
-            </div>
-          
-
-            <div style="border-top: 1px solid #1F2839; padding-top: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">節度</h3>
-                <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">節度</span>
-              </div>
-              <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">できないことは約束しない。派手な言葉よりも、　　　　　　　　　　　　　　積み重ねられた実績を大切にします。</p>
-            </div>
-          
-        </div>
-      </section>
-
-      <section style="border-top: 1px solid #DFD7C8;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
-          <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 44px;">代表　FOUNDERS</div>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;">
-            <div>
-              <div style="aspect-ratio: 4 / 5; background-image: url(&quot;./assets/founder-yaguchi.jpg&quot;); background-size: cover; background-position: center 28%; background-repeat: no-repeat; border: 1px solid #DFD7C8;"></div>
-              <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; margin-top: 18px;">矢口 翔大 — 東京</div>
-              <div style="font-size: 12.5px; color: #8B8273; margin-top: 6px; line-height: 1.7;">ENN Japan株式会社 Founder · ブランディングリード
-　　　　　　　　　　　　　　日本側オペレーション構築</div>
-            </div>
-            <div>
-              <div style="aspect-ratio: 4 / 5; background-image: url(&quot;./assets/founder-taz.jpg&quot;); background-size: cover; background-position: center 28%; background-repeat: no-repeat; border: 1px solid #DFD7C8;"></div>
-              <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; margin-top: 18px;">Taz Kha'lique — リスボン</div>
-              <div style="font-size: 12.5px; color: #8B8273; margin-top: 6px; line-height: 1.7;">1716 Industries Lda. Founder · 欧州市場開拓・ガバナンス、物流運営。</div>
-            </div>
-            <div>
-              <div style="aspect-ratio: 4 / 5; background-image: url(&quot;./assets/founder-sita.jpg&quot;); background-size: cover; background-position: center 28%; background-repeat: no-repeat; border: 1px solid #DFD7C8;"></div>
-              <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; margin-top: 18px;">Sita Sojitra — ロンドン</div>
-              <div style="font-size: 12.5px; color: #8B8273; margin-top: 6px; line-height: 1.7;">1716 Industries Lda. Co-founder · LAB16技術主査  欧州市場開拓</div>
-            </div>
-          </div>
-        </div>
-        <div style="max-width: 1320px; margin: 0 auto; padding: 0 48px 64px;">
-          
-        <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 17px; color: #6B6354; margin: 0;">東京とリスボンとロンドン。三人の代表が、日本と欧州をつなぎます。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　All communication between Japan and Europe is coordinated through our regional leadership.</p></div>
-      </section>
-
-      <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-          <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">沿革</div>
-          <div>
-            
-              <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">2026年 春</span>
-                <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">東京とリスボンを拠点とするパートナーシップ構想を策定。<br data-start="132" data-end="135">
-事業範囲、運営体制、ブランド戦略について基本合意。</span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">2026年 6月</span>
-                <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">ENN Japan株式会社　　　　日本法人設立<br>1716 Industries Lda.&nbsp; &nbsp; ポルトガル法人設立</span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">2026年7月-9月</span>
-                <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">Society 47 — 47都道府県コレクション第一弾「京都 No.26」を欧州向けに開発中。</span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 170px 1fr; gap: 32px; padding: 20px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">2026年秋</span>
-                <span style="font-size: 14px; line-height: 1.75; color: #4A4538;">日本各地の産地と文化を、一つひとつ丁寧に世界へ届ける。<br data-start="345" data-end="348">
-四十七の物語を紡いでいく長い旅の始まり。</span>
-              </div>
-            
-          </div>
-        </div>
-      </section>
-
-      <section style="background: #1C2A45; color: #EFEBE4;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
-          <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">パートナーシップ構造──二つの法人、一つのプラットフォーム。</div>
-          <span onClick="" style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">パートナーシップ →</span>
-        </div>
-      </section>
-    </main>
-  
-
-  <!-- ================================================================ PARTNERSHIP -->
-  
-    <main data-screen-label="Partnership" style="animation: ennRise 0.7s ease both;">
-      <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">02 — パートナーシップ</div>
-        <div>
-          <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">三つの都市、<br><span style="font-style: italic;">一つの基盤。</span></h1>
-          <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 620px; margin: 32px 0 0;">ENN Japan株式会社（東京）と1716 Industries Lda.（リスボン）は　　　　　　　　2026年より戦略的パートナーシップを締結しています。一方は産地の近くに、　　　　他方は欧州のオーディエンス獲得・商取引における法的基盤として機能しています。</p>
-        </div>
-      </section>
-
-      <!-- P2 structure diagram -->
-      <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
-        
-      <div style="max-width: 980px; margin: 0 auto; padding: 92px 48px 100px;">
-          <div style="text-align: center; font-size: 11px; letter-spacing: 0.34em; color: #C13A2E; margin-bottom: 10px;">組織構成</div>
-          <div style="text-align: center; font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 30px; color: #1F2839; margin-bottom: 66px;">パートナーシップ体制</div>
-
-          <div style="text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 34px;">STRATEGIC PARTNERSHIP &middot; 戦略的パートナーシップ</div>
-          <div style="display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center;">
-            <div style="text-align: center; padding: 0 40px;">
-              <img src="assets/logo-enn-japan.png" alt="ENN Japan" style="height: 30px; width: auto; display: block; margin: 0 auto 20px;">
-              <div style="font-size: 10.5px; letter-spacing: 0.14em; color: #6B6354; line-height: 1.7;">ブランディング・プラットフォーム ・ 日本側オリジネーター</div>
-              <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">東京・銀座 ・ ENN Japan として展開</div>
-            </div>
-            <div style="background: #E2DACB; align-self: stretch; width: 1px;"></div>
-            <div style="text-align: center; padding: 0 40px;">
-              <img src="assets/logo-1716.png" alt="1716 Industries Lda" style="height: 32px; width: auto; display: block; margin: 0 auto 18px;">
-              <div style="font-size: 10.5px; letter-spacing: 0.14em; color: #6B6354; line-height: 1.7;">欧州ディストリビューション ・ 法人</div>
-              <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">リスボン ・ 1701 Industries として展開</div>
-            </div>
-          </div>
-
-          <div style="display: flex; justify-content: center; margin: 44px 0;"><div style="width: 1px; height: 60px; background: #E2DACB;"></div></div>
-
-          <div style="max-width: 540px; margin: 0 auto; border: 1px solid #DFD7C8; background: #FFFFFF; padding: 36px 40px 40px; text-align: center;">
-            <div style="font-size: 10px; letter-spacing: 0.26em; color: #C13A2E; margin-bottom: 28px;">ブランドルート ・ 1701 INDUSTRIES 傘下</div>
-            <img src="assets/logo-society47.png" alt="Society 47 Japan" style="width: 300px; max-width: 78%; height: auto; display: block; margin: 0 auto;">
-            <div style="font-size: 11px; letter-spacing: 0.14em; color: #6B6354; margin-top: 26px;">英国 / EU 市場 ・ 抹茶ウェルネスブランド</div>
-          </div>
-
-          <div style="display: flex; justify-content: center; margin: 44px 0;"><div style="width: 1px; height: 60px; background: #E2DACB;"></div></div>
-
-          <div style="text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 34px;">OPERATIONAL BACKBONE &middot; 運用基盤</div>
-          <div style="display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center;">
-            <div style="text-align: center; padding: 0 40px;">
-              <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 22px; color: #1F2839; line-height: 1.4;">全国47都道府県の茶匠</div>
-              <div style="font-size: 10.5px; letter-spacing: 0.14em; color: #6B6354; margin-top: 14px; line-height: 1.7;">供給 ・ 品質認証 ・ トレーサビリティ ・ OEM</div>
-              <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">宇治・静岡・鹿児島・宮崎</div>
-            </div>
-            <div style="background: #E2DACB; align-self: stretch; width: 1px;"></div>
-            <div style="text-align: center; padding: 0 40px;">
-              <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; color: #1F2839; line-height: 1.4;">MAXET CO., LTD.</div>
-              <div style="font-size: 10.5px; letter-spacing: 0.14em; color: #6B6354; margin-top: 14px; line-height: 1.7;">航空・海上輸送 ・ 通関 ・ 追跡</div>
-              <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">神奈川県横浜市</div>
-            </div>
-          </div>
-
-          <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 16px; color: #6B6354; text-align: center; max-width: 720px; margin: 72px auto 0; line-height: 1.85;">パートナーシップが構造を成し、ブランドルートが消費者へ届く。運用基盤が、その両方を支えています。</p>
-        </div></section>
-
-      <!-- P3 entity profiles -->
-      <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px;">
-          <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 44px 48px;">
-            <img src="assets/enn-japan-logo.png" alt="ENN Japan" style="height: 50px; display: block; mix-blend-mode: multiply; width: 200px">
-            <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273; margin: 26px 0 14px;">TOKYO · 東京</div>
-            <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">日本法人。ENN Japan株式会社は生産者との関係構築、調達、輸送を担当します。輸送は、株式会社MAXETと提携、全世界へのロジスティクスを可能にします。</p>
-            <div style="margin-top: 28px; border-top: 1px solid #ECE5D8;">
-              
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">法人</span><span style="color: #4A4538;">ENN Japan 株式会社</span>
-                </div>
-              
-
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">管轄</span><span style="color: #4A4538;">日本 — 本店所在地：東京都中央区銀座1-12-4 N&amp;E BLD. 7階</span>
-                </div>
-              
-
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">役割</span><span style="color: #4A4538;">産地、調達、ロジスティックス、ブランディング</span>
-                </div>
-              
-
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">準拠法</span><span style="color: #4A4538;">会社法（日本法）</span>
-                </div>
-              
-            </div>
-          </div>
-          <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 44px 48px;">
-            <img src="./1716-industries-lda-mqpmeu1p.png" alt="1716 Industries Lda" style="height: 40px; display: block; mix-blend-mode: multiply; object-fit: fill">
-            <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273; margin: 30px 0 14px;">LISBON · リスボン</div>
-            <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">欧州のプラットフォーム。1716 Industries Lda.はポルトガルの法人として&nbsp; &nbsp; &nbsp; &nbsp; EU・英国全域のガバナンス、顧客開拓、契約、銀行業務、市場運営を担います。</p>
-            <div style="margin-top: 28px; border-top: 1px solid #ECE5D8;">
-              
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">法人</span><span style="color: #4A4538;">1716 Industries Lda.</span>
-                </div>
-              
-
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">管轄</span><span style="color: #4A4538;">ポルトガル — リスボン</span>
-                </div>
-              
-
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">商号</span><span style="color: #4A4538;">1701 Industries · LAB16</span>
-                </div>
-              
-
-                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
-                  <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">役割</span><span style="color: #4A4538;">EUの法的基盤、契約、市場運営</span>
-                </div>
-              
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- P4 what this enables -->
-      <section style="border-top: 1px solid #DFD7C8;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-          <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">この構造が可能にすること</div>
-          <div>
-            
-              <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">一</span>
-                <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><h3 data-section-id="7pm1d2" data-start="221" data-end="243">欧州と日本、両地域に根ざした事業運営</h3>
-<p data-start="245" data-end="293">欧州では1716 Industriesが、<br>
-日本ではENN Japanが責任を持って活動します。</p>
-<p data-start="295" data-end="320">それぞれの地域に根ざした判断と実行を可能にします。</p></span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">二</span>
-                <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><h3 data-section-id="14x66yu" data-start="333" data-end="348">生産者との関係</h3>
-<p data-start="350" data-end="367">私たちは仲介情報だけに頼りません。</p>
-<p data-start="369" data-end="401">生産者や産地と直接向き合い、<br>
-その声を聞きながら事業を進めます。</p></span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">三</span>
-                <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><h3 data-section-id="m4znt" data-start="414" data-end="429">専門性に応じた独立運営</h3>
-<p data-start="431" data-end="469">文化・食品・ヘルスケア・ライフスタイル事業と、<br>
-その他の事業領域は明確に分離しています。</p>
-<p data-start="471" data-end="489">それぞれに適した体制で運営されます。</p></span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">四</span>
-                <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><h3 data-section-id="195ydws" data-start="502" data-end="518">ブランドと知的財産の保護</h3>
-<p data-start="520" data-end="555">すべてのブランドは、<br>
-契約と知的財産権によって適切に管理されています。</p>
-<p data-start="557" data-end="574">長期的な価値を守るための基盤です。</p></span>
-              </div>
-            
-
-              <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
-                <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #C13A2E;">五</span>
-                <span style="font-size: 15px; line-height: 1.75; color: #1F2839;"><h3 data-section-id="164qnbh" data-start="587" data-end="603">国境を越えたネットワーク</h3>
-<p data-start="605" data-end="645">日本と欧州の双方で、<br>
-金融機関、物流会社、専門家へアクセスできます。</p>
-<p data-start="647" data-end="677">必要な時に、必要な場所で支援を受けられる体制を整えています。</p></span>
-              </div>
-            
-          </div>
-        </div>
-      </section>
-
-      <section style="background: #1C2A45; color: #EFEBE4;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
-          <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">抹茶輸出を検討されているお客様へ</div>
-          <span onClick="" style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">ご相談ください →</span>
-        </div>
-      </section>
-    </main>
-  
-
-  <!-- ================================================================ SERVICES -->
-  
-    <main data-screen-label="Services" style="animation: ennRise 0.7s ease both;">
-      <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">03 — サービス</div>
-        <div>
-          <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">六つの領域、<br><span style="font-style: italic;">一つの流儀。</span></h1>
-          <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 600px; margin: 32px 0 0;"></p><p data-start="685" data-end="709">私たちは量ではなく、深さによって価値を生みます。</p>
-<p data-start="714" data-end="749">それぞれの領域において、少数のパートナーと長期的な関係を築いています。</p><p></p>
-        </div>
-      </section>
-
-      
-
-      <section style="background: #FCFAF6; border-top: 1px solid #DFD7C8; margin-top: 72px;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
-          <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 44px;">（一例）抹茶販売の進め方</div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0;">
-            
-              <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
-                <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">一</div>
-                <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">相談</div>
-                <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">まずはお気軽にご連絡ください。　　　　　　ロット数・使用用途などをヒアリングします。</p>
-              </div>
-            
-
-              <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
-                <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">二</div>
-                <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">見積</div>
-                <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">ロット数に応じた柔軟な価格設計と　　　　　　　輸送が可能です。</p>
-              </div>
-            
-
-              <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
-                <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">三</div>
-                <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">輸送</div>
-                <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;">信頼するロジスティクスパートナーと共に<br>お客様へ輸送をします。</p>
-              </div>
-            
-
-              <div style="border-left: 1px solid #DFD7C8; padding: 4px 32px 4px 28px;">
-                <div style="font-family: 'Noto Serif JP', serif; font-size: 22px; color: #C13A2E;">四</div>
-                <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; margin-top: 10px;">納品</div>
-                <p style="font-size: 12.5px; line-height: 1.75; color: #6B6354; margin: 10px 0 0;"></p><div><span style="color: rgb(107, 99, 84); font-size: 12.5px;">継続的なお取引にむけて<br>フォローアップをして参ります。</span></div><p></p>
-              </div>
-            
-          </div>
-          <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 17px; color: #6B6354; margin: 48px 0 0;">私たちはお受けする以上にお断りしています。希少性のためではなく、すべての紹介に私たちの名が伴うからです。</p>
-        </div>
-      </section>
-
-      <section style="background: #1C2A45; color: #EFEBE4;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
-          <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">茶農園・農家の皆様・輸出パートナーをお探しのお客様へ</div>
-          <span onClick="" style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">ご相談を始める →</span>
-        </div>
-      </section>
-    </main>
-  
-
-  <!-- ================================================================ PROJECTS -->
-  
-    <main data-screen-label="Projects" style="animation: ennRise 0.7s ease both;">
-      <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">04 — プロジェクト</div>
-        <div>
-          <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">４７都道府県の<br>魅力を詰め込んだプロジェクト。</h1><p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 560px; margin: 32px 0 0;">我々が2025年より準備を進める、
-Society 47抹茶プロジェクトをご紹介します。</p>
-          
-        </div>
-      </section>
-
-      <!-- J2 Society 47 case study -->
-      <section style="border-top: 1px solid #1F2839; background: #FCFAF6;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
-            <span style="width: 10px; height: 10px; border-radius: 50%; background: #C13A2E; display: block;"></span>
-            <span style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; font-weight: 500;">注目プロジェクト</span>
-          </div>
-          <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 72px;">
-            <div>
-              <img src="assets/society47-featured.jpg" alt="Society 47 — Kyoto No.26 ritual set" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
-            </div>
-            <div>
-              <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 42px; line-height: 1.2; margin: 0;">Society 47 <span style="font-style: italic; color: #6B6354;">— Japan</span></h2>
-              
-              <p style="line-height: 1.9; color: #4A4538; margin: 26px 0 0"></p><h3 data-start="222" data-end="246">47都道府県を巡る旅は、京都から始まる。</h3>
-<p data-start="248" data-end="293">Society 47は、日本各地の風土や文化を世界へ届けるために<br>生まれたコレクションです。</p>
-<p data-start="295" data-end="356">都道府県ごとに一つの作品をつくるように、<br>土壌の個性、生産者の想い、<br>受け継がれてきた技術を一つのプロダクトに込めています。</p>
-<p data-start="358" data-end="402">第一章となる「京都 No.26」は、<br>京都の抹茶文化をテーマにしたスターターコレクション。</p>
-<p data-start="404" data-end="448">抹茶、茶筅、石臼焼の器。<br>
-一服の体験を通して、その土地の美意識に触れるためのセットです。</p><p></p>
-              <div style="margin-top: 36px; border-top: 1px solid #DFD7C8;">
-                
-                  <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
-                    <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">産地</span>
-                    <span style="font-size: 13.5px; color: #1F2839;">京都府・宇治</span>
-                  </div>
-                
-
-                  <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
-                    <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">主題</span>
-                    <span style="font-size: 13.5px; color: #1F2839;">日本産・抹茶文化の体験創出</span>
-                  </div>
-                
-
-                  <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
-                    <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">製造</span>
-                    <span style="font-size: 13.5px; color: #1F2839;">農園から最終包装まで100%日本国内で製造</span>
-                  </div>
-                
-
-                  <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
-                    <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">ルート</span>
-                    <span style="font-size: 13.5px; color: #1F2839;">英国・欧州</span>
-                  </div>
-                
-
-                  <div style="display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid #ECE5D8;">
-                    <span style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">運営</span>
-                    <span style="font-size: 13.5px; color: #1F2839;">ENN Japan × 1716 Industries</span>
-                  </div>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- J3 provenance -->
-      <section style="max-width: 1320px; margin: 0 auto; padding: 88px 48px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center;">
-        <div>
-          <div style="font-size: 10px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 24px">⚫︎ 産地証明</div>
-          <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 40px; line-height: 1.22; margin: 0;">証明を、製品とともに。</h2>
-          <p style="font-size: 14.5px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 26px 0 0;"></p><p data-start="580" data-end="610">私たちは「日本製」という言葉だけでは十分だと考えていません。<br>誰が、どこで、どのようにつくったのか。<br>その背景まで届けてこそ、本当の価値が伝わると考えています。<br>Society 47では、産地情報、生産者情報、製造履歴などを整理し、<br>製品とともに提供する仕組みを構築しています。</p><p></p>
-          <p style="font-size: 14.5px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 16px 0 0;"></p><h3 data-start="729" data-end="742">次世代の品質評価へ向けて</h3>
-<p data-start="744" data-end="784">将来的には、物理分析やデータ活用による独自の品質評価基盤の構築を<br>目指しています。</p>
-<p data-start="786" data-end="813">感覚だけでなく、記録と検証によって品質を語れる市場へ。</p>
-<p data-start="815" data-end="845">それは生産者を守り、消費者の信頼を育てるための取り組みです。</p><p></p>
-        </div>
-        <div style="aspect-ratio: 4 / 3; background: url(&quot;assets/provenance.jpg&quot;) center / cover no-repeat; border: 1px solid #DFD7C8;">
-          
-        </div>
-      </section>
-
-      <!-- J4 collection gallery -->
-      <section style="border-top: 1px solid #DFD7C8;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px;">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
-            <span style="width: 10px; height: 10px; border-radius: 50%; background: #C13A2E; display: block;"></span>
-            <span style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; font-weight: 500;">コレクションの世界</span>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;">
-            <figure style="margin: 0;">
-              <img src="assets/society47-origin-map.jpg" alt="Society 47 — 47都道府県 産地マップ" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
-              <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">47 ORIGINS · ONE JAPAN — 産地マップ</figcaption>
-            </figure>
-            <div style="display: grid; gap: 28px;">
-              <figure style="margin: 0;">
-                <img src="assets/society47-47prefectures.jpg" alt="Society 47 — 47都道府県コレクション" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
-                <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">THE 47 PREFECTURES — コレクション全体像</figcaption>
-              </figure>
-              <figure style="margin: 0;">
-                <img src="assets/society47-manhole.jpg" alt="Society 47 — マンホールデザイン" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
-                <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">JAPAN 47 — マンホールデザイン</figcaption>
-              </figure>
-            </div>
-          </div>
-          <div style="margin-top: 64px;">
-            <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400; margin-bottom: 28px;">Society 47 <span style="font-style: italic; color: #6B6354;">— London Pop-In, Soho</span></div>
-            <div style="display: grid; gap: 28px;">
-              <figure style="margin: 0;">
-                <img src="assets/society47-popin-soho.jpg" alt="Society 47 — London Pop-In at Soho" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
-                <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">KYOTO / UJI NO.26 — ロンドン・ソーホー ポップイン</figcaption>
-              </figure>
-              <figure style="margin: 0;">
-                <img src="assets/society47-popin-represent.jpg" alt="Society 47 — Represent Soho リミテッドカプセル" style="width: 100%; display: block; border: 1px solid #DFD7C8;">
-                <figcaption style="font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273; margin-top: 14px;">REPRESENT SOHO — リミテッドエディション カプセル</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section style="background: #1C2A45; color: #EFEBE4;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
-          <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px; font-weight: 400;">茶農園・農家の皆様・輸出パートナーをお探しのお客様へ</div>
-          <span onClick="" style="border: 1px solid #EFEBE4; font-size: 12px; letter-spacing: 0.2em; padding: 16px 28px; cursor: pointer; white-space: nowrap;" style-hover="background: #EFEBE4; color: #1C2A45;">対話を始める →</span>
-        </div>
-      </section>
-    </main>
-  
-
-  <!-- ================================================================ JOURNAL -->
-  
-    <main data-screen-label="Journal" style="animation: ennRise 0.7s ease both;">
-      <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 56px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
-        <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">05 — ジャーナル</div>
-        <div>
-          <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">日本ブランドを再定義する</h1>
-          <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 540px; margin: 30px 0 0;">貿易、文化、そして東京とリスボン・ロンドンの国際ビジネスにおける<br>不定期の随筆。（随時更新予定）</p>
-        </div>
-      </section>
-
-      <!-- featured -->
-      <section style="border-top: 1px solid #1F2839; background: #FCFAF6;">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 72px 48px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center;">
-          <div style="aspect-ratio: 5 / 4; background: url(&quot;assets/journal-essay.jpg&quot;) center / cover no-repeat; border: 1px solid #DFD7C8;">
-            
-          </div>
-          <div>
-            <div style="display: flex; gap: 20px; font-size: 11px; letter-spacing: 0.2em; color: #C13A2E; margin-bottom: 22px;">
-              <span>巻頭随筆</span><span style="color: #8B8273;">2026年6月 · 出所</span>
-            </div>
-            <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 42px; line-height: 1.2; margin: 0;">本物の日本産とは何か？</h2>
-            <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 24px 0 0;">世界の日本由来のフードブランドにおける
-日本人オーナーの不在に終止符を打とう。</p>
-            <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 28px;">随筆を読む →</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- index -->
-      <section style="max-width: 1320px; margin: 0 auto; padding: 64px 48px 80px;">
-        
-          <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
-            <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">2026年5月</span>
-            <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">文化</span>
-            <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">故郷・京都が教えてくれた哲学</span>
-            <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">CEO矢口の出身地、京都という街が10代と20代の頃教えてくれた哲学を語る。</span>
-          </div>
-        
-
-          
-        
-
-          <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
-            <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">2026年4月</span>
-            <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">書簡</span>
-            <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">リスボンからの手紙</span>
-            <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">リスボンから見た日本。日本と欧州は思っているほど遠くありません。　　　
-海の向こうから見える日本と、日本から見える欧州について。</span>
-          </div>
-        
-
-          <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
-            <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">2026年4月</span>
-            <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">ブランド哲学</span>
-            <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">Society 47に込められた想い</span>
-            <span style="font-size: 13px; line-height: 1.75; color: #6B6354;">四十七都道府県ごとに異なる文化。土地ごとに異なる味、異なる風景、異なる方言。その個性をどう世界へ届けるか。</span>
-          </div>
-        
-
-          <div style="display: grid; grid-template-columns: 150px 140px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline; cursor: pointer;" style-hover="background: #FCFAF6;">
-            <span style="font-size: 11px; letter-spacing: 0.14em; color: #8B8273;">2026年3月</span>
-            <span style="font-size: 11px; letter-spacing: 0.18em; color: #C13A2E;">抹茶</span>
-            
-            <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; line-height: 1.35;">抹茶は、点てるもの</span><span style="font-size: 13px; line-height: 1.75; color: #6B6354;">創業者の出身地、京都。抹茶は、なぜ京都から始まるのか。　　　　　　　　　　　　　　　　　　　私たちが最初のコレクションに京都を選んだ理由。　　　　　　　　　　　　抹茶そのものではなく、その背景にある文化について。</span>
-          </div>
-        
-        <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 16px; color: #8B8273; margin: 44px 0 0;">ジャーナルはパートナーシップが執筆し、英語と日本語で不定期に発行します。</p>
-      </section>
-    </main>
-  
-
-  <!-- ================================================================ CONTACT -->
-  
-    <main data-screen-label="Contact" style="animation: ennRise 0.7s ease both;">
-      <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 88px; display: grid; grid-template-columns: 1fr 1.15fr; gap: 96px;">
-        <div>
-          <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 28px;">06 — お問い合わせ</div>
-          <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 56px); line-height: 1.16; margin: 0;">対話を<br><span style="font-style: italic;">始める。</span></h1>
-          <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 440px; margin: 30px 0 0;"><strong data-start="832" data-end="862">すべてのお問い合わせには、代表者が直接目を通します。　　　　</strong><strong data-start="867" data-end="889">通常5営業日以内にご返信いたします。</strong></p>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 64px; border-top: 1px solid #DFD7C8; padding-top: 36px;">
-            <div>
-              <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273;">TOKYO · 東京 — 03:45</div>
-              <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; margin-top: 12px;">ENN Japan Inc.</div>
-              <div style="font-size: 12.5px; line-height: 1.8; color: #6B6354; margin-top: 8px;">東京都中央区銀座1-12-4 N&amp;E BLD. 7階<br>info@ennjapan.com</div>
-            </div>
-            <div>
-              <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273;">LISBON · リスボン — 19:45</div>
-              <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; margin-top: 12px;">1716 Industries Lda.</div>
-              <div style="font-size: 12.5px; line-height: 1.8; color: #6B6354; margin-top: 8px;">リスボン — 住所は紹介の際にお伝えします。<br>info@1716industries.eu</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 52px 56px;">
-          
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px;">
-              <div>
-                <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">お名前</div>
-                <input style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
-              </div>
-              <div>
-                <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">会社名・ご所属</div>
-                <input style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
-              </div>
-              <div>
-                <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">メールアドレス</div>
-                <input style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
-              </div>
-              <div>
-                <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">地域</div>
-                <input placeholder="日本 / 欧州 / その他" style="width: 100%; box-sizing: border-box; border: none; border-bottom: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 8px 0; font-family: inherit; color: #1F2839;" style-focus="border-bottom: 1px solid #1F2839;">
-              </div>
-            </div>
-            <div style="margin-top: 36px;">
-              <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 14px;">お問い合わせの種類</div>
-              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                
-                  <span onClick="" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #1F2839; background: #1F2839; color: #FFFFFF; cursor: pointer;">一般</span>
-                
-
-                  <span onClick="" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">パートナーシップ</span>
-                
-
-                  <span onClick="" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">（EUの日本企業様向け）抹茶を輸入したい</span>
-                
-
-                  <span onClick="" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">報道</span><span onClick="" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">その他</span>
-                
-              </div>
-            </div>
-            <div style="margin-top: 36px;">
-              <div style="font-size: 10.5px; letter-spacing: 0.22em; color: #8B8273; margin-bottom: 10px;">メッセージ</div>
-              <textarea rows="5" style="width: 100%; box-sizing: border-box; border: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 14px; font-family: inherit; color: #1F2839; line-height: 1.7; resize: vertical;" style-focus="border: 1px solid #1F2839;"></textarea>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px;">
-              <span style="font-size: 11.5px; color: #8B8273; max-width: 300px; line-height: 1.6;"><p data-start="320" data-end="350">お寄せいただいた内容は、代表者および担当者のみが確認します。情報を第三者と共有することはありません。</p></span>
-              <span onClick="" style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.22em; padding: 17px 36px; cursor: pointer;" style-hover="background: #2B4C9B;">送信 →</span>
-            </div>
-          
-          
-        </div>
-      </section>
-    </main>
-  
-
-  <!-- ============ FOOTER ============ -->
-  <footer style="background: #1F2839; color: #EFEBE4;">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 80px 48px 0;">
-      <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(32px, 3.6vw, 46px); line-height: 1.25; max-width: 760px;">日本の縁を。<br><span style="font-style: italic; color: rgb(201, 168, 106);">世界と繋ぐ。</span></div>
-      <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 48px; margin-top: 72px; padding-top: 40px; border-top: 1px solid rgba(239,235,228,0.18);">
-        <div>
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
-            <span style="width: 20px; height: 1px; background: #EFEBE4; display: block;"></span>
-            <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
-            <span style="font-size: 12px; letter-spacing: 0.28em; margin-left: 6px;">ENN JAPAN</span>
-          </div>
-          <p style="font-size: 12px; line-height: 1.85; color: rgba(239,235,228,0.6); max-width: 320px; margin: 22px 0 0;">ENN Japanは、ENN Japan株式会社（東京）と1716 Industries Lda.（リスボン）の戦略的パートナーシップです。Society 47は、欧州連合における当パートナーシップのブランドルートです。</p>
-        </div>
-        <div>
-          <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">ナビゲート</div>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            
-              <span onClick="" style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">私たちについて</span>
-            
-
-              <span onClick="" style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">パートナーシップ</span>
-            
-
-              <span onClick="" style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">サービス</span>
-            
-
-              <span onClick="" style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">プロジェクト</span>
-            
-
-              <span onClick="" style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">ジャーナル</span>
-            
-          </div>
-        </div>
-        <div>
-          <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">TOKYO · 東京</div>
-          <div style="font-size: 12.5px; line-height: 1.9; color: rgba(239,235,228,0.75);">ENN Japan Inc.<br>東京都中央区銀座1-12-4 N&amp;E BLD. 7階<br>info@ennjapan.com</div>
-        </div>
-        <div>
-          <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">LISBON · リスボン</div>
-          <div style="font-size: 12.5px; line-height: 1.9; color: rgba(239,235,228,0.75);">1716 Industries Lda.<br>リスボン —<br><div>info@1716industries.eu</div></div>
-        </div>
-      </div>
-      <div style="display: flex; justify-content: space-between; gap: 24px; padding: 28px 0 32px; margin-top: 56px; border-top: 1px solid rgba(239,235,228,0.18); font-size: 10.5px; letter-spacing: 0.14em; color: rgba(239,235,228,0.45);">
-        <span>© 2026 ENN JAPAN INC. · 1716 INDUSTRIES LDA.</span>
-        <span>SOCIETY 47 — JAPAN · 四十七の茶、四十七の物語、それぞれの物語。</span>
-      </div>
+    <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.4vw, 58px); line-height: 1.2; margin: 0;">The bridge is open.<br><span style="font-style: italic;">Begin a conversation.</span></h2>
+    <div style="display: flex; gap: 16px; margin-top: 44px; pointer-events: auto;">
+      <a href="home.html#contact" style="background: #1C2A45; color: #FFFFFF; font-size: 11.5px; letter-spacing: 0.22em; padding: 17px 32px; text-decoration: none;" style-hover="background: #2B4C9B;">お問い合わせ CONTACT →</a>
+      <a href="home.html" style="border: 1px solid #1F2839; color: #1F2839; font-size: 11.5px; letter-spacing: 0.22em; padding: 16px 30px; text-decoration: none; background: rgba(255,255,255,0.7);" style-hover="background: #1F2839; color: #FFFFFF;">メインサイトへ ENTER SITE</a>
     </div>
-  </footer>
-
-  <!-- variant switcher (review only) -->
-  
-
+    <div style="font-size: 10px; letter-spacing: 0.24em; color: #8B8273; margin-top: 72px;">ENN JAPAN INC. · 1716 INDUSTRIES LDA. — TOKYO · LISBOA · LONDON · 縁</div>
+  </section>
 
 </div>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {}
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.stageRef = React.createRef();
+    this.tiltRef = React.createRef();
+    this.railRef = React.createRef();
+    this.scrollP = 0;
+    this.mx = 0; this.my = 0;
+    this.time = 0;
+  }
+
+  componentDidMount() {
+    this.alive = true;
+    this.onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      this.scrollP = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      if (this.railRef.current) this.railRef.current.style.height = (this.scrollP * 100) + "%";
+    };
+    this.onMouse = (e) => {
+      this.mx = (e.clientX / window.innerWidth - 0.5) * 2;
+      this.my = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    this.onResize = () => {
+      if (!this.renderer || !this.camera) return;
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+    window.addEventListener("mousemove", this.onMouse, { passive: true });
+    window.addEventListener("resize", this.onResize);
+    this.onScroll();
+    this.waitForThree(0);
+  }
+
+  componentWillUnmount() {
+    this.alive = false;
+    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("mousemove", this.onMouse);
+    window.removeEventListener("resize", this.onResize);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.renderer) {
+      try { this.renderer.dispose(); } catch (e) {}
+      if (this.renderer.domElement && this.renderer.domElement.parentNode) {
+        this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
+      }
+    }
+  }
+
+  waitForThree(tries) {
+    if (!this.alive) return;
+    if (window.THREE && this.stageRef.current) { this.buildScene(); return; }
+    if (tries > 100) return;
+    setTimeout(() => this.waitForThree(tries + 1), 100);
+  }
+
+  // scatter points along a 3D segment with jitter — the "ink line" primitive
+  seg(arr, ax, ay, az, bx, by, bz, n, jitter) {
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      arr.push(
+        ax + (bx - ax) * t + (Math.random() - 0.5) * jitter,
+        ay + (by - ay) * t + (Math.random() - 0.5) * jitter,
+        az + (bz - az) * t + (Math.random() - 0.5) * jitter
+      );
+    }
+  }
+
+  glowTexture(r, g, b) {
+    const c = document.createElement("canvas");
+    c.width = 256; c.height = 256;
+    const ctx = c.getContext("2d");
+    const grad = ctx.createRadialGradient(128, 128, 6, 128, 128, 128);
+    grad.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",0.95)");
+    grad.addColorStop(0.55, "rgba(" + r + "," + g + "," + b + ",0.55)");
+    grad.addColorStop(1, "rgba(" + r + "," + g + "," + b + ",0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  }
+
+  buildScene() {
+    const T = window.THREE;
+    const stage = this.stageRef.current;
+    if (!stage) return;
+
+    const renderer = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xFFFFFF, 1);
+    stage.appendChild(renderer.domElement);
+    this.renderer = renderer;
+
+    const scene = new T.Scene();
+    scene.fog = new T.FogExp2(0xFFFFFF, 0.0075);
+    this.scene = scene;
+
+    const camera = new T.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 600);
+    this.camera = camera;
+
+    // ---------- the ink bridge ----------
+    const pts = [];
+    const span = 55, deckY = 9, archH = 24;
+    const archY = (t) => archH * Math.sin(Math.PI * t);
+    for (const z of [-2.4, 2.4]) {
+      // arch curve
+      let prev = null;
+      for (let i = 0; i <= 60; i++) {
+        const t = i / 60;
+        const x = -span + 2 * span * t, y = archY(t);
+        if (prev) this.seg(pts, prev[0], prev[1], z, x, y, z, 7, 0.16);
+        prev = [x, y];
+      }
+      // deck
+      this.seg(pts, -span, deckY, z, span, deckY, z, 460, 0.14);
+      // hangers + diagonals where arch is above/below deck
+      for (let i = 0; i <= 26; i++) {
+        const t = i / 26;
+        const x = -span + 2 * span * t, ay = archY(t);
+        this.seg(pts, x, deckY, z, x, ay, z, Math.max(3, Math.round(Math.abs(ay - deckY) * 2.4)), 0.13);
+        if (i < 26) {
+          const t2 = (i + 1) / 26;
+          const x2 = -span + 2 * span * t2, ay2 = archY(t2);
+          this.seg(pts, x, ay, z, x2, deckY, z, 10, 0.15);
+        }
+      }
+    }
+    // cross-bracing between the two arch ribs
+    for (let i = 0; i <= 26; i++) {
+      const t = i / 26;
+      const x = -span + 2 * span * t, y = archY(t);
+      this.seg(pts, x, y, -2.4, x, y, 2.4, 6, 0.12);
+      this.seg(pts, x, deckY, -2.4, x, deckY, 2.4, 6, 0.12);
+    }
+    const bridgeGeo = new T.BufferGeometry();
+    bridgeGeo.setAttribute("position", new T.Float32BufferAttribute(pts, 3));
+    const bridgeMat = new T.PointsMaterial({ color: 0x1F2839, size: 0.27, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+    scene.add(new T.Points(bridgeGeo, bridgeMat));
+    this.bridgeMat = bridgeMat;
+
+    // ---------- ACT I: the solid bridge (dissolves into ink) ----------
+    this.buildSolidBridge(T, scene, archY, span, deckY);
+
+    // ---------- Edo elements: seigaiha sea, a Nanban ship, chidori birds ----------
+    this.buildSeigaiha(T, scene);
+    this.buildShip(T, scene);
+    this.buildBirds(T, scene);
+
+    // faint water reflection of the bridge
+    const mirror = new T.Points(bridgeGeo, new T.PointsMaterial({ color: 0x1F2839, size: 0.3, transparent: true, opacity: 0.04, sizeAttenuation: true, depthWrite: false }));
+    mirror.scale.y = -1;
+    mirror.position.y = -1.2;
+    scene.add(mirror);
+
+    // ---------- E N N — particle typography along the arch ----------
+    this.buildEnnLetters(T, scene, archY, span);
+
+    // ---------- the 47-prefecture procession, crossing Tokyo → Lisboa ----------
+    this.buildPrefectures(T, scene);
+
+    // ---------- ink-wash shores ----------
+    const shore = [];
+    const shoreCols = [];
+    for (let i = 0; i < 2300; i++) {
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const x = side * (42 + Math.pow(Math.random(), 1.6) * 42);
+      const y = Math.pow(Math.random(), 2.6) * 7 - 1.5;
+      const zz = (Math.random() - 0.5) * 30;
+      shore.push(x, y, zz);
+      const shade = 0.12 + Math.random() * 0.45;
+      shoreCols.push(shade, shade, shade + 0.02);
+    }
+    const shoreGeo = new T.BufferGeometry();
+    shoreGeo.setAttribute("position", new T.Float32BufferAttribute(shore, 3));
+    shoreGeo.setAttribute("color", new T.Float32BufferAttribute(shoreCols, 3));
+    const shoreMat = new T.PointsMaterial({ vertexColors: true, size: 0.45, transparent: true, opacity: 0.32, sizeAttenuation: true, depthWrite: false });
+    scene.add(new T.Points(shoreGeo, shoreMat));
+
+    // ---------- two suns ----------
+    const mkSun = (tex, x, y, size) => {
+      const m = new T.Mesh(new T.PlaneGeometry(size, size), new T.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
+      m.position.set(x, y, -34);
+      scene.add(m);
+      return m;
+    };
+    this.sunRed = mkSun(this.glowTexture(193, 58, 46), 34, 16, 30);
+    this.sunBlue = mkSun(this.glowTexture(110, 140, 200), -34, 13, 26);
+    this.sunBlue.material.opacity = 0.55;
+
+    // ---------- drifting motes ----------
+    const motes = [];
+    for (let i = 0; i < 130; i++) {
+      motes.push((Math.random() - 0.5) * 160, Math.random() * 36 - 2, (Math.random() - 0.5) * 70);
+    }
+    this.moteGeo = new T.BufferGeometry();
+    this.moteGeo.setAttribute("position", new T.Float32BufferAttribute(motes, 3));
+    const moteMat = new T.PointsMaterial({ color: 0x8B8273, size: 0.3, transparent: true, opacity: 0.22, depthWrite: false });
+    scene.add(new T.Points(this.moteGeo, moteMat));
+
+    // camera keyframes: wide → red side (Tokyo) → mid-deck → blue side (Lisboa) → product → wide
+    this.keys = [
+      { p: 0.00, pos: [0, 17, 108], look: [0, 19, 0] },
+      { p: 0.18, pos: [32, 13, 54], look: [40, 16, -6] },
+      { p: 0.42, pos: [12, 11.5, 9], look: [-30, 14, -4] },
+      { p: 0.62, pos: [-30, 10, 46], look: [-40, 13, -8] },
+      { p: 0.82, pos: [-6, 19, 62], look: [0, 11, 0] },
+      { p: 1.00, pos: [0, 18, 118], look: [0, 16, 0] }
+    ];
+
+    this.loop();
+  }
+
+  // sample a glyph into normalized 2D points via an offscreen canvas
+  glyphPoints(ch) {
+    const c = document.createElement("canvas");
+    c.width = 320; c.height = 360;
+    const ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, 320, 360);
+    ctx.font = "200 290px 'Helvetica Neue', Helvetica, Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#000";
+    ctx.fillText(ch, 160, 190);
+    const data = ctx.getImageData(0, 0, 320, 360).data;
+    const out = [];
+    for (let y = 0; y < 360; y += 2) {
+      for (let x = 0; x < 320; x += 2) {
+        if (data[(y * 320 + x) * 4 + 3] > 120) {
+          out.push((x - 160) / 290, -(y - 190) / 290); // normalized, glyph height ≈ 1
+        }
+      }
+    }
+    return out;
+  }
+
+  buildEnnLetters(T, scene, archY, span) {
+    const letters = ["E", "N", "N"];
+    const params = [0.32, 0.5, 0.68]; // position along the arch
+    const size = 11.5;                 // letter height in world units
+    const lift = 6.0;                  // height above the arch crown
+    const targets = [];
+    const colors = [];
+    for (let li = 0; li < letters.length; li++) {
+      const t = params[li];
+      const cx = -span + 2 * span * t;
+      const cy = archY(t) + lift + size * 0.5;
+      // arch tangent → letters lean with the curve
+      const eps = 0.01;
+      const dy = archY(t + eps) - archY(t - eps);
+      const dx = 2 * span * (2 * eps);
+      const ang = Math.atan2(dy, dx) * 0.85;
+      const cosA = Math.cos(ang), sinA = Math.sin(ang);
+      const g = this.glyphPoints(letters[li]);
+      for (let i = 0; i < g.length; i += 2) {
+        const lx = g[i] * size, ly = g[i + 1] * size;
+        targets.push(
+          cx + lx * cosA - ly * sinA + (Math.random() - 0.5) * 0.1,
+          cy + lx * sinA + ly * cosA + (Math.random() - 0.5) * 0.1,
+          (Math.random() - 0.5) * 1.3
+        );
+        // ink navy, with occasional vermilion flecks
+        if (Math.random() < 0.055) colors.push(0.757, 0.227, 0.18);
+        else colors.push(0.12, 0.157, 0.224);
+      }
+    }
+    const n = targets.length / 3;
+    const starts = new Float32Array(targets.length);
+    for (let i = 0; i < n; i++) {
+      // particles begin scattered through the whole sky and converge
+      starts[i * 3] = targets[i * 3] + (Math.random() - 0.5) * 90;
+      starts[i * 3 + 1] = targets[i * 3 + 1] + (Math.random() - 0.5) * 60 + 10;
+      starts[i * 3 + 2] = targets[i * 3 + 2] + (Math.random() - 0.5) * 70;
+    }
+    this.letterTargets = new Float32Array(targets);
+    this.letterStarts = starts;
+    this.letterPhase = new Float32Array(n);
+    for (let i = 0; i < n; i++) this.letterPhase[i] = Math.random() * Math.PI * 2;
+
+    this.letterGeo = new T.BufferGeometry();
+    this.letterGeo.setAttribute("position", new T.Float32BufferAttribute(starts.slice(), 3));
+    this.letterGeo.setAttribute("color", new T.Float32BufferAttribute(colors, 3));
+    const mat = new T.PointsMaterial({ vertexColors: true, size: 0.46, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+    this.letterMat = mat;
+    scene.add(new T.Points(this.letterGeo, mat));
+  }
+
+  buildSolidBridge(T, scene, archY, span, deckY) {
+    const mat = new T.MeshStandardMaterial({ color: 0x26334E, metalness: 0.45, roughness: 0.38, transparent: true, opacity: 1 });
+    this.solidMat = mat;
+    const group = new T.Group();
+    for (const z of [-2.4, 2.4]) {
+      const pts3 = [];
+      for (let i = 0; i <= 60; i++) { const t = i / 60; pts3.push(new T.Vector3(-span + 2 * span * t, archY(t), z)); }
+      group.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts3), 100, 0.52, 10, false), mat));
+      group.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3([new T.Vector3(-span, deckY, z), new T.Vector3(span, deckY, z)]), 2, 0.34, 8, false), mat));
+      for (let i = 1; i < 26; i++) {
+        const t = i / 26, x = -span + 2 * span * t, ay = archY(t);
+        const hgt = Math.abs(ay - deckY);
+        if (hgt > 0.8) {
+          const cyl = new T.Mesh(new T.CylinderGeometry(0.15, 0.15, hgt, 6), mat);
+          cyl.position.set(x, (ay + deckY) / 2, z);
+          group.add(cyl);
+        }
+      }
+    }
+    const slab = new T.Mesh(new T.BoxGeometry(2 * span, 0.5, 5.6), mat);
+    slab.position.set(0, deckY - 0.32, 0);
+    group.add(slab);
+    scene.add(group);
+    this.solidGroup = group;
+    scene.add(new T.AmbientLight(0xFFFFFF, 0.55));
+    const warm = new T.DirectionalLight(0xFFE8D0, 1.0); warm.position.set(60, 50, 40); scene.add(warm);
+    const cool = new T.DirectionalLight(0xCBD6EF, 0.45); cool.position.set(-50, 28, -40); scene.add(cool);
+  }
+
+  // seigaiha 青海波 — the Edo wave pattern, laid flat on the water
+  buildSeigaiha(T, scene) {
+    const pts = [];
+    const rowStep = 3.4, colStep = 6.8;
+    let row = 0;
+    for (let z = -24; z <= 24; z += rowStep, row++) {
+      const off = row % 2 === 0 ? 0 : colStep / 2;
+      for (let cx = -64 + off; cx <= 64; cx += colStep) {
+        for (const r of [1.5, 2.5, 3.5]) {
+          for (let i = 0; i <= 13; i++) {
+            const th = (i / 13) * Math.PI;
+            pts.push(cx + r * Math.cos(th), 0.04, z - r * Math.sin(th) * 0.9);
+          }
+        }
+      }
+    }
+    const geo = new T.BufferGeometry();
+    geo.setAttribute("position", new T.Float32BufferAttribute(pts, 3));
+    this.seigaihaMat = new T.PointsMaterial({ color: 0x7E8AA6, size: 0.13, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+    scene.add(new T.Points(geo, this.seigaihaMat));
+  }
+
+  // a Nanban-era sail, sketched in ink points, crossing Japan → Europe
+  buildShip(T, scene) {
+    const ink = [], red = [];
+    const J = 0.05;
+    // hull
+    this.seg(ink, -4.6, 0.7, 0, -2.4, 0.1, 0, 26, J);
+    this.seg(ink, -2.4, 0.1, 0, 2.4, 0.1, 0, 48, J);
+    this.seg(ink, 2.4, 0.1, 0, 4.3, 1.0, 0, 24, J);
+    this.seg(ink, -4.6, 0.7, 0, -5.3, 1.9, 0, 16, J);   // bow stem
+    this.seg(ink, -5.3, 1.9, 0, 0, 1.35, 0, 40, J);     // gunwale fore
+    this.seg(ink, 0, 1.35, 0, 4.3, 1.8, 0, 36, J);      // gunwale aft
+    // raised stern castle
+    this.seg(ink, 2.7, 1.8, 0, 2.7, 2.7, 0, 10, J);
+    this.seg(ink, 2.7, 2.7, 0, 4.3, 2.8, 0, 14, J);
+    this.seg(ink, 4.3, 2.8, 0, 4.3, 1.8, 0, 10, J);
+    // mast
+    this.seg(ink, 0, 1.35, 0, 0, 6.2, 0, 40, J);
+    // junk sail with battens
+    this.seg(ink, -2.3, 2.3, 0, 2.3, 2.3, 0, 36, J);
+    this.seg(ink, 2.3, 2.3, 0, 2.3, 5.5, 0, 26, J);
+    this.seg(ink, 2.3, 5.5, 0, -2.3, 5.5, 0, 36, J);
+    this.seg(ink, -2.3, 5.5, 0, -2.3, 2.3, 0, 26, J);
+    this.seg(ink, -2.3, 3.1, 0, 2.3, 3.1, 0, 30, J);
+    this.seg(ink, -2.3, 3.9, 0, 2.3, 3.9, 0, 30, J);
+    this.seg(ink, -2.3, 4.7, 0, 2.3, 4.7, 0, 30, J);
+    // red pennant at the masthead
+    this.seg(red, 0, 6.2, 0, 0.95, 5.9, 0, 12, 0.04);
+    this.seg(red, 0.95, 5.9, 0, 0, 5.62, 0, 12, 0.04);
+    const group = new T.Group();
+    const mkPts = (arr, color, op) => {
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(arr, 3));
+      const m = new T.PointsMaterial({ color: color, size: 0.17, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+      m.userData = { base: op };
+      group.add(new T.Points(g, m));
+      return m;
+    };
+    this.shipMatInk = mkPts(ink, 0x1F2839, 0.55);
+    this.shipMatRed = mkPts(red, 0xC13A2E, 0.9);
+    group.position.set(62, 0.15, 13);
+    scene.add(group);
+    this.shipGroup = group;
+  }
+
+  // chidori 千鳥 — a few line-drawn plovers
+  buildBirds(T, scene) {
+    const c = document.createElement("canvas");
+    c.width = 96; c.height = 48;
+    const ctx = c.getContext("2d");
+    ctx.strokeStyle = "rgba(31,40,57,0.9)";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(30, 34, 16, Math.PI, Math.PI * 1.78);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(62, 34, 16, Math.PI * 1.22, Math.PI * 2);
+    ctx.stroke();
+    const tex = new T.CanvasTexture(c);
+    this.birds = [];
+    for (let i = 0; i < 6; i++) {
+      const sp = new T.Sprite(new T.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false }));
+      const s = 1.5 + Math.random() * 0.9;
+      sp.scale.set(s, s * 0.5, 1);
+      this.birds.push({
+        sprite: sp,
+        x: -70 + Math.random() * 140,
+        y: 15 + Math.random() * 7,
+        z: -4 + Math.random() * 12,
+        speed: 0.9 + Math.random() * 0.7,
+        f: 0.6 + Math.random() * 0.5,
+        ph: Math.random() * Math.PI * 2,
+        base: 0.2 + Math.random() * 0.15
+      });
+      sp.position.set(this.birds[i].x, this.birds[i].y, this.birds[i].z);
+      scene.add(sp);
+    }
+  }
+
+  buildPrefectures(T, scene) {
+    const prefs = [
+      ["北海道", "HOKKAIDO"], ["青森", "AOMORI"], ["岩手", "IWATE"], ["宮城", "MIYAGI"], ["秋田", "AKITA"],
+      ["山形", "YAMAGATA"], ["福島", "FUKUSHIMA"], ["茨城", "IBARAKI"], ["栃木", "TOCHIGI"], ["群馬", "GUNMA"],
+      ["埼玉", "SAITAMA"], ["千葉", "CHIBA"], ["東京", "TOKYO"], ["神奈川", "KANAGAWA"], ["新潟", "NIIGATA"],
+      ["富山", "TOYAMA"], ["石川", "ISHIKAWA"], ["福井", "FUKUI"], ["山梨", "YAMANASHI"], ["長野", "NAGANO"],
+      ["岐阜", "GIFU"], ["静岡", "SHIZUOKA"], ["愛知", "AICHI"], ["三重", "MIE"], ["滋賀", "SHIGA"],
+      ["京都", "KYOTO"], ["大阪", "OSAKA"], ["兵庫", "HYOGO"], ["奈良", "NARA"], ["和歌山", "WAKAYAMA"],
+      ["鳥取", "TOTTORI"], ["島根", "SHIMANE"], ["岡山", "OKAYAMA"], ["広島", "HIROSHIMA"], ["山口", "YAMAGUCHI"],
+      ["徳島", "TOKUSHIMA"], ["香川", "KAGAWA"], ["愛媛", "EHIME"], ["高知", "KOCHI"], ["福岡", "FUKUOKA"],
+      ["佐賀", "SAGA"], ["長崎", "NAGASAKI"], ["熊本", "KUMAMOTO"], ["大分", "OITA"], ["宮崎", "MIYAZAKI"],
+      ["鹿児島", "KAGOSHIMA"], ["沖縄", "OKINAWA"]
+    ];
+    this.prefSprites = [];
+    this.prefLoop = 188; // total loop length — generous spacing, no bunching
+    const spacing = this.prefLoop / prefs.length;
+    for (let i = 0; i < prefs.length; i++) {
+      const special = prefs[i][1] === "KYOTO";
+      const c = document.createElement("canvas");
+      c.width = 480; c.height = 48;
+      const ctx = c.getContext("2d");
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = special ? "#C13A2E" : "#A89F8D";
+      // refined editorial label: serif numeral + kanji, letterspaced roman
+      ctx.font = "300 25px 'Noto Serif JP', 'Source Serif 4', Georgia, serif";
+      const numKanji = String(i + 1).padStart(2, "0") + "　" + prefs[i][0];
+      ctx.fillText(numKanji, 4, 25);
+      const wNum = ctx.measureText(numKanji).width;
+      ctx.font = "300 17px 'Source Serif 4', Georgia, serif";
+      const roman = "  " + prefs[i][1].split("").join("\u200A\u200A") + (special ? "  · No.26" : "");
+      ctx.fillText(roman, 4 + wNum, 27);
+      const tex = new T.CanvasTexture(c);
+      const mat = new T.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false });
+      const sp = new T.Sprite(mat);
+      sp.scale.set(11, 1.1, 1);
+      sp.center.set(0.5, 0.5);
+      this.prefSprites.push({
+        sprite: sp,
+        special: special,
+        baseY: 11.3,
+        phase: (i / prefs.length) * Math.PI * 2,
+        x: -this.prefLoop / 2 + i * spacing
+      });
+      sp.position.set(this.prefSprites[i].x, 11.3, 0.6);
+      scene.add(sp);
+    }
+  }
+
+  cameraPose(p) {
+    const k = this.keys;
+    let a = k[0], b = k[k.length - 1];
+    for (let i = 0; i < k.length - 1; i++) {
+      if (p >= k[i].p && p <= k[i + 1].p) { a = k[i]; b = k[i + 1]; break; }
+    }
+    const range = Math.max(0.0001, b.p - a.p);
+    let t = (p - a.p) / range;
+    t = t * t * (3 - 2 * t); // smoothstep
+    const lerp = (u, v) => u + (v - u) * t;
+    return {
+      pos: [lerp(a.pos[0], b.pos[0]), lerp(a.pos[1], b.pos[1]), lerp(a.pos[2], b.pos[2])],
+      look: [lerp(a.look[0], b.look[0]), lerp(a.look[1], b.look[1]), lerp(a.look[2], b.look[2])]
+    };
+  }
+
+  loop() {
+    if (!this.alive) return;
+    this.raf = requestAnimationFrame(() => this.loop());
+    if (!this.renderer || !this.camera) return;
+    this.time += 0.016;
+
+    // self-heal canvas size: recover from 0×0 init or container resizes
+    const stage = this.stageRef.current;
+    const w = (stage && stage.clientWidth) || window.innerWidth;
+    const h = (stage && stage.clientHeight) || window.innerHeight;
+    const cur = this.renderer.getSize(new THREE.Vector2());
+    if (w > 0 && h > 0 && (Math.abs(cur.x - w) > 1 || Math.abs(cur.y - h) > 1)) {
+      this.renderer.setSize(w, h);
+      this.camera.aspect = w / h;
+      this.camera.updateProjectionMatrix();
+    }
+
+    // ---------- opening timeline ----------
+    const clamp01 = (v) => Math.min(1, Math.max(0, v));
+    const ss = (v) => { v = clamp01(v); return v * v * (3 - 2 * v); };
+    // user scrolls mid-intro → fast-forward the dissolve
+    if (!this.introDone && this.scrollP > 0.015) {
+      this.introDone = true;
+      if (this.time < 4.4) this.time = 4.4;
+    }
+    const dissolve = ss((this.time - 2.1) / 1.9);        // Act II: solid → ink
+    if (this.solidMat) {
+      this.solidMat.opacity = 1 - dissolve;
+      if (this.solidGroup) this.solidGroup.visible = dissolve < 0.998;
+    }
+    if (this.bridgeMat) this.bridgeMat.opacity = 0.55 * dissolve;
+    if (this.letterMat) this.letterMat.opacity = 0.8 * clamp01((this.time - 3.4) / 1.4);
+    // Act III: the Edo sea wakes — seigaiha, the Nanban ship, chidori
+    if (this.seigaihaMat) this.seigaihaMat.opacity = 0.16 * dissolve;
+    if (this.shipGroup) {
+      const shipF = ss((this.time - 3.8) / 2.2);
+      const u = (this.time * 0.006 + 0.22) % 1;
+      this.shipGroup.position.x = 64 - 128 * u;            // Japan (+x) → EU (−x)
+      this.shipGroup.position.y = 0.15 + Math.sin(this.time * 0.5) * 0.14;
+      this.shipGroup.rotation.z = Math.sin(this.time * 0.42) * 0.025;
+      const edge = Math.min(1, Math.max(0, (58 - Math.abs(this.shipGroup.position.x)) / 10));
+      this.shipMatInk.opacity = this.shipMatInk.userData.base * shipF * edge;
+      this.shipMatRed.opacity = this.shipMatRed.userData.base * shipF * edge;
+    }
+    if (this.birds) {
+      const birdF = ss((this.time - 4.4) / 1.8);
+      for (const b of this.birds) {
+        b.x -= b.speed * 0.016;
+        if (b.x < -72) b.x += 144;
+        b.sprite.position.set(b.x, b.y + Math.sin(this.time * b.f + b.ph) * 0.5, b.z);
+        const edge = Math.min(1, Math.max(0, (66 - Math.abs(b.x)) / 12));
+        b.sprite.material.opacity = b.base * birdF * edge;
+      }
+    }
+
+    const pose = this.cameraPose(this.scrollP);
+    // intro camera: close-up on the deck, pulling back to the wide hero
+    if (!this.introDone && this.time < 5.4) {
+      const dolly = Math.min(1, this.time / 2.4);
+      const cp = [33 - dolly * 7, 10.8, 13 - dolly * 2.5];
+      const cl = [-30, 13.5, -3];
+      const k2 = ss((this.time - 2.0) / 3.2);
+      pose.pos = [cp[0] + (pose.pos[0] - cp[0]) * k2, cp[1] + (pose.pos[1] - cp[1]) * k2, cp[2] + (pose.pos[2] - cp[2]) * k2];
+      pose.look = [cl[0] + (pose.look[0] - cl[0]) * k2, cl[1] + (pose.look[1] - cl[1]) * k2, cl[2] + (pose.look[2] - cl[2]) * k2];
+      if (this.time >= 5.4) this.introDone = true;
+    }
+    // gentle idle drift + mouse parallax (eased in after the close-up)
+    const driftAmt = ss((this.time - 2.2) / 2.4);
+    const driftX = (Math.sin(this.time * 0.18) * 1.4 + this.mx * 3.2) * driftAmt;
+    const driftY = (Math.cos(this.time * 0.14) * 0.8 - this.my * 2.0) * driftAmt;
+    this.camera.position.set(pose.pos[0] + driftX, Math.max(2.5, pose.pos[1] + driftY), pose.pos[2]);
+    this.camera.lookAt(pose.look[0], pose.look[1], pose.look[2]);
+
+    if (this.sunRed) {
+      this.sunRed.position.y = 16 + Math.sin(this.time * 0.25) * 0.7;
+      this.sunBlue.position.y = 13 + Math.cos(this.time * 0.2) * 0.6;
+      this.sunRed.quaternion.copy(this.camera.quaternion);
+      this.sunBlue.quaternion.copy(this.camera.quaternion);
+    }
+    // assemble E·N·N from scattered ink, then let it breathe
+    if (this.letterGeo) {
+      const pos = this.letterGeo.attributes.position.array;
+      const tg = this.letterTargets, st = this.letterStarts, ph = this.letterPhase;
+      let introK = Math.min(1, Math.max(0, (this.time - 3.6) / 2.6));
+      introK = 1 - Math.pow(1 - introK, 3); // ease-out cubic
+      // scroll-driven dissolve → reassemble: whole over the hero, ink while crossing, whole again at arrival
+      const ss = (v) => v * v * (3 - 2 * v);
+      const sp = this.scrollP;
+      let presence;
+      if (sp < 0.05) presence = 1;
+      else if (sp < 0.24) presence = 1 - ss((sp - 0.05) / 0.19);
+      else if (sp < 0.76) presence = 0;
+      else if (sp < 0.94) presence = ss((sp - 0.76) / 0.18);
+      else presence = 1;
+      const k = introK * presence;
+      for (let i = 0; i < ph.length; i++) {
+        const j = i * 3;
+        const wob = k >= 1 ? 1 : k;
+        const bx = st[j] + (tg[j] - st[j]) * k;
+        const by = st[j + 1] + (tg[j + 1] - st[j + 1]) * k;
+        const bz = st[j + 2] + (tg[j + 2] - st[j + 2]) * k;
+        pos[j] = bx + Math.sin(this.time * 0.7 + ph[i]) * 0.06 * wob;
+        pos[j + 1] = by + Math.cos(this.time * 0.55 + ph[i]) * 0.07 * wob;
+        pos[j + 2] = bz + Math.sin(this.time * 0.5 + ph[i] * 1.7) * 0.05 * wob;
+      }
+      this.letterGeo.attributes.position.needsUpdate = true;
+    }
+    // prefecture procession drifting Tokyo (+x) → Lisboa (−x) along the deck
+    if (this.prefSprites) {
+      const half = this.prefLoop / 2;
+      for (let i = 0; i < this.prefSprites.length; i++) {
+        const s = this.prefSprites[i];
+        s.x -= 1.15 * 0.016; // uniform pace — the procession keeps its spacing
+        if (s.x < -half) s.x += this.prefLoop;
+        s.sprite.position.x = s.x;
+        s.sprite.position.y = s.baseY + Math.sin(this.time * 0.4 + s.phase) * 0.1;
+        const edge = Math.min(1, Math.max(0, (56 - Math.abs(s.x)) / 14));
+        const introF = Math.min(1, Math.max(0, (this.time - 4.4) / 1.8));
+        s.sprite.material.opacity = (s.special ? 0.85 : 0.3) * edge * introF;
+      }
+    }
+    if (this.moteGeo) {
+      const arr = this.moteGeo.attributes.position.array;
+      for (let i = 0; i < arr.length; i += 3) {
+        arr[i] += Math.sin(this.time * 0.4 + i) * 0.004;
+        arr[i + 1] += 0.006 + Math.cos(this.time * 0.3 + i) * 0.003;
+        if (arr[i + 1] > 36) arr[i + 1] = -2;
+      }
+      this.moteGeo.attributes.position.needsUpdate = true;
+    }
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  renderVals() {
+    return {
+      stageRef: this.stageRef,
+      tiltRef: this.tiltRef,
+      railRef: this.railRef,
+      cargo: [
+        { kanji: "貿易", name: "Trade & Sourcing", line: "origin to shelf, with care" },
+        { kanji: "進出", name: "Market Entry", line: "properly, not quickly" },
+        { kanji: "紹介", name: "Introductions", line: "vouched for, by name" }
+      ],
+      tiltMove: (e) => {
+        const el = this.tiltRef.current;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = "rotateY(" + (px * 14) + "deg) rotateX(" + (-py * 12) + "deg) translateZ(10px)";
+      },
+      tiltReset: () => {
+        const el = this.tiltRef.current;
+        if (el) el.style.transform = "rotateY(0deg) rotateX(0deg)";
+      }
+    };
+  }
+}
 </script>
 </body>
 </html>
