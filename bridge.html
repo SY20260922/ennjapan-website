@@ -17,6 +17,16 @@
     ::selection { background: #1C2A45; color: #FFFFFF; }
     @keyframes ennFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes ennHint { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
+    img { max-width: 100%; }
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+      [style*="padding: 24px 40px"] { padding: 15px 18px !important; }
+      [style*="border-left: 1px solid #DFD7C8"] { display: none !important; }
+      [style*="right: 40px"][style*="top: 50%"] { display: none !important; }
+      [style*="blur(16px)"] { padding: 28px 22px !important; max-width: 90vw !important; }
+      [style*="padding: 0 8vw"] { padding-left: 22px !important; padding-right: 22px !important; }
+      h2 { font-size: 25px !important; line-height: 1.28 !important; }
+    }
   </style>
 </helmet>
 
