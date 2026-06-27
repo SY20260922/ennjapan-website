@@ -40,6 +40,9 @@
  [style*="font-size: 30px"] { font-size: 24px !important; }
  [style*="font-size: 190px"], [style*="font-size: 170px"] { font-size: 76px !important; }
  }
+ /* レスポンシブ改行ヘルパー: <br class="pc-only"> はスマホ(〜600px)で消え、<br class="sp-only"> はスマホだけで表示 */
+ .sp-only { display: none; }
+ @media (max-width: 600px) { .pc-only { display: none !important; } .sp-only { display: inline !important; } }
  html { scroll-behavior: smooth; }
  main[id] { scroll-margin-top: 20px; }
  </style>
@@ -80,7 +83,10 @@
  <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">サービス</span>
  
 
- <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">プロジェクト</span>
+ <a href="delivery.html" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446; text-decoration: none;" style-hover="color: #1F2839;">配送について</a>
+ 
+
+ <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">Society 47</span>
  
 
  <span style="font-size: 13px; cursor: pointer; padding-bottom: 4px; border-bottom: 1px solid transparent; color: #5A5446;" style-hover="color: #1F2839;">ジャーナル</span>
@@ -112,7 +118,8 @@
  <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">私たちについて</span>
  <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">パートナーシップ</span>
  <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">サービス</span>
- <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">プロジェクト</span>
+ <a href="delivery.html" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">配送について</a>
+ <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">Society 47</span>
  <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">ジャーナル</span>
  <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer;">お問い合わせ</span>
  </nav>
@@ -138,10 +145,10 @@
  <span style="font-size: 11px; letter-spacing: 0.3em; color: #6B6354;">東京 · リスボン・ロンドン</span>
  </div>
  <h1 style="font-family: &#39;Source Serif 4&#39;, &#39;Noto Serif JP&#39;, Georgia, serif; font-weight: 400; font-size: 68px; line-height: 1.1; margin: 0; letter-spacing: -0.015em">日本と欧州を結ぶ、<br><span style="font-style: italic;">食と文化の架け橋。</span><br></h1>
- <p style="font-size: 16.5px; line-height: 1.85; color: #4A4538; max-width: 520px; margin: 34px 0 0">ENN Japanは、貿易・食品原料調達・国際市場進出・販売戦略提案を通じて、日本と欧州を結ぶパートナーシップを築いています。</p>
+ <p style="font-size: 16.5px; line-height: 1.85; color: #4A4538; max-width: 520px; margin: 34px 0 0">ENN Japanは、貿易・食品原料調達・<br class="sp-only">国際市場進出・販売戦略提案を通じて、日本と欧州を結ぶパートナーシップを<br class="sp-only">築いています。</p>
  <div style="display: flex; align-items: center; gap: 18px; margin-top: 44px;">
- <span style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.2em; padding: 18px 32px; cursor: pointer;" style-hover="background: #2B4C9B;">パートナーシップのご相談 →</span>
- <span style="border: 1px solid #1F2839; font-size: 12px; letter-spacing: 0.2em; padding: 17px 30px; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">サービス一覧</span>
+ <span style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.2em; padding: 18px 32px; cursor: pointer;" style-hover="background: #2B4C9B;">提携のご相談 →</span>
+ <span style="border: 1px solid #1F2839; font-size: 12px; letter-spacing: 0.2em; padding: 17px 30px; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">サービス<br class="sp-only">一覧</span>
  </div>
  </div>
  <div style="animation: ennRise 0.9s ease 0.15s both;">
@@ -174,9 +181,11 @@
  <div style="font-family: 'Noto Serif JP', serif; font-size: 190px; line-height: 1; text-align: center; color: #EFEBE4;">縁</div>
  <div>
  <div style="font-size: 11px; letter-spacing: 0.3em; color: #C9A86A; margin-bottom: 22px;">社名について — ENN 縁</div>
- <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.3; margin: 0; max-width: 640px">海を越えて人と文化を繋ぐ。
-「縁」という日本の美しい言葉に、その想いを込めました。</h2>
- <p style="font-size: 15px; line-height: 1.9; color: rgba(239,235,228,0.75); max-width: 600px; margin: 26px 0 0;">日本には、「縁」を大切にする文化があります。すべての商いは、一つの縁から始まる。取引の前に関係を築き、自らの名を懸けて薦められるものだけを世界へ届ける。それが、ENN Japanの原点です。</p>
+ <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.3; margin: 0; max-width: 640px">海を越えて人と文化を繋ぐ。 
+「縁 ENN」日本の美しい言葉に
+その想いを込めました。</h2>
+ <p style="font-size: 15px; line-height: 1.9; color: rgba(239,235,228,0.75); max-width: 600px; margin: 26px 0 0;">日本には、「縁」を大切にする文化があります。すべての商いは、一つの縁から始まる。取引の前に関係を築き、自らの名を懸けて薦められるものだけを世界へ届ける。
+それが、ENN Japanの原点です。</p>
  </div>
  </div>
  </section>
@@ -191,8 +200,8 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">貿易と原料調達</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">貿易</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">日本の農作物の価値を、そのまま世界へ。
-産地や作り手の想いを大切にしながら、 日本と欧州をつなぎます。</p>
+ <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">日本の農作物の価値を、そのまま世界へ。 
+産地や農家の想いを大切にしながら、 日本と欧州をつなぎます。</p>
  <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">詳しく見る →</div>
  </div>
  
@@ -202,9 +211,7 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">市場進出</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">進出</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">海外進出を目指す日本企業をサポート。
-日本から欧州へ、欧州から日本へ。現地ネットワークと
-実務経験を活かし、持続可能な市場進出を支援します。</p>
+ <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">海外進出を目指す日本企業をサポート。 日本から欧州へ、欧州から日本へ。現地生産地・法人ネットワークと実務経験を活かし、持続可能な市場進出を支援します。</p>
  <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">詳しく見る →</div>
  </div>
  
@@ -214,9 +221,7 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 26px; margin: 0;">販売戦略提案</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 15px; color: #8B8273;">戦略</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">信頼から始まるパートナーシップ。
-私たちは、人と企業をただ繋ぐだけではなく互いの価値を
-理解した上で、責任を持って最適な出会いを創出します。</p>
+ <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; margin: 14px 0 0;">私たちは、人と企業をただ繋ぐだけではなく互いの価値を理解した上で、責任を持って最適な出会いと戦略を創出します。</p>
  <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 18px;">詳しく見る →</div>
  </div>
  
@@ -321,7 +326,8 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">縁</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">縁</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">良い仕事は、良い関係から始まる。 私たちは紹介によってつながり、信頼によって成長します。</p>
+ <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">良い仕事は、良い関係から始まる。 
+私たちは紹介によってつながり、信頼によって成長します。</p>
  </div>
  
 
@@ -330,7 +336,8 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">産地</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">産地</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">私たちは、どこで、誰が、どのように作ったのかを大切にします。 商品の背景にある物語もまた、価値の一部だと考えています。</p>
+ <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">私たちは、どこで、誰が、どのように作ったのかを大切にします。 
+商品の背景にある物語もまた、価値の一部だと考えています。</p>
  </div>
  
 
@@ -339,7 +346,8 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">時機</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">時機</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">すべてには適した時があります。 急ぐべき時と待つべき時を見極め、長く続く関係を築きます。</p>
+ <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">すべてには適した時があります。 
+急ぐべき時と待つべき時を見極め、長く続く関係を築きます。</p>
  </div>
  
 
@@ -348,7 +356,8 @@
  <h3 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 27px; margin: 0;">節度</h3>
  <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">節度</span>
  </div>
- <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">できないことは約束しない。派手な言葉よりも、 積み重ねられた実績を大切にします。</p>
+ <p style="font-size: 13.5px; line-height: 1.85; color: #4A4538; margin: 14px 0 0; max-width: 480px;">できないことを約束しない。
+積み重ねられた実績を大切にします。</p>
  </div>
  
  </div>
@@ -460,7 +469,7 @@
  <div style="display: flex; justify-content: center; margin: 44px 0;"><div style="width: 1px; height: 60px; background: #E2DACB;"></div></div>
 
  <div style="max-width: 540px; margin: 0 auto; border: 1px solid #DFD7C8; background: #FFFFFF; padding: 36px 40px 40px; text-align: center;">
- <div style="font-size: 10px; letter-spacing: 0.26em; color: #C13A2E; margin-bottom: 28px;">ブランドルート ・ 1701 INDUSTRIES 傘下</div>
+ <div style="font-size: 10px; letter-spacing: 0.26em; color: #C13A2E; margin-bottom: 28px;">ブランドルート ・ ENN JAPAN / 1701 INDUSTRIES 傘下</div>
  <img src="assets/logo-society47.png" alt="Society 47 Japan" style="width: 300px; max-width: 78%; height: auto; display: block; margin: 0 auto;">
  <div style="font-size: 11px; letter-spacing: 0.14em; color: #6B6354; margin-top: 26px;">英国 / EU 市場 ・ 抹茶ウェルネスブランド</div>
  </div>
@@ -482,7 +491,8 @@
  </div>
  </div>
 
- <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 16px; color: #6B6354; text-align: center; max-width: 720px; margin: 72px auto 0; line-height: 1.85;">パートナーシップが構造を成し、ブランドルートが消費者へ届く。運用基盤が、その両方を支えています。</p>
+ <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 16px; color: #6B6354; text-align: center; max-width: 720px; margin: 72px auto 0; line-height: 1.85;">パートナーシップとブランドルートを通してお客様へ商品を届ける。
+日欧の運用基盤が、その両方を支えています。</p>
  </div></section>
 
  <!-- P3 entity profiles -->
@@ -655,7 +665,7 @@
  </div>
  
  </div>
- <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 17px; color: #6B6354; margin: 48px 0 0;">私たちはお受けする以上にお断りしています。希少性のためではなく、すべての紹介に私たちの名が伴うからです。</p>
+ <p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 17px; color: #6B6354; margin: 48px 0 0;">輸送前に、発注書と契約を交わし、輸送費と商品代を入金いただいてからの発送となります。世界各国・地域へのお届け日数は<a href="delivery.html" style="color: #C13A2E; text-decoration: underline; text-underline-offset: 3px;">こちら</a>をご参考にください。</p>
  </div>
  </section>
 
@@ -674,8 +684,8 @@
  <section style="max-width: 1320px; margin: 0 auto; padding: 72px 48px 64px; display: grid; grid-template-columns: 280px 1fr; gap: 72px;">
  <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">04 — プロジェクト</div>
  <div>
- <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">４７都道府県の<br>魅力を詰め込んだプロジェクト。</h1><p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 560px; margin: 32px 0 0;">我々が2025年より準備を進める、
-Society 47抹茶プロジェクトをご紹介します。</p>
+ <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 58px); line-height: 1.15; margin: 0;">４７都道府県の<br>魅力を詰め込んだプロジェクト。</h1><p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 560px; margin: 32px 0 0;"> Society 47 英国抹茶ブランドをご紹介します。
+クラウドファンディング KICKSTARTERにて近日公開予定。</p>
  
  </div>
  </section>
@@ -824,7 +834,7 @@ Society 47抹茶プロジェクトをご紹介します。</p>
  </div>
  <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 42px; line-height: 1.2; margin: 0;">本物の日本産とは何か？</h2>
  <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 520px; margin: 24px 0 0;">世界の日本由来のフードブランドにおける
-日本人オーナーの不在に終止符を打とう。</p>
+日本人オーナーの不在に終止符を打とう!</p>
  <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273; margin-top: 28px;">随筆を読む →</div>
  </div>
  </div>
@@ -880,7 +890,8 @@ Society 47抹茶プロジェクトをご紹介します。</p>
  <div>
  <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 28px;">06 — お問い合わせ</div>
  <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.2vw, 56px); line-height: 1.16; margin: 0;">対話を<br><span style="font-style: italic;">始める。</span></h1>
- <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 440px; margin: 30px 0 0;"><strong data-start="832" data-end="862">すべてのお問い合わせには、代表者が直接目を通します。 </strong><strong data-start="867" data-end="889">通常5営業日以内にご返信いたします。</strong></p>
+ <p style="font-size: 15px; line-height: 1.9; color: #4A4538; max-width: 440px; margin: 30px 0 0;"><strong data-start="832" data-end="862">すべてのお問い合わせには、代表者が直接目を通します。 </strong><strong data-start="867" data-end="889">
+通常5営業日以内にご返信いたします。</strong></p>
 
  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 64px; border-top: 1px solid #DFD7C8; padding-top: 36px;">
  <div>
@@ -926,7 +937,7 @@ Society 47抹茶プロジェクトをご紹介します。</p>
  <span data-enn-cat="1" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">パートナーシップ</span>
  
 
- <span data-enn-cat="1" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">（EUの日本企業様向け）抹茶を輸入したい</span>
+ <span data-enn-cat="1" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">抹茶を購入したい</span>
  
 
  <span data-enn-cat="1" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">報道</span><span data-enn-cat="1" style="font-size: 11.5px; letter-spacing: 0.14em; padding: 10px 18px; border: 1px solid #C9C0B0; background: transparent; color: #5A5446; cursor: pointer;">その他</span>
@@ -938,7 +949,7 @@ Society 47抹茶プロジェクトをご紹介します。</p>
  <textarea rows="5" style="width: 100%; box-sizing: border-box; border: 1px solid #C9C0B0; background: transparent; font-size: 15px; padding: 14px; font-family: inherit; color: #1F2839; line-height: 1.7; resize: vertical;" style-focus="border: 1px solid #1F2839;"></textarea>
  </div>
  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px;">
- <span style="font-size: 11.5px; color: #8B8273; max-width: 300px; line-height: 1.6;"><p data-start="320" data-end="350">お寄せいただいた内容は、代表者および担当者のみが確認します。情報を第三者と共有することはありません。</p></span>
+ <span style="font-size: 11.5px; color: #8B8273; max-width: 300px; line-height: 1.6;"><p data-start="320" data-end="350">お寄せいただいた内容は、許可なしに、情報を第三者と共有することはありません。</p></span>
  <span data-enn-submit="1" style="background: #1C2A45; color: #FFFFFF; font-size: 12px; letter-spacing: 0.22em; padding: 17px 36px; cursor: pointer;" style-hover="background: #2B4C9B;">送信 →</span>
  </div>
  
@@ -960,7 +971,8 @@ Society 47抹茶プロジェクトをご紹介します。</p>
  <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
  <span style="font-size: 12px; letter-spacing: 0.28em; margin-left: 6px;">ENN JAPAN</span>
  </div>
- <p style="font-size: 12px; line-height: 1.85; color: rgba(239,235,228,0.6); max-width: 320px; margin: 22px 0 0;">ENN Japanは、ENN Japan株式会社（東京）と1716 Industries Lda.（リスボン）の戦略的パートナーシップです。Society 47は、欧州連合における当パートナーシップのブランドルートです。</p>
+ <p style="font-size: 12px; line-height: 1.85; color: rgba(239,235,228,0.6); max-width: 320px; margin: 22px 0 0;">ENN Japanは、ENN Japan株式会社（東京）と
+1716 Industries Lda.（リスボン）の戦略的パートナーシップです。Society 47は、欧州連合における当パートナーシップのブランドです。</p>
  </div>
  <div>
  <div style="font-size: 10px; letter-spacing: 0.26em; color: rgba(239,235,228,0.45); margin-bottom: 16px;">ナビゲート</div>
@@ -975,7 +987,7 @@ Society 47抹茶プロジェクトをご紹介します。</p>
  <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">サービス</span>
  
 
- <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">プロジェクト</span>
+ <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">Society 47</span>
  
 
  <span style="font-size: 12.5px; color: rgba(239,235,228,0.75); cursor: pointer;" style-hover="color: #EFEBE4;">ジャーナル</span>

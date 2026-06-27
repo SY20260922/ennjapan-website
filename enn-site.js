@@ -2,10 +2,15 @@
   var LANG = (document.currentScript && document.currentScript.getAttribute('data-lang')) || 'ja';
 
   var MAP = [
+    // CTA buttons → target section (placed first so specific CTA phrases win)
+    ['提携のご相談', 'contact'], ['ご相談', 'contact'], ['対話', 'contact'],
+    ['discuss a partnership', 'contact'], ['get in touch', 'contact'], ['start a conversation', 'contact'],
+    ['falar sobre uma parceria', 'contact'], ['contacte', 'contact'], ['iniciar conversa', 'contact'],
+    ['詳しく見る', 'services'], ['learn more', 'services'], ['saber mais', 'services'],
     ['私たちについて', 'about'], ['About', 'about'], ['Sobre', 'about'],
     ['パートナーシップ', 'partnership'], ['Partnership', 'partnership'], ['Parceria', 'partnership'],
     ['サービス', 'services'], ['Service', 'services'], ['Servico', 'services'], ['Serviço', 'services'],
-    ['プロジェクト', 'projects'], ['Project', 'projects'], ['Projeto', 'projects'],
+    ['Society 47', 'projects'], ['プロジェクト', 'projects'], ['Project', 'projects'], ['Projeto', 'projects'],
     ['ジャーナル', 'journal'], ['Journal', 'journal'], ['Jornal', 'journal'], ['すべての記事', 'journal'], ['記事', 'journal'], ['article', 'journal'], ['artigo', 'journal'],
     ['お問い合わせ', 'contact'], ['Contact', 'contact'], ['Contacto', 'contact'], ['Contato', 'contact']
   ];

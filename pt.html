@@ -40,6 +40,9 @@
       [style*="font-size: 30px"] { font-size: 24px !important; }
       [style*="font-size: 190px"], [style*="font-size: 170px"] { font-size: 76px !important; }
     }
+    /* quebras de linha responsivas: class="pc-only" some no telemóvel (≤600px); class="sp-only" aparece só no telemóvel */
+    .sp-only { display: none; }
+    @media (max-width: 600px) { .pc-only { display: none !important; } .sp-only { display: inline !important; } }
     html { scroll-behavior: smooth; }
     main[id] { scroll-margin-top: 20px; }
   </style>

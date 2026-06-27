@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Noto+Serif+JP:wght@300;400;500;600&amp;family=Noto+Sans+JP:wght@300;400;500&amp;display=swap" rel="stylesheet">
+ <style>
+ body { margin: 0; background: #FFFFFF; }
+ @keyframes ennRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+ ::selection { background: #1C2A45; color: #FFFFFF; }
+ img { max-width: 100%; }
+ [data-enn-burger] { display: none; }
+ .dl-row { display: grid; grid-template-columns: 1fr 2fr 0.7fr; gap: 28px; }
+ /* responsive line-break helpers: class="pc-only" hides on phones (≤600px); class="sp-only" shows only on phones */
+ .sp-only { display: none; }
+ @media (max-width: 1024px) {
+ html, body { overflow-x: hidden; }
+ header { flex-wrap: wrap !important; gap: 14px !important; padding: 18px 22px !important; }
+ header nav { display: none !important; }
+ [data-enn-burger] { display: flex !important; }
+ [data-enn-actions] { display: none !important; }
+ [style*="margin: 0 auto"][style*="48px"] { padding-left: 22px !important; padding-right: 22px !important; }
+ }
+ @media (max-width: 600px) {
+ .pc-only { display: none !important; }
+ .sp-only { display: inline !important; }
+ .dl-head { display: none !important; }
+ .dl-row { grid-template-columns: 1fr !important; gap: 6px !important; padding: 20px 0 !important; }
+ .dl-row span:last-child { text-align: left !important; }
+ h1 { font-size: 38px !important; line-height: 1.14 !important; }
+ }
+ html { scroll-behavior: smooth; }
+ </style>
+ <script src="enn-site.js" data-lang="ja"></script>
+</helmet>
+
+<div style="min-height: 100vh; background: #FFFFFF; color: #1F2839; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans JP', Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+<template id="__bundler_thumbnail">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+ <rect width="400" height="400" fill="#FCFAF6"></rect>
+ <path d="M90 250 L200 150 L310 250" fill="none" stroke="#2B4C9B" stroke-width="6"></path>
+ <circle cx="200" cy="150" r="10" fill="#C13A2E"></circle>
+ <text x="200" y="300" text-anchor="middle" fill="#1F2839" font-family="Georgia, serif" font-size="26" letter-spacing="2">DELIVERY</text>
+ </svg>
+</template>
+
+ <!-- ============ HEADER ============ -->
+ <header style="max-width: 1320px; margin: 0 auto; padding: 26px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+ <a href="home.html" data-enn-top="1" style="display: flex; align-items: center; cursor: pointer; text-decoration: none;">
+ <img src="assets/logo-enn-japan-official.png" alt="ENN Japan" style="height: 26px; width: auto; display: block;">
+ </a>
+ <nav style="display: flex; align-items: center; gap: 34px;">
+ <a href="home.html#about" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; color: #5A5446; text-decoration: none;" style-hover="color: #1F2839;">私たちについて</a>
+ <a href="home.html#partnership" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; color: #5A5446; text-decoration: none;" style-hover="color: #1F2839;">パートナーシップ</a>
+ <a href="home.html#services" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; color: #5A5446; text-decoration: none;" style-hover="color: #1F2839;">サービス</a>
+ <a href="delivery.html" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; color: #C13A2E; text-decoration: none;" style-hover="color: #1F2839;">配送について</a>
+ <a href="home.html#projects" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; color: #5A5446; text-decoration: none;" style-hover="color: #1F2839;">Society 47</a>
+ <a href="home.html#journal" style="font-size: 13px; cursor: pointer; padding-bottom: 4px; color: #5A5446; text-decoration: none;" style-hover="color: #1F2839;">ジャーナル</a>
+ </nav>
+ <button data-enn-burger="1" aria-label="メニュー" style="display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin: 0;">
+ <span style="width: 24px; height: 2px; background: #1F2839; display: block;"></span>
+ <span style="width: 24px; height: 2px; background: #1F2839; display: block;"></span>
+ <span style="width: 24px; height: 2px; background: #1F2839; display: block;"></span>
+ </button>
+ <div data-enn-actions="1" style="display: flex; align-items: center; gap: 22px;">
+ <a href="home.html#contact" style="background: #1C2A45; color: #FFFFFF; font-size: 11px; letter-spacing: 0.22em; padding: 13px 26px; cursor: pointer; text-decoration: none;" style-hover="background: #2B4C9B;">お問い合わせ</a>
+ </div>
+ </header>
+
+ <!-- mobile menu -->
+ <div data-enn-menu style="display: none; position: fixed; inset: 0; z-index: 50; background: #FCFAF6; flex-direction: column; padding: 22px 26px 34px; box-sizing: border-box;">
+ <div style="display: flex; justify-content: space-between; align-items: center;">
+ <a href="home.html" data-enn-top="1" style="cursor: pointer;"><img src="assets/logo-enn-japan-official.png" alt="ENN Japan" style="height: 24px; display: block;"></a>
+ <button data-enn-close="1" aria-label="閉じる" style="background: none; border: none; font-size: 32px; line-height: 1; cursor: pointer; color: #1F2839; padding: 2px 8px;">×</button>
+ </div>
+ <nav style="display: flex; flex-direction: column; margin-top: 38px;">
+ <a href="home.html#about" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">私たちについて</a>
+ <a href="home.html#partnership" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">パートナーシップ</a>
+ <a href="home.html#services" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">サービス</a>
+ <a href="delivery.html" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">配送について</a>
+ <a href="home.html#projects" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">Society 47</a>
+ <a href="home.html#journal" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">ジャーナル</a>
+ <a href="home.html#contact" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; padding: 15px 0; border-bottom: 1px solid #E6DFD2; cursor: pointer; color: #1F2839; text-decoration: none;">お問い合わせ</a>
+ </nav>
+ </div>
+
+ <!-- ============ DELIVERY / MAXET ============ -->
+ <main>
+ <section style="max-width: 1320px; margin: 0 auto; padding: 64px 48px 44px;">
+ <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px;">
+ <div style="font-size: 11px; letter-spacing: 0.3em; color: #C13A2E;">物流パートナー — MAXET</div>
+ <div style="font-size: 11px; letter-spacing: 0.2em; color: #8B8273;">東京 · 関西 — 航空・海上</div>
+ </div>
+ <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(40px, 5vw, 64px); line-height: 1.1; margin: 28px 0 0; letter-spacing: -0.01em;">配送を、常設の<span style="font-style: italic;"> インフラとして。</span></h1>
+ <p style="font-size: 16px; line-height: 1.9; color: #4A4538; max-width: 920px; margin: 34px 0 0;">MAXET CO., LTD. は、ENNの国際物流を担います──航空・海上輸送、通関、貨物追跡。東京・関西から欧州・北米・東南アジアへ。これらの輸送回廊は、出荷ごとの手配ではなく、常設インフラとして運用されています。</p>
+ </section>
+
+ <section style="max-width: 1320px; margin: 0 auto; padding: 0 48px 80px;">
+ <div style="border-top: 1px solid #1F2839;">
+ <div class="dl-row dl-head" style="padding: 14px 0; border-bottom: 1px solid #DFD7C8; font-size: 10.5px; letter-spacing: 0.2em; color: #8B8273;">
+ <span>仕向地</span>
+ <span>ゲートウェイ — 航空 · 海上</span>
+ <span style="text-align: right;">リードタイム</span>
+ </div>
+
+ <div class="dl-row" style="padding: 26px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+ <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px;">欧州連合</span>
+ <span style="font-size: 14px; line-height: 1.7; color: #4A4538;">ロンドン · パリ · フランクフルト — ロッテルダム · ハンブルク（海上）</span>
+ <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; color: #C13A2E; text-align: right;">5〜45日</span>
+ </div>
+
+ <div class="dl-row" style="padding: 26px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+ <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px;">米国</span>
+ <span style="font-size: 14px; line-height: 1.7; color: #4A4538;">ロサンゼルス · ニューヨーク — 航空・海上</span>
+ <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; color: #C13A2E; text-align: right;">3〜35日</span>
+ </div>
+
+ <div class="dl-row" style="padding: 26px 0; border-bottom: 1px solid #ECE5D8; align-items: baseline;">
+ <span style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 26px;">タイ</span>
+ <span style="font-size: 14px; line-height: 1.7; color: #4A4538;">バンコク (BKK) — 航空・海上</span>
+ <span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; color: #C13A2E; text-align: right;">2〜15日</span>
+ </div>
+ </div>
+ <p style="font-size: 12.5px; line-height: 1.75; color: #8B8273; margin: 24px 0 0; max-width: 920px;">航空 · 成田 (NRT) · 関西 (KIX)　海上 · 横浜 · 神戸。　欧州向け出荷は、域内分散配送に先立ち、1716 Industries Lda. を通じてポルトガルに物理着地します。</p>
+
+ <a href="home.html#services" style="display: inline-block; margin-top: 44px; font-size: 11.5px; letter-spacing: 0.18em; color: #1F2839; border: 1px solid #1F2839; padding: 14px 26px; text-decoration: none; cursor: pointer;" style-hover="background: #1F2839; color: #FFFFFF;">← サービスに戻る</a>
+ </section>
+ </main>
+
+ <!-- ============ FOOTER ============ -->
+ <footer style="background: #1F2839; color: #EFEBE4;">
+ <div style="max-width: 1320px; margin: 0 auto; padding: 64px 48px;">
+ <div style="display: flex; align-items: center; gap: 12px;">
+ <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+ <span style="width: 20px; height: 1px; background: #EFEBE4; display: block;"></span>
+ <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
+ <span style="font-size: 12px; letter-spacing: 0.28em; margin-left: 6px;">ENN JAPAN</span>
+ </div>
+ <div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-top: 32px; margin-top: 32px; border-top: 1px solid rgba(239,235,228,0.18); font-size: 10.5px; letter-spacing: 0.14em; color: rgba(239,235,228,0.45);">
+ <span>© 2026 ENN JAPAN INC. · 1716 INDUSTRIES LDA.</span>
+ <a href="home.html" style="color: rgba(239,235,228,0.7); text-decoration: none;" style-hover="color: #EFEBE4;">トップへ戻る →</a>
+ </div>
+ </div>
+ </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>
