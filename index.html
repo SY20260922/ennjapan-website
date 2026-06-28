@@ -265,6 +265,10 @@ class Component extends DCLogic {
     const camera = new T.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 600);
     this.camera = camera;
 
+    // Act 0 — the watercolour bridge, sampled into ink particles
+    this.T0 = 6.2; // morph duration before the 3D intro takes over
+    this.buildBridgeMorph(T, scene);
+
     // ---------- the ink bridge ----------
     const pts = [];
     const span = 55, deckY = 9, archH = 24;
@@ -318,6 +322,7 @@ class Component extends DCLogic {
     mirror.scale.y = -1;
     mirror.position.y = -1.2;
     scene.add(mirror);
+    this.mirror = mirror;
 
     // ---------- E N N — particle typography along the arch ----------
     this.buildEnnLetters(T, scene, archY, span);
@@ -341,6 +346,7 @@ class Component extends DCLogic {
     shoreGeo.setAttribute("position", new T.Float32BufferAttribute(shore, 3));
     shoreGeo.setAttribute("color", new T.Float32BufferAttribute(shoreCols, 3));
     const shoreMat = new T.PointsMaterial({ vertexColors: true, size: 0.45, transparent: true, opacity: 0.32, sizeAttenuation: true, depthWrite: false });
+    this.shoreMat = shoreMat;
     scene.add(new T.Points(shoreGeo, shoreMat));
 
     // ---------- two suns ----------
@@ -362,6 +368,7 @@ class Component extends DCLogic {
     this.moteGeo = new T.BufferGeometry();
     this.moteGeo.setAttribute("position", new T.Float32BufferAttribute(motes, 3));
     const moteMat = new T.PointsMaterial({ color: 0x8B8273, size: 0.3, transparent: true, opacity: 0.22, depthWrite: false });
+    this.moteMat = moteMat;
     scene.add(new T.Points(this.moteGeo, moteMat));
 
     // camera keyframes: wide → red side (Tokyo) → mid-deck → blue side (Lisboa) → product → wide
@@ -400,11 +407,89 @@ class Component extends DCLogic {
     return out;
   }
 
+  // ---------- Act 0: the watercolour bridge → ink particles → colour ----------
+  buildBridgeMorph(T, scene) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const W = 300, H = Math.max(1, Math.round(300 * img.height / img.width));
+      const c = document.createElement("canvas"); c.width = W; c.height = H;
+      const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0, W, H);
+      let data;
+      try { data = ctx.getImageData(0, 0, W, H).data; } catch (e) { return; }
+      const tg = [], st = [], gray = [], truec = [], delay = [];
+      const worldW = 92, worldH = 32, yOff = -3;
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const idx = (y * W + x) * 4;
+          const r = data[idx], g = data[idx + 1], b = data[idx + 2], a = data[idx + 3];
+          if (a < 30) continue;
+          const bgd = Math.abs(r - 250) + Math.abs(g - 242) + Math.abs(b - 223);
+          if (bgd < 56) continue;            // skip the cream paper background
+          if (Math.random() > 0.55) continue; // density control
+          const wx = (x / W - 0.5) * worldW;
+          const wy = (1 - y / H) * worldH + yOff;
+          tg.push(wx, wy, (Math.random() - 0.5) * 1.4);
+          st.push(wx * 0.2 + (Math.random() - 0.5) * 150, wy + (Math.random() - 0.5) * 90 + 12, (Math.random() - 0.5) * 110);
+          const sh = 0.16 + Math.random() * 0.12; // ink-gray dots before colour
+          gray.push(sh, sh, sh + 0.02);
+          truec.push(r / 255, g / 255, b / 255);
+          delay.push(Math.random());
+        }
+      }
+      const geo = new T.BufferGeometry();
+      geo.setAttribute("position", new T.Float32BufferAttribute(st.slice(), 3));
+      geo.setAttribute("color", new T.Float32BufferAttribute(gray.slice(), 3));
+      const mat = new T.PointsMaterial({ vertexColors: true, size: 0.42, transparent: true, opacity: 0, sizeAttenuation: true, depthWrite: false });
+      const points = new T.Points(geo, mat);
+      points.renderOrder = 2;
+      scene.add(points);
+      this.morphGeo = geo; this.morphMat = mat; this.morphPoints = points;
+      this.morphTarget = new Float32Array(tg);
+      this.morphStart = new Float32Array(st);
+      this.morphGray = new Float32Array(gray);
+      this.morphTrue = new Float32Array(truec);
+      this.morphDelay = new Float32Array(delay);
+    };
+    img.onerror = () => {};
+    img.src = "assets/bridge-art.jpg";
+  }
+
+  updateMorph(ss) {
+    if (!this.morphGeo || this.morphDone) return;
+    const t = this.time;
+    const appear = ss(t / 1.0);
+    const fadeOut = ss((t - 5.4) / 0.8);
+    const colorK = ss((t - 3.2) / 1.5);
+    const pos = this.morphGeo.attributes.position.array;
+    const col = this.morphGeo.attributes.color.array;
+    const st = this.morphStart, tg = this.morphTarget, dl = this.morphDelay, gc = this.morphGray, tc = this.morphTrue;
+    const n = dl.length;
+    for (let i = 0; i < n; i++) {
+      const j = i * 3;
+      const k = ss((t - 1.0 - dl[i] * 1.6) / 2.0); // staggered convergence
+      pos[j] = st[j] + (tg[j] - st[j]) * k;
+      pos[j + 1] = st[j + 1] + (tg[j + 1] - st[j + 1]) * k;
+      pos[j + 2] = st[j + 2] + (tg[j + 2] - st[j + 2]) * k;
+      const ck = colorK * k; // colour only emerges once a particle has arrived
+      col[j] = gc[j] + (tc[j] - gc[j]) * ck;
+      col[j + 1] = gc[j + 1] + (tc[j + 1] - gc[j + 1]) * ck;
+      col[j + 2] = gc[j + 2] + (tc[j + 2] - gc[j + 2]) * ck;
+    }
+    this.morphGeo.attributes.position.needsUpdate = true;
+    this.morphGeo.attributes.color.needsUpdate = true;
+    this.morphMat.opacity = appear * (1 - fadeOut);
+    if (t > 5.4 && this.morphMat.opacity <= 0.003) {
+      this.morphDone = true;
+      this.morphPoints.visible = false;
+    }
+  }
+
   buildEnnLetters(T, scene, archY, span) {
     const letters = ["E", "N", "N"];
-    const params = [0.32, 0.5, 0.68]; // position along the arch
-    const size = 11.5;                 // letter height in world units
-    const lift = 6.0;                  // height above the arch crown
+    const params = [0.37, 0.5, 0.63]; // position along the arch — compact, centred over the crown
+    const size = 8.0;                  // letter height in world units
+    const lift = 3.6;                  // height above the arch crown
     const targets = [];
     const colors = [];
     for (let li = 0; li < letters.length; li++) {
@@ -666,60 +751,70 @@ class Component extends DCLogic {
     // ---------- opening timeline ----------
     const clamp01 = (v) => Math.min(1, Math.max(0, v));
     const ss = (v) => { v = clamp01(v); return v * v * (3 - 2 * v); };
-    // user scrolls mid-intro → fast-forward the dissolve
+    const T0 = this.T0 || 5.6;
+    // user scrolls during the watercolour morph → skip straight to the 3D bridge
     if (!this.introDone && this.scrollP > 0.015) {
       this.introDone = true;
-      if (this.time < 4.4) this.time = 4.4;
+      if (this.time < T0 + 4.4) this.time = T0 + 4.4;
     }
-    const dissolve = ss((this.time - 2.1) / 1.9);        // Act II: solid → ink
+    // Act 0 — watercolour particles converge & colour, then hand off to the 3D
+    this.updateMorph(ss);
+    const sceneReveal = ss((this.time - (T0 - 0.8)) / 1.0);
+    const tt = this.time - T0; // the original intro clock, shifted past the morph
+    // gate the always-on 3D elements so they stay hidden behind the morph
+    if (this.shoreMat) this.shoreMat.opacity = 0.32 * sceneReveal;
+    if (this.mirror) this.mirror.material.opacity = 0.04 * sceneReveal;
+    if (this.moteMat) this.moteMat.opacity = 0.22 * sceneReveal;
+
+    const dissolve = ss((tt - 2.1) / 1.9);        // Act II: solid → ink
     if (this.solidMat) {
-      this.solidMat.opacity = 1 - dissolve;
-      if (this.solidGroup) this.solidGroup.visible = dissolve < 0.998;
+      this.solidMat.opacity = (1 - dissolve) * sceneReveal;
+      if (this.solidGroup) this.solidGroup.visible = sceneReveal > 0.002 && dissolve < 0.998;
     }
-    if (this.bridgeMat) this.bridgeMat.opacity = 0.55 * dissolve;
-    if (this.letterMat) this.letterMat.opacity = 0.8 * clamp01((this.time - 3.4) / 1.4);
+    if (this.bridgeMat) this.bridgeMat.opacity = 0.55 * dissolve * sceneReveal;
+    if (this.letterMat) this.letterMat.opacity = 0.8 * clamp01((tt - 3.4) / 1.4) * sceneReveal;
     // Act III: the Edo sea wakes — seigaiha, the Nanban ship, chidori
-    if (this.seigaihaMat) this.seigaihaMat.opacity = 0.16 * dissolve;
+    if (this.seigaihaMat) this.seigaihaMat.opacity = 0.16 * dissolve * sceneReveal;
     if (this.shipGroup) {
-      const shipF = ss((this.time - 3.8) / 2.2);
+      const shipF = ss((tt - 3.8) / 2.2);
       const u = (this.time * 0.006 + 0.22) % 1;
       this.shipGroup.position.x = 64 - 128 * u;            // Japan (+x) → EU (−x)
       this.shipGroup.position.y = 0.15 + Math.sin(this.time * 0.5) * 0.14;
       this.shipGroup.rotation.z = Math.sin(this.time * 0.42) * 0.025;
       const edge = Math.min(1, Math.max(0, (58 - Math.abs(this.shipGroup.position.x)) / 10));
-      this.shipMatInk.opacity = this.shipMatInk.userData.base * shipF * edge;
-      this.shipMatRed.opacity = this.shipMatRed.userData.base * shipF * edge;
+      this.shipMatInk.opacity = this.shipMatInk.userData.base * shipF * edge * sceneReveal;
+      this.shipMatRed.opacity = this.shipMatRed.userData.base * shipF * edge * sceneReveal;
     }
     if (this.birds) {
-      const birdF = ss((this.time - 4.4) / 1.8);
+      const birdF = ss((tt - 4.4) / 1.8);
       for (const b of this.birds) {
         b.x -= b.speed * 0.016;
         if (b.x < -72) b.x += 144;
         b.sprite.position.set(b.x, b.y + Math.sin(this.time * b.f + b.ph) * 0.5, b.z);
         const edge = Math.min(1, Math.max(0, (66 - Math.abs(b.x)) / 12));
-        b.sprite.material.opacity = b.base * birdF * edge;
+        b.sprite.material.opacity = b.base * birdF * edge * sceneReveal;
       }
     }
 
     const pose = this.cameraPose(this.scrollP);
-    // intro camera: close-up on the deck, pulling back to the wide hero
-    if (!this.introDone && this.time < 5.4) {
-      const dolly = Math.min(1, this.time / 2.4);
-      const cp = [33 - dolly * 7, 10.8, 13 - dolly * 2.5];
-      const cl = [-30, 13.5, -3];
-      const k2 = ss((this.time - 2.0) / 3.2);
-      pose.pos = [cp[0] + (pose.pos[0] - cp[0]) * k2, cp[1] + (pose.pos[1] - cp[1]) * k2, cp[2] + (pose.pos[2] - cp[2]) * k2];
-      pose.look = [cl[0] + (pose.look[0] - cl[0]) * k2, cl[1] + (pose.look[1] - cl[1]) * k2, cl[2] + (pose.look[2] - cl[2]) * k2];
-      if (this.time >= 5.4) this.introDone = true;
+    if (this.time < T0) {
+      // Act 0 — hold close on the watercolour while it forms & colours,
+      // then ease back so the painting resolves into the 3D bridge.
+      const pull = ss((this.time - 4.7) / 1.5);
+      this.camera.position.set(0, 17, 72 + pull * 36);
+      this.camera.lookAt(0, 13 + pull * 6, 0);
+    } else {
+      // gentle idle drift + mouse parallax, eased in after the handoff
+      const driftAmt = ss((tt - 0.2) / 2.2);
+      const driftX = (Math.sin(this.time * 0.18) * 1.4 + this.mx * 3.2) * driftAmt;
+      const driftY = (Math.cos(this.time * 0.14) * 0.8 - this.my * 2.0) * driftAmt;
+      this.camera.position.set(pose.pos[0] + driftX, Math.max(2.5, pose.pos[1] + driftY), pose.pos[2]);
+      this.camera.lookAt(pose.look[0], pose.look[1], pose.look[2]);
     }
-    // gentle idle drift + mouse parallax (eased in after the close-up)
-    const driftAmt = ss((this.time - 2.2) / 2.4);
-    const driftX = (Math.sin(this.time * 0.18) * 1.4 + this.mx * 3.2) * driftAmt;
-    const driftY = (Math.cos(this.time * 0.14) * 0.8 - this.my * 2.0) * driftAmt;
-    this.camera.position.set(pose.pos[0] + driftX, Math.max(2.5, pose.pos[1] + driftY), pose.pos[2]);
-    this.camera.lookAt(pose.look[0], pose.look[1], pose.look[2]);
 
     if (this.sunRed) {
+      this.sunRed.material.opacity = 1.0 * sceneReveal;
+      this.sunBlue.material.opacity = 0.55 * sceneReveal;
       this.sunRed.position.y = 16 + Math.sin(this.time * 0.25) * 0.7;
       this.sunBlue.position.y = 13 + Math.cos(this.time * 0.2) * 0.6;
       this.sunRed.quaternion.copy(this.camera.quaternion);
@@ -729,7 +824,7 @@ class Component extends DCLogic {
     if (this.letterGeo) {
       const pos = this.letterGeo.attributes.position.array;
       const tg = this.letterTargets, st = this.letterStarts, ph = this.letterPhase;
-      let introK = Math.min(1, Math.max(0, (this.time - 3.6) / 2.6));
+      let introK = Math.min(1, Math.max(0, (tt - 3.6) / 2.6));
       introK = 1 - Math.pow(1 - introK, 3); // ease-out cubic
       // scroll-driven dissolve → reassemble: whole over the hero, ink while crossing, whole again at arrival
       const ss = (v) => v * v * (3 - 2 * v);
@@ -763,8 +858,8 @@ class Component extends DCLogic {
         s.sprite.position.x = s.x;
         s.sprite.position.y = s.baseY + Math.sin(this.time * 0.4 + s.phase) * 0.1;
         const edge = Math.min(1, Math.max(0, (56 - Math.abs(s.x)) / 14));
-        const introF = Math.min(1, Math.max(0, (this.time - 4.4) / 1.8));
-        s.sprite.material.opacity = (s.special ? 0.85 : 0.3) * edge * introF;
+        const introF = Math.min(1, Math.max(0, (tt - 4.4) / 1.8));
+        s.sprite.material.opacity = (s.special ? 0.85 : 0.3) * edge * introF * sceneReveal;
       }
     }
     if (this.moteGeo) {
