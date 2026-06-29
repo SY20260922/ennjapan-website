@@ -45,6 +45,13 @@
     @media (max-width: 600px) { .pc-only { display: none !important; } .sp-only { display: inline !important; } }
     html { scroll-behavior: smooth; }
     main[id] { scroll-margin-top: 20px; }
+    /* partnership diagram: enlarge logos & headings on desktop only (phones/tablets unchanged) */
+    @media (min-width: 1025px) {
+      [data-pship] .pdiag-enn { height: 46px !important; }
+      [data-pship] .pdiag-1716 { height: 48px !important; }
+      [data-pship] .pdiag-s47 { width: 400px !important; max-width: 92% !important; }
+      [data-pship] .pdiag-head { font-size: 27px !important; }
+    }
   </style>
   <script src="enn-site.js" data-lang="en"></script>
 </helmet>
@@ -208,10 +215,10 @@
           <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 30px; margin-top: 14px;">ENN Japan Inc.</div>
           <p style="font-size: 13.5px; line-height: 1.8; color: #4A4538; max-width: 380px; margin: 12px 0 0;">We handle everything from building relationships with producing regions to sourcing and supply, carrying the stories of growers and artisans to the world.</p>
         </div>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-          <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block;"></span>
-          <span style="width: 1px; height: 48px; background: #1F2839; display: block;"></span>
-          <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block;"></span>
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;">
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #C13A2E; display: block; flex: none;"></span>
+          <span style="height: 1px; width: 48px; background: #1F2839; display: block; flex: none;"></span>
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #2B4C9B; display: block; flex: none;"></span>
         </div>
         <div style="text-align: right;">
           <div style="font-size: 11px; letter-spacing: 0.3em; color: #8B8273;">LISBON · リスボン — 19:45</div>
@@ -391,7 +398,7 @@
 
     <!-- structure diagram -->
     <section style="border-top: 1px solid #DFD7C8; background: #FCFAF6;">
-      <div style="max-width: 980px; margin: 0 auto; padding: 92px 48px 100px;">
+      <div data-pship="1" style="max-width: 980px; margin: 0 auto; padding: 92px 48px 100px;">
         <div style="text-align: center; font-size: 11px; letter-spacing: 0.34em; color: #C13A2E; margin-bottom: 10px;">STRUCTURE</div>
         <div style="text-align: center; font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 27px; color: #1F2839; margin-bottom: 66px;">Group Architecture</div>
 
@@ -399,13 +406,13 @@
         <div style="text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 34px;">STRATEGIC PARTNERSHIP · 戦略的パートナーシップ</div>
         <div style="display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center;">
           <div style="text-align: center; padding: 0 40px;">
-            <img src="assets/logo-enn-japan.png" alt="ENN Japan" style="height: 30px; width: auto; display: block; margin: 0 auto 20px;">
+            <img class="pdiag-enn" src="assets/logo-enn-japan.png" alt="ENN Japan" style="height: 30px; width: auto; display: block; margin: 0 auto 20px;">
             <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; line-height: 1.6;">BRANDING &amp; PLATFORM · JAPAN-SIDE ORIGINATOR</div>
             <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Ginza, Tokyo · trading as ENN Japan</div>
           </div>
           <div style="background: #E2DACB; align-self: stretch; width: 1px;"></div>
           <div style="text-align: center; padding: 0 40px;">
-            <img src="assets/logo-1716.png" alt="1716 Industries Lda" style="height: 32px; width: auto; display: block; margin: 0 auto 18px;">
+            <img class="pdiag-1716" src="assets/logo-1716.png" alt="1716 Industries Lda" style="height: 32px; width: auto; display: block; margin: 0 auto 18px;">
             <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; line-height: 1.6;">EUROPEAN DISTRIBUTION · LEGAL ENTITY</div>
             <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Lisbon · trading as 1701 Industries</div>
           </div>
@@ -417,7 +424,7 @@
         <!-- TIER 2 — brand route -->
         <div style="max-width: 540px; margin: 0 auto; border: 1px solid #DFD7C8; background: #FFFFFF; padding: 36px 40px 40px; text-align: center;">
           <div style="font-size: 10px; letter-spacing: 0.3em; color: #C13A2E; margin-bottom: 28px;">BRAND ROUTE · UNDER 1701 INDUSTRIES</div>
-          <img src="assets/logo-society47.png" alt="Society 47 Japan" style="width: 300px; max-width: 78%; height: auto; display: block; margin: 0 auto;">
+          <img class="pdiag-s47" src="assets/logo-society47.png" alt="Society 47 Japan" style="width: 300px; max-width: 78%; height: auto; display: block; margin: 0 auto;">
           <div style="font-size: 10px; letter-spacing: 0.22em; color: #6B6354; margin-top: 26px;">UNITED KINGDOM / EU MARKET</div>
         </div>
 
@@ -428,13 +435,13 @@
         <div style="text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 34px;">OPERATIONAL BACKBONE · 運用基盤</div>
         <div style="display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center;">
           <div style="text-align: center; padding: 0 40px;">
-            <div style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; color: #1F2839; line-height: 1.3;">Tea Masters of 47 Prefectures</div>
+            <div class="pdiag-head" style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-size: 23px; color: #1F2839; line-height: 1.3;">Tea Masters of 47 Prefectures</div>
             <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; margin-top: 14px; line-height: 1.6;">SUPPLY · CERTIFICATION · TRACEABILITY · OEM</div>
             <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Uji · Shizuoka · Kagoshima · Miyazaki</div>
           </div>
           <div style="background: #E2DACB; align-self: stretch; width: 1px;"></div>
           <div style="text-align: center; padding: 0 40px;">
-            <div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 23px; color: #1F2839; line-height: 1.3;">MAXET Co., Ltd.</div>
+            <div class="pdiag-head" style="font-family: 'Source Serif 4', Georgia, serif; font-size: 23px; color: #1F2839; line-height: 1.3;">MAXET Co., Ltd.</div>
             <div style="font-size: 10px; letter-spacing: 0.2em; color: #6B6354; margin-top: 14px; line-height: 1.6;">AIR &amp; SEA FREIGHT · CUSTOMS · TRACKING</div>
             <div style="font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 13px; color: #A2998A; margin-top: 8px;">Yokohama, Kanagawa</div>
           </div>
@@ -450,7 +457,7 @@
         <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 44px 48px;">
           <img src="assets/enn-japan-logo.png" alt="ENN Japan" style="height: 50px; display: block; mix-blend-mode: multiply; width: 200px;">
           <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273; margin: 26px 0 14px;">TOKYO · 東京</div>
-          <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">The Japanese company. ENN Japan Inc. manages producer relationships, sourcing, and shipping. Through a partnership with MAXET Inc., it enables logistics worldwide.</p>
+          <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">The Japanese entity. ENN Japan Inc. builds relationships with producers and handles sourcing and logistics, establishing the supply base for global markets.</p>
           <div style="margin-top: 28px; border-top: 1px solid #ECE5D8;">
             <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
               <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">ENTITY</span><span style="color: #4A4538;">ENN Japan Inc.</span>
@@ -469,7 +476,7 @@
         <div style="border: 1px solid #DFD7C8; background: #FCFAF6; padding: 44px 48px;">
           <img src="./1716-industries-lda-mqpmeu1p.png" alt="1716 Industries Lda" style="height: 40px; display: block; mix-blend-mode: multiply; object-fit: fill;">
           <div style="font-size: 11px; letter-spacing: 0.26em; color: #8B8273; margin: 30px 0 14px;">LISBON · リスボン</div>
-          <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">The European platform. As a Portuguese company, 1716 Industries Lda. handles governance, client development, contracts, banking, and market operations across the EU and UK.</p>
+          <p style="font-size: 14px; line-height: 1.9; color: #4A4538; margin: 0;">The Portuguese entity. 1716 Industries Lda. handles governance, contracts, and market operations across the EU and the UK, driving European expansion.</p>
           <div style="margin-top: 28px; border-top: 1px solid #ECE5D8;">
             <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 11px 0; border-bottom: 1px solid #ECE5D8; font-size: 12.5px;">
               <span style="letter-spacing: 0.14em; color: #8B8273; font-size: 10.5px;">ENTITY</span><span style="color: #4A4538;">1716 Industries Lda.</span>
