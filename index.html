@@ -42,7 +42,7 @@
 <div style="background: #FFFFFF; color: #1F2839; font-family: 'Helvetica Neue', Helvetica, 'Noto Sans JP', Arial, sans-serif; -webkit-font-smoothing: antialiased; font-size: 16px; position: static">
 
   <!-- fixed 3D stage -->
-  <div ref="{{ stageRef }}" style="position: fixed; inset: 0; z-index: 0;"></div>
+  <div ref="{{ stageRef }}" style="position: fixed; inset: 0; z-index: 0; pointer-events: none; touch-action: pan-y;"></div>
 
   <!-- fixed chrome -->
   <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; pointer-events: none;">
