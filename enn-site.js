@@ -41,12 +41,30 @@
     })();
   }
 
+  function fadeInTarget(el) {
+    if (!el) return;
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    void el.offsetHeight; // force reflow so the fade restarts
+    el.style.transition = 'opacity .3s ease';
+    el.style.opacity = '1';
+    setTimeout(function () { el.style.transition = ''; el.style.opacity = ''; }, 380);
+  }
+
   function go(id) {
     var dst = document.getElementById(id);
     if (!dst) return false;
     var sc = scroller();
     var y = dst.getBoundingClientRect().top + sc.scrollTop - 16;
-    scrollToY(y);
+    // force an instant jump even when CSS sets scroll-behavior: smooth
+    var prevRoot = document.documentElement.style.scrollBehavior;
+    var prevSc = sc.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    sc.style.scrollBehavior = 'auto';
+    sc.scrollTop = y;     // jump straight there — no busy scroll animation
+    document.documentElement.style.scrollBehavior = prevRoot;
+    sc.style.scrollBehavior = prevSc;
+    fadeInTarget(dst);    // simple, fast fade-in instead
     return true;
   }
 

@@ -18,8 +18,11 @@
     @keyframes ennFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes ennHint { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
     img { max-width: 100%; }
+    .sp-only { display: none; }
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
+      .pc-only { display: none !important; }
+      .sp-only { display: inline !important; }
       [style*="padding: 24px 40px"] { padding: 15px 18px !important; }
       [style*="border-left: 1px solid #DFD7C8"] { display: none !important; }
       [style*="right: 40px"][style*="top: 50%"] { display: none !important; }
@@ -53,16 +56,16 @@
         <span style="width: 12px; height: 12px; border-radius: 50%; background: #C13A2E; display: block;"></span>
       </div>
       <span style="font-size: 11px; letter-spacing: 0.3em; font-weight: 500;">ENN JAPAN</span>
-      <span style="font-size: 10px; letter-spacing: 0.22em; color: #8B8273; border-left: 1px solid #DFD7C8; padding-left: 13px;">CONCEPT — THE BRIDGE · 架け橋 - KAKEHASHI</span>
+      <span class="pc-only" style="font-size: 10px; letter-spacing: 0.22em; color: #8B8273; border-left: 1px solid #DFD7C8; padding-left: 13px;">CONCEPT — THE BRIDGE · 架け橋 - KAKEHASHI</span>
     </div>
-    <a href="home.html" style="pointer-events: auto; font-size: 10px; letter-spacing: 0.24em; color: #1F2839; text-decoration: none; border: 1px solid #C9C0B0; padding: 10px 16px; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);" style-hover="background: #1F2839; color: #FFFFFF;">メインサイトへ ENTER SITE →</a>
+    <a href="home.html" style="pointer-events: auto; font-size: 10px; letter-spacing: 0.24em; color: #1F2839; text-decoration: none; border: 1px solid #C9C0B0; padding: 10px 16px; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);" style-hover="background: #1F2839; color: #FFFFFF;"><span class="pc-only">メインサイトへ ENTER SITE →</span><span class="sp-only" style="text-align: center; line-height: 1.5;">メインサイトへ<br>ENTER SITE →</span></a>
   </div>
 
   <!-- progress rail -->
   <div style="position: fixed; right: 40px; top: 50%; transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px;">
     <span style="font-size: 9px; letter-spacing: 0.26em; color: #8B8273; writing-mode: vertical-rl;">TOKYO 東京</span>
     <div style="width: 1px; height: 110px; background: #DFD7C8; position: relative;">
-      <div ref="{{ railRef }}" style="position: absolute; top: 0; left: -1.5px; width: 4px; height: 0%; background: #C13A2E;"></div>
+      <div ref="{{ railRef }}" style="position: absolute; top: 0; left: -1.5px; width: 4px; height: 0%; background: linear-gradient(to bottom, #C13A2E 0%, #7A4373 52%, #2B4C9B 100%); background-size: 4px 110px; background-repeat: no-repeat;"></div>
     </div>
     <span style="font-size: 9px; letter-spacing: 0.26em; color: #8B8273; writing-mode: vertical-rl;">LISBOA リスボン</span>
   </div>
@@ -72,9 +75,10 @@
     <div style="animation: ennFade 1.6s ease 4.0s both;">
       <p style="font-size: 11px; letter-spacing: 0.34em; color: #6B6354; margin: 0 0 18px;">ENN 縁 — THE TIES THAT BIND · TOKYO — LISBOA — LONDON</p>
       <h1 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.25; margin: 0; letter-spacing: -0.01em;">A considered bridge, <span style="font-style: italic;">crossed slowly.</span></h1>
-      <p style="font-size: 12px; letter-spacing: 0.24em; color: #8B8273; margin: 18px 0 0;">JAPANESE ORIGIN · GLOBAL PERSPECTIVE</p>
+      <p style="font-family: 'Noto Serif JP', serif; font-weight: 400; font-size: clamp(17px, 1.7vw, 22px); line-height: 1.5; color: #1F2839; margin: 14px 0 0; letter-spacing: 0.04em;">日本と世界の架け橋を<br>いざ、渡ろう。</p>
+      <p style="font-size: 12px; letter-spacing: 0.24em; color: #8B8273; margin: 18px 0 0;"><span class="pc-only">JAPANESE ORIGIN · GLOBAL PERSPECTIVE</span><span class="sp-only">JAPANESE ORIGIN<br>GLOBAL PERSPECTIVE</span></p>
     </div>
-    <div style="position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 0.3em; color: #8B8273; opacity: 0; animation: ennFade 1.2s ease 5.2s forwards, ennHint 2.6s ease-in-out 6.4s infinite;">SCROLL TO CROSS · 渡る ↓</div>
+    <div style="position: absolute; bottom: 36px; left: 0; right: 0; text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #8B8273; opacity: 0; animation: ennFade 1.2s ease 5.2s forwards, ennHint 2.6s ease-in-out 6.4s infinite;">SCROLL TO CROSS · 渡る ↓</div>
   </section>
 
   <!-- ================== TOKYO ================== -->
@@ -84,22 +88,24 @@
         <span style="width: 9px; height: 9px; border-radius: 50%; background: #C13A2E; display: block;"></span>
         <span style="font-size: 10.5px; letter-spacing: 0.3em; color: #C13A2E;">DEPARTURE — TOKYO · 東京</span>
       </div>
-      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Everything begins <span style="font-style: italic;">at origin.</span></h2>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Everything begins <br class="sp-only"><span style="font-style: italic;">at origin.</span></h2>
+      <p style="font-family: 'Noto Serif JP', serif; font-size: 18px; line-height: 1.6; color: #1F2839; margin: 10px 0 0;">すべては、原点から。</p>
       <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">ENN Japan Inc. stands on the Japanese side of the bridge — with the producers, the craftsmen, the tea gardens. Origin is held in its own language, on its own terms.</p>
+      <p style="font-family: 'Noto Sans JP', sans-serif; font-size: 13px; line-height: 1.95; color: #6B6354; margin: 12px 0 0;"><span class="pc-only">ENN Japan株式会社は、橋の日本側に立ち、<br>生産者・職人・茶農家と共に１歩ずつ歩んでいきます。</span><span class="sp-only">ENN Japan株式会社は<br>橋の日本側に立ち<br>生産者・職人・茶農家と共に<br>１歩ずつ歩んでいきます。</span></p>
     </div>
   </section>
 
   <!-- ================== THE CROSSING ================== -->
   <section data-screen-label="Crossing" style="position: relative; z-index: 1; min-height: 120vh; display: flex; align-items: center; justify-content: center; padding: 0 8vw; pointer-events: none;">
     <div style="max-width: 520px; text-align: center; background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); border: 1px solid #E5DED2; padding: 48px 56px; pointer-events: auto;">
-      <div style="font-size: 10.5px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 20px;">MID-SPAN — THE CROSSING · 海と橋の上</div>
-      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.3; margin: 0;">What we carry <span style="font-style: italic;">across.</span></h2>
+      <div style="font-size: 10.5px; letter-spacing: 0.3em; color: #8B8273; margin-bottom: 20px;">OUR BUSINESS — 事業内容</div>
+      <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.3; margin: 0;">Bringing Japan, <span style="font-style: italic;">thoughtfully.</span></h2>
+      <p style="font-family: 'Noto Serif JP', serif; font-size: 17px; line-height: 1.6; color: #1F2839; margin: 10px 0 0;">日本を、ていねいに届ける。</p>
       <div style="display: flex; flex-direction: column; gap: 0; margin-top: 28px; text-align: left;">
         <sc-for list="{{ cargo }}" as="c" hint-placeholder-count="3">
-          <div style="display: flex; align-items: baseline; gap: 18px; padding: 13px 0; border-top: 1px solid #ECE5D8;">
-            <span style="font-family: 'Noto Serif JP', serif; font-size: 17px; color: #C13A2E;">{{ c.kanji }}</span>
-            <span style="font-size: 14px; font-weight: 500;">{{ c.name }}</span>
-            <span style="font-size: 12px; color: #6B6354; margin-left: auto; text-align: right;">{{ c.line }}</span>
+          <div style="display: flex; align-items: baseline; gap: 20px; padding: 15px 0; border-top: 1px solid #ECE5D8;">
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 20px; color: #C13A2E; min-width: 46px;">{{ c.kanji }}</span>
+            <span class="pc-only" style="font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: #4A4538;">{{ c.en }}</span><span class="sp-only" style="font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: #4A4538;">{{ c.enSp }}</span>
           </div>
         </sc-for>
       </div><p style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-style: italic; font-size: 12.5px; line-height: 1.8; color: #8B8273; margin: 22px 0 0; border-top: 1px solid #ECE5D8; padding-top: 16px;">南蛮貿易 (1543)　　　　　　　　　　　　　　　　　　　　 　　　　　　　　　　　　　　　the first European sail to reach Japan was Portuguese. This route is older than it looks.</p>
@@ -115,7 +121,9 @@
         <span style="font-size: 10.5px; letter-spacing: 0.3em; color: #2B4C9B;">ARRIVAL — LISBOA &amp; LONDON&nbsp; 欧州・リスボン・ロンドン</span>
       </div>
       <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.25; margin: 0;">Europe answers <span style="font-style: italic;">from the Atlantic edge.</span></h2>
-      <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">1716 Industries Lda. holds the European ground — governance, contracts, banking and market operations across the EU and the United Kingdom, from Lisbon to London. One platform, accountable on arrival.</p>
+      <p style="font-family: 'Noto Serif JP', serif; font-size: 18px; line-height: 1.6; color: #1F2839; margin: 10px 0 0;"><span class="pc-only">欧州は、大西洋に開かれた地から応える。</span><span class="sp-only">欧州は、大西洋の玄関口<br>から応える。</span></p>
+      <p style="font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 18px 0 0;">1716 Industries Lda. is ENN Japan's European platform, supporting governance, contracts, banking and market operations across the European Union and the United Kingdom. From Lisbon to London, every step is managed with accountability.</p>
+      <p style="font-family: 'Noto Sans JP', sans-serif; font-size: 13px; line-height: 1.95; color: #6B6354; margin: 12px 0 0;">1716 Industries Lda.は、ENN Japanの欧州拠点として、EUおよび英国におけるガバナンス、契約、銀行業務、市場運営を担います。リスボンからロンドンまで、一貫した体制で責任ある事業運営を支えます。</p>
     </div>
   </section>
 
@@ -131,7 +139,7 @@
         </div>
       </div>
     </div>
-    <p style="max-width: 460px; text-align: center; font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 36px 0 0; pointer-events: auto; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 10px 18px;">The first thing carried across this bridge: ceremonial matcha from Uji, Kyoto, made by prominent tea masters, shipped to Europe first.</p>
+    <p style="max-width: 460px; text-align: center; font-size: 13.5px; line-height: 1.9; color: #4A4538; margin: 36px 0 0; pointer-events: auto; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 10px 18px;">The first thing carried across this bridge: ceremonial matcha from Uji, Kyoto, made by prominent tea masters, shipped to Europe<span class="pc-only"> first</span>.<br><span style="font-family: 'Noto Sans JP', sans-serif; font-size: 12.5px; color: #6B6354; display: inline-block; margin-top: 8px; line-height: 1.85;"><span class="pc-only">この橋を最初に渡るもの——<br>47都道府県の生産者が送る抹茶をはじめとするお茶。<br>ロンドンへ届けます。</span><span class="sp-only">この橋を最初に渡るもの<br>47都道府県の生産者が送るお茶文化。<br>ロンドンへ届けます。</span></span></p>
   </section>
 
   <!-- ================== INVITATION ================== -->
@@ -143,8 +151,8 @@
     </div>
     <h2 style="font-family: 'Source Serif 4', 'Noto Serif JP', Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.4vw, 58px); line-height: 1.2; margin: 0;">The bridge is open.<br><span style="font-style: italic;">Begin a conversation.</span></h2>
     <div style="display: flex; gap: 16px; margin-top: 44px; pointer-events: auto;">
-      <a href="home.html#contact" style="background: #1C2A45; color: #FFFFFF; font-size: 11.5px; letter-spacing: 0.22em; padding: 17px 32px; text-decoration: none;" style-hover="background: #2B4C9B;">お問い合わせ CONTACT →</a>
-      <a href="home.html" style="border: 1px solid #1F2839; color: #1F2839; font-size: 11.5px; letter-spacing: 0.22em; padding: 16px 30px; text-decoration: none; background: rgba(255,255,255,0.7);" style-hover="background: #1F2839; color: #FFFFFF;">メインサイトへ ENTER SITE</a>
+      <a href="home.html#contact" style="background: #1C2A45; color: #FFFFFF; font-size: 11.5px; letter-spacing: 0.22em; padding: 17px 32px; text-decoration: none; text-align: center;" style-hover="background: #2B4C9B;"><span class="pc-only">お問い合わせ CONTACT →</span><span class="sp-only" style="line-height: 1.55; white-space: nowrap;">お問い合わせ<br>CONTACT →</span></a>
+      <a href="home.html" style="border: 1px solid #1F2839; color: #1F2839; font-size: 11.5px; letter-spacing: 0.22em; padding: 16px 30px; text-decoration: none; background: rgba(255,255,255,0.7); text-align: center;" style-hover="background: #1F2839; color: #FFFFFF;"><span class="pc-only">メインサイトへ ENTER SITE</span><span class="sp-only" style="line-height: 1.55; white-space: nowrap;">メインサイトへ<br>ENTER SITE</span></a>
     </div>
     <div style="font-size: 10px; letter-spacing: 0.24em; color: #8B8273; margin-top: 72px;">ENN JAPAN INC. · 1716 INDUSTRIES LDA. — TOKYO · LISBOA · LONDON · 縁</div>
   </section>
@@ -510,9 +518,11 @@ class Component extends DCLogic {
           cy + lx * sinA + ly * cosA + (Math.random() - 0.5) * 0.1,
           (Math.random() - 0.5) * 1.3
         );
-        // ink navy, with occasional vermilion flecks
-        if (Math.random() < 0.055) colors.push(0.757, 0.227, 0.18);
-        else colors.push(0.12, 0.157, 0.224);
+        // ink navy, with occasional vermilion + ENN-blue flecks
+        const fl = Math.random();
+        if (fl < 0.055) colors.push(0.757, 0.227, 0.18);        // vermilion (logo red)
+        else if (fl < 0.11) colors.push(0.235, 0.435, 0.83);    // ENN blue — brightened to read as strong as the red
+        else colors.push(0.12, 0.157, 0.224);                   // ink navy
       }
     }
     const n = targets.length / 3;
@@ -752,10 +762,20 @@ class Component extends DCLogic {
     const clamp01 = (v) => Math.min(1, Math.max(0, v));
     const ss = (v) => { v = clamp01(v); return v * v * (3 - 2 * v); };
     const T0 = this.T0 || 5.6;
-    // user scrolls during the watercolour morph → skip straight to the 3D bridge
+    // user scrolls during the watercolour morph → fast-forward smoothly to the 3D bridge
     if (!this.introDone && this.scrollP > 0.015) {
       this.introDone = true;
-      if (this.time < T0 + 4.4) this.time = T0 + 4.4;
+      if (this.time < T0 + 4.4) this.ffTarget = T0 + 4.4;
+    }
+    // ease the clock toward the target instead of snapping (prevents a hard jump)
+    if (this.ffTarget != null) {
+      const gap = this.ffTarget - this.time;
+      if (gap > 0.06) {
+        this.time += gap * 0.09; // accelerated, eased catch-up (~0.7s)
+      } else {
+        this.time = this.ffTarget;
+        this.ffTarget = null;
+      }
     }
     // Act 0 — watercolour particles converge & colour, then hand off to the 3D
     this.updateMorph(ss);
@@ -880,9 +900,9 @@ class Component extends DCLogic {
       tiltRef: this.tiltRef,
       railRef: this.railRef,
       cargo: [
-        { kanji: "貿易", name: "Trade & Sourcing", line: "origin to shelf, with care" },
-        { kanji: "進出", name: "Market Entry", line: "properly, not quickly" },
-        { kanji: "紹介", name: "Introductions", line: "vouched for, by name" }
+        { kanji: "貿易", en: "Trade & sourcing, from origin to shelf.", enSp: "Trade & Sourcing." },
+        { kanji: "進出", en: "Market entry, done properly.", enSp: "Market entry, done properly." },
+        { kanji: "提携", en: "Building trusted partnerships.", enSp: "Building trusted partnerships." }
       ],
       tiltMove: (e) => {
         const el = this.tiltRef.current;
